@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity;
 
     [SerializeField] private Camera Camera;
+    [SerializeField] private GameObject Sword;
+    public HashSet<int> AttackedEnemies = new HashSet<int>();
     private Animator anim;
 
     private float horizontal, vertical;
@@ -157,10 +159,13 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        Sword.GetComponent<Collider>().isTrigger = true;
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
         anim.SetTrigger("Attack");
-
+        
         yield return new WaitForSeconds(0.9f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
+        Sword.GetComponent<Collider>().isTrigger = false;
+        AttackedEnemies.Clear();
     }
 }
