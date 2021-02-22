@@ -451,13 +451,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474163171669292}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &312186898
 CapsuleCollider:
@@ -469,10 +469,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.6
-  m_Height: 2
+  m_Radius: 0.7
+  m_Height: 2.4
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!114 &312186895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,9 +489,10 @@ MonoBehaviour:
   NMA: {fileID: 312186896}
   player: {fileID: 0}
   waypoints: []
+  healthSlider: {fileID: 0}
   ChasingDistance: 10
   chaseAngle: 180
-  AttackDistance: 3.5
+  AttackDistance: 4
   runSpeed: 4
   walkSpeed: 2
   enemyHealth: 100

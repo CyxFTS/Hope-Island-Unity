@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class FootmanScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class FootmanScript : MonoBehaviour
     public NavMeshAgent NMA;
     public GameObject player;
     public Transform[] waypoints;
+    public GameObject healthSlider;
 
 
     [Header("============= Property ============")]
@@ -28,17 +30,20 @@ public class FootmanScript : MonoBehaviour
     float distance;
     int nowstate;
     bool stateCanChange = true;
+    private int totalhealth;
 
     // Start is called before the first frame update
     void Start()
     {
         nowstate = -1;
         waypoints_index = 0;
+        totalhealth = enemyHealth;
     }
 
     // Update is called once per frame
     void Update()
-    {   if (!stateCanChange) return;
+    {
+        if (!stateCanChange) return;
         distance = Vector3.Distance(transform.position, player.transform.position);
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
@@ -72,7 +77,6 @@ public class FootmanScript : MonoBehaviour
 
     void statechange()
     {
-        print(nowstate);
         NMA.isStopped = false;
         if (nowstate == 0)//Cruise State
         {
@@ -111,6 +115,7 @@ public class FootmanScript : MonoBehaviour
             anim.SetBool("walk", false);
             anim.SetBool("attack", false);
             anim.SetBool("run", false);
+            transform.LookAt(new Vector3(0, -1, 0));
         }
     }
 
@@ -119,7 +124,7 @@ public class FootmanScript : MonoBehaviour
       //Debug.DrawLine(transform.position, nextpos, Color.red);
         if (NMA.remainingDistance <= NMA.stoppingDistance)
         {
-            //Debug.Log(NMA.remainingDistance + " : " + NMA.stoppingDistance);
+           //Debug.Log(NMA.remainingDistance + " : " + NMA.stoppingDistance);
             waypoints_index = (waypoints_index + 1) % waypoints.Length;
             NMA.SetDestination(waypoints[waypoints_index].position);
         }
@@ -129,6 +134,7 @@ public class FootmanScript : MonoBehaviour
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
+        healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetBool("damage", true);
         anim.SetBool("idle", false);
         anim.SetBool("walk", false);
@@ -158,12 +164,13 @@ public class FootmanScript : MonoBehaviour
     public void dead()
     {
         this.gameObject.SetActive(false);
+        healthSlider.SetActive(false);
     }
     public void attackPlayer()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            print("Attack");
+            //print("Attack");
             //API for player
         }
     }
