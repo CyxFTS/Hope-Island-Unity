@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float rotationSpeed;
@@ -29,10 +28,23 @@ public class PlayerMovement : MonoBehaviour
     private float attackRate = 1.0f;
 
     private float nextAttack;
+
+    private bool attacking;
+
+    private PlayerStats stats = new PlayerStats();
+
+    public float moveSpeed, HP, strength, defense;
+
+    private GameObject lockTarget;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        moveSpeed = stats.movementSpeed.BaseValue / 10.0f;
+        HP = stats.HP.BaseValue;
+        strength = stats.strength.BaseValue;
+        defense = stats.defense.BaseValue;
         anim = GetComponentInChildren<Animator>();
     }
 
@@ -67,16 +79,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = new Vector3(horizontal, 0f, vertical);
 
         moveDirection = Quaternion.AngleAxis(45, Vector3.up) * moveDirection;
-        //moveDirection = MoveTowardTarget(targetVector);
 
-        //if (targetVector.magnitude > 0)
-        //{
-        //    targetVector.Normalize();
-        //    targetVector *= _speed * Time.deltaTime;
-        //    transform.Translate(targetVector, Space.World);
-        //}
-
-        Rotate();
+        
 
         float velocityX = Vector3.Dot(moveDirection.normalized, transform.right);
         float velocityZ = Vector3.Dot(moveDirection.normalized, transform.forward);
@@ -110,21 +114,13 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
 
-    private Vector3 MoveTowardTarget(Vector3 targetVector)
-    {
-        var speed = moveSpeed * Time.deltaTime;
-        // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime)); Demonstrate why this doesn't work
-        //transform.Translate(targetVector * (MovementSpeed * Time.deltaTime), Camera.gameObject.transform);
-
-        targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
-
-        //controller.Move(targetVector * speed);
-
-        //var targetPosition = transform.position + targetVector * speed;
-        //transform.position = targetPosition;
-        return targetVector;
+        LockUnlock();
+        
+        if(!attacking)
+        {
+            Rotate();
+        }
     }
 
     private void Rotate()
@@ -159,6 +155,11 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        if (lockTarget != null)
+        {
+            transform.LookAt(lockTarget.transform);
+        }
+        attacking = true;
         Sword.GetComponent<Collider>().isTrigger = true;
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
         anim.SetTrigger("Attack");
@@ -167,5 +168,31 @@ public class PlayerMovement : MonoBehaviour
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         Sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
+        attacking = false;
+    }
+
+    public void setDamage(float power)
+    {
+        float damage = power / defense;
+        HP -= damage;
+    }
+
+    public void LockUnlock()
+    {
+        Vector3 tempPosition = transform.position;
+        Vector3 center = tempPosition  + transform.forward * -1.5f;
+
+        Collider[] col = Physics.OverlapBox(center, new Vector3(3.0f, 2.0f, 3.0f), Quaternion.identity, LayerMask.GetMask("Enemy"));
+        
+        foreach (var item in col)
+        {
+            lockTarget = item.gameObject;
+            Debug.Log(LayerMask.LayerToName(lockTarget.layer));
+            break;
+        }
+        if(col.Length == 0)
+        {
+            lockTarget = null;
+        }
     }
 }
