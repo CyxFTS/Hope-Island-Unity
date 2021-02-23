@@ -38,6 +38,7 @@ public class FootmanScript : MonoBehaviour
         nowstate = -1;
         waypoints_index = 0;
         totalhealth = enemyHealth;
+        anim.SetInteger("State", 0);
     }
 
     // Update is called once per frame
@@ -81,10 +82,7 @@ public class FootmanScript : MonoBehaviour
         if (nowstate == 0)//Cruise State
         {
             NMA.stoppingDistance = 0;
-            anim.SetBool("walk", true);
-            anim.SetBool("attack", false);
-            anim.SetBool("run", false);
-            anim.SetBool("idle", false);
+            anim.SetInteger("State", 1);
             NMA.speed = walkSpeed;
             NMA.SetDestination(waypoints[waypoints_index].position);
             CruisePosition();
@@ -94,27 +92,18 @@ public class FootmanScript : MonoBehaviour
         {
             NMA.destination = player.transform.position;
             NMA.speed = runSpeed;
-            anim.SetBool("run", true);
-            anim.SetBool("walk", false);
-            anim.SetBool("attack", false);
-            anim.SetBool("idle", false);
+            anim.SetInteger("State", 2);
 
         }
         else if (nowstate == 2)//Attack State
         {
             NMA.stoppingDistance = AttackDistance;
-            anim.SetBool("attack", true);
-            anim.SetBool("walk", false);
-            anim.SetBool("run", false);
-            anim.SetBool("idle", false);
+            anim.SetInteger("State", 3);
             //Debug.DrawLine(transform.position,player.transform.position,Color.red);
         }
         else if (nowstate == -1)
         {
-            anim.SetBool("idle", true);
-            anim.SetBool("walk", false);
-            anim.SetBool("attack", false);
-            anim.SetBool("run", false);
+            anim.SetInteger("State", 0);
             transform.LookAt(new Vector3(0, -1, 0));
         }
     }
@@ -135,12 +124,7 @@ public class FootmanScript : MonoBehaviour
         NMA.isStopped = true;
         enemyHealth -= damage;
         healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
-        anim.SetBool("damage", true);
-        anim.SetBool("idle", false);
-        anim.SetBool("walk", false);
-        anim.SetBool("attack", false);
-        anim.SetBool("run", false);
-        anim.SetBool("dead", false);
+        anim.SetInteger("State", 4);
     }
     
     public void finishDamage()
@@ -148,16 +132,11 @@ public class FootmanScript : MonoBehaviour
         if (enemyHealth <= 0)
         {
             NMA.isStopped = true;
-            anim.SetBool("dead", true);
+            anim.SetInteger("State", 5);
         } else
         {
             NMA.isStopped = false;
-            anim.SetBool("walk", true);
-            anim.SetBool("idle", false);
-            anim.SetBool("attack", false);
-            anim.SetBool("run", false);
-            anim.SetBool("damage", false);
-            anim.SetBool("dead", false);
+            anim.SetInteger("State", 1);
             stateCanChange = true;
         }
     }
@@ -170,8 +149,7 @@ public class FootmanScript : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            //print("Attack");
-            //API for player
+            player.GetComponent<PlayerMovement>().setDamage(10);
         }
     }
 }
