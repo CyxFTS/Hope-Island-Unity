@@ -175,7 +175,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float damage = power / defense;
         HP -= damage;
-        print(HP);
     }
 
     public void LockUnlock()
