@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
-
+        GetComponent<ProjectileShooting>().Damage = 20;
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack)
         {
             nextAttack = Time.time + attackRate;

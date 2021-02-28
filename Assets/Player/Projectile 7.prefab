@@ -24082,6 +24082,7 @@ GameObject:
   - component: {fileID: 114517934570304128}
   - component: {fileID: 199214229298909674}
   - component: {fileID: 108967227166258852}
+  - component: {fileID: -4717680391293213312}
   m_Layer: 0
   m_Name: Projectile 7
   m_TagString: Untagged
@@ -24098,7 +24099,7 @@ Transform:
   m_GameObject: {fileID: 1699459221867030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4399222994734564}
   - {fileID: 4027987637637852}
@@ -27867,7 +27868,7 @@ ParticleSystem:
     radiusScale: 0.0001
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 512
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 1
@@ -28832,7 +28833,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1699459221867030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a959a1b0b8414d4fb8a68bdc12d69ed, type: 3}
   m_Name: 
@@ -28971,6 +28972,27 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &-4717680391293213312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699459221867030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99db45aa1ac500347afde374606648f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectsOnCollision:
+  - {fileID: 1029544359644514, guid: aab2daf1fd2b23f4a9bdbbb38fc95704, type: 3}
+  DestroyTimeDelay: 1
+  UseWorldSpacePosition: 1
+  Offset: 0.1
+  rotationOffset: {x: 0, y: 0, z: 0}
+  useOnlyRotationOffset: 1
+  UseFirePointRotation: 0
+  DestoyMainEffect: 1
 --- !u!1 &1831905816721484
 GameObject:
   m_ObjectHideFlags: 0
