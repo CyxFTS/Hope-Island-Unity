@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class ProjectileShooting : MonoBehaviour
 {
     public GameObject FirePoint;
     public Camera Cam;
     public float MaxLength;
     public GameObject[] Prefabs;
 
-    private Ray RayMouse;
-    private Vector3 direction;
-    private Quaternion rotation;
+    public int Damage = 12;
 
     private int Prefab;
     private GameObject Instance;
@@ -25,11 +23,10 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-
         //Fast shooting
-        if (Input.GetMouseButton(1) && fireCountdown <= 0f)
+        if (Input.GetMouseButton(1) && fireCountdown <= -0.5f)
         {
-            Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation);
+            Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation).GetComponent<ProjectileCollision>().Damage = Damage;
             fireCountdown = 0;
             fireCountdown += hSliderValue;
         }
