@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ProjectileCollision : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     public GameObject[] EffectsOnCollision;
     public float DestroyTimeDelay = 5;
