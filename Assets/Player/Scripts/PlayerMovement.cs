@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float nextAttack;
 
-    private bool attacking;
+    private bool attacking = false, moving = true, invincible;
 
     private PlayerStats stats = new PlayerStats();
 
@@ -37,26 +37,33 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject lockTarget;
 
+    public Sword sword;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        moveSpeed = stats.movementSpeed.BaseValue / 10.0f;
-        HP = stats.HP.BaseValue;
-        strength = stats.strength.BaseValue;
-        defense = stats.defense.BaseValue;
+        moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
+        HP = stats.HP.GetCalculatedStatValue();
+        strength = stats.strength.GetCalculatedStatValue();
+        defense = stats.defense.GetCalculatedStatValue();
         anim = GetComponentInChildren<Animator>();
+        sword = GetComponentInChildren<Sword>();
+        sword.Damage = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        GetComponent<ProjectileShooting>().Damage = 20;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack && moving)
         {
             nextAttack = Time.time + attackRate;
             StartCoroutine(Attack());
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+        {
+            StartCoroutine(Roll());
         }
     }
 
@@ -171,11 +178,23 @@ public class PlayerMovement : MonoBehaviour
         attacking = false;
     }
 
+    private IEnumerator Roll()
+    {
+        moving = false;
+        anim.SetTrigger("Roll");
+        invincible = true;
+        yield return new WaitForSeconds(0.9f);
+        moving = true;
+        invincible = false;
+    }
+
     public void setDamage(float power)
     {
-        float damage = power / defense;
-        HP -= damage;
-        print(HP);
+        if (invincible)
+            return;
+        float damage = power;// / stats.defense.GetCalculatedStatValue();
+        stats.HP.AddStatBonus(new StatBonus(-damage));
+        print(stats.HP.GetCalculatedStatValue());
     }
 
     public void LockUnlock()
@@ -188,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (var item in col)
         {
             lockTarget = item.gameObject;
-            Debug.Log(LayerMask.LayerToName(lockTarget.layer));
+            //Debug.Log(LayerMask.LayerToName(lockTarget.layer));
             break;
         }
         if(col.Length == 0)

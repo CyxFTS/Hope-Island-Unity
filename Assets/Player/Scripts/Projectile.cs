@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ProjectileCollision : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     public GameObject[] EffectsOnCollision;
     public float DestroyTimeDelay = 5;
@@ -14,7 +14,7 @@ public class ProjectileCollision : MonoBehaviour
     public bool DestoyMainEffect = true;
     private ParticleSystem part;
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    private ParticleSystem ps;
+    //private ParticleSystem ps;
     public HashSet<int> AttackedEnemies = new HashSet<int>();
     public int Damage = 10;
 
