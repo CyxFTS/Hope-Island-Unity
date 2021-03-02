@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class StatBonus 
 {
-    public int BonusValue { get; set; }
+    public float BonusValue { get; set; }
 
-    public StatBonus(int bonusValue)
+    public StatBonus(float bonusValue)
     {
         this.BonusValue = bonusValue;
-        Debug.Log("new bonus");
+        //Debug.Log("new bonus");
     }
 }

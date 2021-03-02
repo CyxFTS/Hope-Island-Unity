@@ -5,10 +5,10 @@ using UnityEngine;
 public class BaseStat
 {
     public List<StatBonus> BaseAdditives { get; set; }
-    public int BaseValue { get; set; }
+    public float BaseValue { get; set; }
     public string StatName { get; set; }
     public string StatDescription { get; set; }
-    public int FinalValue { get; set; }
+    public float FinalValue { get; set; }
 
     public BaseStat(int baseValue, string statName, string statDescription)
     {
@@ -28,8 +28,9 @@ public class BaseStat
         this.BaseAdditives.Remove(statBonus);
     }
 
-    public int GetCalculatedStatValue()
+    public float GetCalculatedStatValue()
     {
+        FinalValue = 0;
         this.BaseAdditives.ForEach(x=>this.FinalValue += x.BonusValue);
         FinalValue += BaseValue;
         return FinalValue;
