@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
     public bool DestoyMainEffect = true;
     private ParticleSystem part;
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    private ParticleSystem ps;
+    //private ParticleSystem ps;
     public HashSet<int> AttackedEnemies = new HashSet<int>();
     public int Damage = 10;
 

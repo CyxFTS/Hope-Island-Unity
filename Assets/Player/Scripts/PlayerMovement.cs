@@ -56,13 +56,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
-<<<<<<< Updated upstream
-        GetComponent<ProjectileShooting>().Damage = 20;
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack && moving)
-=======
-        //GetComponent<ProjectileShooting>().Damage = 20;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack)
->>>>>>> Stashed changes
         {
             nextAttack = Time.time + attackRate;
             StartCoroutine(Attack());

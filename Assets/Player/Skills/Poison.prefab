@@ -14339,7 +14339,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4347979542021874}
   - component: {fileID: 198769173318898536}
-  - component: {fileID: 114940634933979042}
   - component: {fileID: 199578215912376750}
   - component: {fileID: -8134875257718269217}
   m_Layer: 0
@@ -19088,27 +19087,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &114940634933979042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473103337094032}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a959a1b0b8414d4fb8a68bdc12d69ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EffectsOnCollision:
-  - {fileID: 1612276239566916, guid: ab764946428361d499eb0f88769e33b7, type: 3}
-  DestroyTimeDelay: 1
-  UseWorldSpacePosition: 1
-  Offset: 0.1
-  rotationOffset: {x: 0, y: 0, z: 0}
-  useOnlyRotationOffset: 1
-  UseFirePointRotation: 0
-  DestoyMainEffect: 1
 --- !u!199 &199578215912376750
 ParticleSystemRenderer:
   serializedVersion: 6
