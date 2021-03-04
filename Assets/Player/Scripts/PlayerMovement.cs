@@ -39,10 +39,17 @@ public class PlayerMovement : MonoBehaviour
 
     public Sword sword;
 
+    private int BonusId = 0;
+
+    private SkillMods mods = new SkillMods();
+
+    private ProjectileShooting proj;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        proj = GetComponent<ProjectileShooting>();
         moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
         HP = stats.HP.GetCalculatedStatValue();
         strength = stats.strength.GetCalculatedStatValue();
@@ -55,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack && moving)
         {
@@ -63,8 +71,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && !attacking)
         {
+            //StartCoroutine(StrengthMod(-0.2f, 5f));
+            //Debug.Log(BonusId);
             StartCoroutine(Roll());
         }
+        UpdateProjectile();
     }
 
     private void Move()
@@ -129,6 +140,28 @@ public class PlayerMovement : MonoBehaviour
             Rotate();
         }
     }
+    private void UpdateProjectile()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))//Fire
+        {
+            proj.currSkill = mods.fireball;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
+        {
+            proj.currSkill = mods.summonArrows;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
+        {
+            proj.currSkill = mods.lightning;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
+        {
+            proj.currSkill = mods.poisonousFumes;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))//Default
+        {
+        }
+    }
 
     private void Rotate()
     {
@@ -188,13 +221,28 @@ public class PlayerMovement : MonoBehaviour
         invincible = false;
     }
 
-    public void setDamage(float power)
+    public void SetDamage(float power)
     {
         if (invincible)
             return;
         float damage = power;// / stats.defense.GetCalculatedStatValue();
-        stats.HP.AddStatBonus(new StatBonus(-damage));
+        stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
+    }
+
+    public IEnumerator StrengthMod(float scale, float time)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.strength.AddStatMods(b);
+        yield return new WaitForSeconds(time);
+        stats.strength.RemoveStatMods(b);
+    }
+    public IEnumerator DefenseMod(float scale, float time)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.defense.AddStatMods(b);
+        yield return new WaitForSeconds(time);
+        stats.defense.RemoveStatMods(b);
     }
 
     public void LockUnlock()

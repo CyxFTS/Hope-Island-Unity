@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    public int Damage { get; set; }
+    public float Damage { get; set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class Sword : MonoBehaviour
         if (other.tag == "Enemy" && !GetComponentInParent<PlayerMovement>().AttackedEnemies.Contains(other.GetInstanceID()))
         {
             GetComponentInParent<PlayerMovement>().AttackedEnemies.Add(other.GetInstanceID());
-            other.GetComponent<FootmanScript>().setDamage(Damage);
+            other.GetComponent<FootmanScript>().setDamage((int)Damage);
         }
     }
 }
