@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FixRotation : MonoBehaviour
+public class AttackSense : MonoBehaviour
 {
-    public Transform trans;
-
-    private Vector3 offset;
-    void Awake()
+    private static AttackSense instance;
+    public static AttackSense Instance
     {
-        offset = transform.position - trans.position;
-    }
-    void LateUpdate()
-    {
-        if(!isShake)
-            transform.position = offset + trans.position;
+        get
+        {
+            if (instance == null)
+                instance = Transform.FindObjectOfType<AttackSense>();
+            return instance;
+        }
     }
     private bool isShake;
+
+    public void HitPause(int duration)
+    {
+        StartCoroutine(Pause(duration));
+    }
+
+    IEnumerator Pause(int duration)
+    {
+        float pauseTime = duration / 60f;
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(pauseTime);
+        Time.timeScale = 1;
+    }
+
     public void CameraShake(float duration, float strength)
     {
         if (!isShake)
@@ -26,7 +38,7 @@ public class FixRotation : MonoBehaviour
     IEnumerator Shake(float duration, float strength)
     {
         isShake = true;
-        Transform camera = transform;
+        Transform camera = Camera.main.transform;
         Vector3 startPosition = camera.position;
 
         while (duration > 0)
