@@ -9,6 +9,7 @@ public class Level1Boss : MonoBehaviour
     public UnityEngine.AI.NavMeshAgent NMA;
     public GameObject player;
     public Transform[] waypoints;
+    public GameObject[] objs;
     // public GameObject healthSlider;
 
 
@@ -163,6 +164,12 @@ public class Level1Boss : MonoBehaviour
         print("dead!!!!");
         particle.Stop();
         this.gameObject.SetActive(false);
+        Vector3 itemLocation = this.transform.position;
+        for(int i=0;i<objs.Length;i++){
+            Vector3 randomItemLocation = itemLocation;
+            randomItemLocation += new Vector3(Random.Range(-2,3),0.2f,Random.Range(-2,2));
+            Instantiate(objs[i],randomItemLocation,objs[i].transform.rotation);
+        }
         
         // healthSlider.SetActive(false);
     }
