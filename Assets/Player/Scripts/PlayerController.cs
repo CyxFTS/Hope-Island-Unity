@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
+    private float walkSpeed;
+    private float runSpeed;
     [SerializeField] private float rotationSpeed;
 
     private Vector3 moveDirection;
@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity;
 
     [SerializeField] private Camera Camera;
-    [SerializeField] private GameObject Sword;
     public HashSet<int> AttackedEnemies = new HashSet<int>();
     private Animator anim;
 
@@ -31,22 +30,33 @@ public class PlayerMovement : MonoBehaviour
 
     private bool attacking = false, moving = true, invincible;
 
-    private PlayerStats stats = new PlayerStats();
+    public PlayerStats stats;// = new PlayerStats();
 
-    public float moveSpeed, HP, strength, defense;
+    private float moveSpeed;//, HP, strength, defense;
 
     private GameObject lockTarget;
 
-    public Sword sword;
+    private Sword sword;
+
+    public int BonusId = 0;
+
+    private PlayerSkills mods;// = new PlayerSkills();
+
+    private ProjectileShooting proj;
 
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        proj = GetComponent<ProjectileShooting>();
+        mods = GetComponent<PlayerSkills>();
+        stats = GetComponent<PlayerStats>();
         moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
-        HP = stats.HP.GetCalculatedStatValue();
-        strength = stats.strength.GetCalculatedStatValue();
-        defense = stats.defense.GetCalculatedStatValue();
+        walkSpeed = moveSpeed / 10f * 5f;
+        runSpeed = moveSpeed / 10f * 7f;
+        //HP = stats.HP.GetCalculatedStatValue();
+        //strength = stats.strength.GetCalculatedStatValue();
+        //defense = stats.defense.GetCalculatedStatValue();
         anim = GetComponentInChildren<Animator>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
@@ -55,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack && moving)
         {
@@ -63,8 +74,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && !attacking)
         {
+            //StartCoroutine(StrengthMod(-0.2f, 5f));
+            //Debug.Log(BonusId);
             StartCoroutine(Roll());
         }
+        UpdateProjectile();
     }
 
     private void Move()
@@ -129,6 +143,29 @@ public class PlayerMovement : MonoBehaviour
             Rotate();
         }
     }
+    private void UpdateProjectile()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))//Fire
+        {
+            proj.currSkill = mods.fireball;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
+        {
+            proj.currSkill = mods.summonArrows;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
+        {
+            proj.currSkill = mods.lightning;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
+        {
+            proj.currSkill = mods.poisonousFumes;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))//Default
+        {
+            mods.feelNoPain.StartSkill();
+        }
+    }
 
     private void Rotate()
     {
@@ -167,13 +204,13 @@ public class PlayerMovement : MonoBehaviour
             transform.LookAt(lockTarget.transform);
         }
         attacking = true;
-        Sword.GetComponent<Collider>().isTrigger = true;
+        sword.GetComponent<Collider>().isTrigger = true;
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
         anim.SetTrigger("Attack");
         
         yield return new WaitForSeconds(0.9f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
-        Sword.GetComponent<Collider>().isTrigger = false;
+        sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
         attacking = false;
     }
@@ -188,15 +225,43 @@ public class PlayerMovement : MonoBehaviour
         invincible = false;
     }
 
-    public void setDamage(float power)
+    public void SetDamage(float power)
     {
         if (invincible)
             return;
         float damage = power;// / stats.defense.GetCalculatedStatValue();
-        stats.HP.AddStatBonus(new StatBonus(-damage));
+        stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
     }
 
+    public IEnumerator StrengthMod(float scale, float time)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.strength.AddStatMods(b);
+        yield return new WaitForSeconds(time);
+        stats.strength.RemoveStatMods(b);
+    }
+    public IEnumerator DefenseMod(float scale, float time)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.defense.AddStatMods(b);
+        yield return new WaitForSeconds(time);
+        stats.defense.RemoveStatMods(b);
+    }
+    public IEnumerator MovmentMod(float scale, float time)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.movementSpeed.AddStatMods(b);
+        yield return new WaitForSeconds(time);
+        stats.movementSpeed.RemoveStatMods(b);
+    }
+    public IEnumerator HPMod(float additive, float time)
+    {
+        StatBonus b = new StatBonus(additive, BonusId++);
+        stats.HP.AddStatBonus(b);
+        yield return new WaitForSeconds(time);
+        stats.HP.RemoveStatBonus(b);
+    }
     public void LockUnlock()
     {
         Vector3 tempPosition = transform.position;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseStat
 {
     public List<StatBonus> BaseAdditives { get; set; }
+    public List<StatBonus> BaseMods { get; set; }
     public float BaseValue { get; set; }
     public string StatName { get; set; }
     public string StatDescription { get; set; }
@@ -12,27 +13,39 @@ public class BaseStat
 
     public BaseStat(int baseValue, string statName, string statDescription)
     {
-        this.BaseAdditives = new List<StatBonus>();
-        this.BaseValue = baseValue;
-        this.StatName = statName;
-        this.StatDescription = statDescription;
+        BaseAdditives = new List<StatBonus>();
+        BaseMods = new List<StatBonus>();
+        BaseValue = baseValue;
+        StatName = statName;
+        StatDescription = statDescription;
     }
 
     public void AddStatBonus(StatBonus statBonus)
     {
-        this.BaseAdditives.Add(statBonus);
+        BaseAdditives.Add(statBonus);
     }
 
     public void RemoveStatBonus(StatBonus statBonus)
     {
-        this.BaseAdditives.Remove(statBonus);
+        BaseAdditives.Remove(statBonus);
+    }
+
+    public void AddStatMods(StatBonus statBonus)
+    {
+        BaseMods.Add(statBonus);
+    }
+
+    public void RemoveStatMods(StatBonus statBonus)
+    {
+        BaseMods.Remove(statBonus);
     }
 
     public float GetCalculatedStatValue()
     {
         FinalValue = 0;
-        this.BaseAdditives.ForEach(x=>this.FinalValue += x.BonusValue);
+        BaseAdditives.ForEach(x=>FinalValue += x.BonusValue);
         FinalValue += BaseValue;
+        BaseMods.ForEach(x => FinalValue *= (1 + x.BonusValue));
         return FinalValue;
     }
 }
