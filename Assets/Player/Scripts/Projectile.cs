@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
     //private ParticleSystem ps;
     public HashSet<int> AttackedEnemies = new HashSet<int>();
     public int Damage = 10;
-    public DamageSpell currSkill = new Fireball();
+    public PlayerSkills.DamageSpell currSkill = new PlayerSkills.Fireball();
     public bool flag = false;
 
     void Start()
@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         if (other.tag == "Enemy" && !AttackedEnemies.Contains(other.GetInstanceID()))
         {
             AttackedEnemies.Add(other.GetInstanceID());
-            if (currSkill.type == (int)SkillType.Basic)
+            if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
             {
                 other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
                 int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
@@ -55,9 +55,9 @@ public class Projectile : MonoBehaviour
                     Destroy(gameObject, DestroyTimeDelay + 0.5f);
                 }
             }
-            else if (currSkill.type == (int)SkillType.Dot)
+            else if (currSkill.type == (int)PlayerSkills.SkillType.Dot)
             {
-                PoisonousFumes p = (PoisonousFumes)currSkill;
+                PlayerSkills.PoisonousFumes p = (PlayerSkills.PoisonousFumes)currSkill;
                 StartCoroutine(Dot(other, p.duration, p.interval));
             }
         }

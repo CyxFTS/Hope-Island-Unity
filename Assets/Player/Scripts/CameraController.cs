@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FixRotation : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     public Transform trans;
 

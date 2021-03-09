@@ -29,12 +29,12 @@ public class Sword : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         
-        if (other.tag == "Enemy" && !GetComponentInParent<PlayerMovement>().AttackedEnemies.Contains(other.GetInstanceID()))
+        if (other.tag == "Enemy" && !GetComponentInParent<PlayerController>().AttackedEnemies.Contains(other.GetInstanceID()))
         {
-            GetComponentInParent<PlayerMovement>().AttackedEnemies.Add(other.GetInstanceID());
+            GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
             other.GetComponent<FootmanScript>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
-            _camera.GetComponent<FixRotation>().CameraShake(shakeTime, lightStrength);
+            _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
         }
     }
 }

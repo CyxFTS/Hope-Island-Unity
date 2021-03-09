@@ -16,11 +16,11 @@ public class ProjectileShooting : MonoBehaviour
     private float hSliderValue = 0.1f;
     private float fireCountdown = 0f;
 
-    public DamageSpell currSkill;
+    public PlayerSkills.DamageSpell currSkill;
     void Start()
     {
         Prefab = 0;
-        currSkill = new Fireball();
+        currSkill = new PlayerSkills.Fireball();
     }
 
     void Update()

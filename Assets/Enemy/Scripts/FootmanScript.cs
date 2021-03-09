@@ -149,7 +149,7 @@ public class FootmanScript : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerMovement>().SetDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
 }
