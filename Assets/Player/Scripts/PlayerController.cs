@@ -89,7 +89,15 @@ public class PlayerController : MonoBehaviour
 
         horizontal = ETCInput.GetAxis("Horizontal");
         vertical = ETCInput.GetAxis("Vertical");
-
+        if(horizontal == 0 && vertical == 0)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+            if (!attacking)
+            {
+                Rotate();
+            }
+        }
         moveDirection = new Vector3(horizontal, 0f, vertical);
         Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
