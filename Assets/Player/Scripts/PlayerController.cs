@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -67,11 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > nextAttack && moving)
-        {
-            nextAttack = Time.time + attackRate;
-            StartCoroutine(Attack());
-        }
+        //StartAttack();
         if (Input.GetKeyDown(KeyCode.Space) && !attacking)
         {
             //StartCoroutine(StrengthMod(-0.2f, 5f));
@@ -90,18 +87,16 @@ public class PlayerController : MonoBehaviour
             velocity.y = 0f;
         }
 
-        float moveZ = Input.GetAxis("Vertical");
-
-        moveDirection = new Vector3(0, 0, moveZ);
-
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        horizontal = ETCInput.GetAxis("Horizontal");
+        vertical = ETCInput.GetAxis("Vertical");
 
         moveDirection = new Vector3(horizontal, 0f, vertical);
+        Debug.Log(moveDirection);
+        //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
+        moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
+        Debug.Log(moveDirection);
 
-        moveDirection = Quaternion.AngleAxis(45, Vector3.up) * moveDirection;
 
-        
 
         float velocityX = Vector3.Dot(moveDirection.normalized, transform.right);
         float velocityZ = Vector3.Dot(moveDirection.normalized, transform.forward);
@@ -126,6 +121,7 @@ public class PlayerController : MonoBehaviour
             {
                 //Idle
                 Idle();
+                
             }
 
             moveDirection *= moveSpeed;
@@ -140,7 +136,7 @@ public class PlayerController : MonoBehaviour
         
         if(!attacking)
         {
-            Rotate();
+            //Rotate();
         }
     }
     private void UpdateProjectile()
@@ -197,6 +193,14 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Run Blend", 1.0f, 0.1f, Time.deltaTime);
     }
 
+    public void StartAttack()
+    {
+        if (/*Input.GetButton("Fire1") &&*/ Time.time > nextAttack && moving)
+        {
+            nextAttack = Time.time + attackRate;
+            StartCoroutine(Attack());
+        }
+    }
     private IEnumerator Attack()
     {
         if (lockTarget != null)
