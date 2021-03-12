@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     private ProjectileShooting proj;
 
+    public GameObject healthSlider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Roll());
         }
         UpdateProjectile();
+        healthSlider.GetComponent<Slider>().value = (float)stats.HP.GetCalculatedStatValue() / stats.HP.BaseValue;
     }
 
     private void Move()
