@@ -1968,8 +1968,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
         type: 3}
+      propertyPath: tmSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisX.name
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisY.name
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
       propertyPath: radiusBase
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: isTurnAndMove
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
         type: 3}
@@ -2003,6 +2023,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
         type: 3}
+      propertyPath: axisX.autoLinkTagPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisY.autoLinkTagPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
       propertyPath: showPressEventInspector
       value: 1
       objectReference: {fileID: 0}
@@ -2010,6 +2040,61 @@ PrefabInstance:
         type: 3}
       propertyPath: showTouchEventInspector
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: allowSimulationStandalone
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisX.showDirectInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisY.showDirectInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisX.showGeneralInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisY.showGeneralInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: axisX.showSimulatinInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: tmMoveCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: tmMoveCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: tmMoveCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: tmMoveCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568145237311701706, guid: 705bae53e4a84c3438c372e34d9590bf,
+        type: 3}
+      propertyPath: tmMoveCurve.m_Curve.Array.data[0].outSlope
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8568145237311701710, guid: 705bae53e4a84c3438c372e34d9590bf,
         type: 3}

@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
+        if(healthSlider == null)
+            healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
     // Update is called once per frame
@@ -78,7 +80,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Roll());
         }
         UpdateProjectile();
-        healthSlider.GetComponent<Slider>().value = (float)stats.HP.GetCalculatedStatValue() / stats.HP.BaseValue;
+        if (healthSlider.TryGetComponent(typeof(Slider), out Component component))
+            healthSlider.GetComponent<Slider>().value = (float)stats.HP.GetCalculatedStatValue() / stats.HP.BaseValue;
     }
 
     private void Move()
