@@ -37,5 +37,6 @@ public class GameLaunch : MonoBehaviour
         UIManager.Instance.Register<SettingUI>(PathCollections.UI_Setting);
         UIManager.Instance.Register<PanuseUI>(PathCollections.UI_Pause);
         UIManager.Instance.Register<MainMenuScreen_savedUI>(PathCollections.UI_MainMenuScreen_saved);
+        UIManager.Instance.Register<DeathPromptUI>(PathCollections.UI_DeathPrompt);
     }
 }
