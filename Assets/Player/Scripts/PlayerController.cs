@@ -105,10 +105,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         moveDirection = new Vector3(horizontal, 0f, vertical);
-        Debug.Log(moveDirection);
+        //Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
         moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
-        Debug.Log(moveDirection);
+        //Debug.Log(moveDirection);
 
 
 
