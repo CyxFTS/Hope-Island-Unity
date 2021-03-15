@@ -108,21 +108,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9976d2616fb9f214e8200359e6b7c686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggeredBy: 1
+  triggeredBy: 0
   distanceBetweenSteps: 2.3
   controllerType: 1
   characterRigidbody: {fileID: 1693954201167352388}
   characterController: {fileID: 1693954201167352389}
   audioSource: {fileID: 8669093015889269552}
-  minVolume: 0.005
-  maxVolume: 0.01
+  minVolume: 0.2
+  maxVolume: 0.3
   debugMode: 1
   groundCheckHeight: 0.5
   groundCheckRadius: 0.5
   groundCheckDistance: 0.3
   groundLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!114 &4564015469570845887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +181,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7047128678483853723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695328733506995813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28db268332fd0e4da78c13c76973d33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &850318237823752421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1129,6 +1141,11 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 2303068939224530596}
+    - target: {fileID: 8486092098440378613, guid: 31fd852b0ad00d7468d3e43ae23ebe24,
+        type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 8486755239354726968, guid: 31fd852b0ad00d7468d3e43ae23ebe24,
         type: 3}
       propertyPath: m_Layer
@@ -1314,6 +1331,12 @@ Transform:
 --- !u!4 &1697148397601801313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8488158205073436370, guid: 31fd852b0ad00d7468d3e43ae23ebe24,
+    type: 3}
+  m_PrefabInstance: {fileID: 7081494333053332147}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1695328733506995813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8485205094275968214, guid: 31fd852b0ad00d7468d3e43ae23ebe24,
     type: 3}
   m_PrefabInstance: {fileID: 7081494333053332147}
   m_PrefabAsset: {fileID: 0}

@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
         isShake = true;
         Transform camera = transform;
         Vector3 startPosition = camera.position;
-
+        //Debug.Log("shaking");
         while (duration > 0)
         {
             camera.position = Random.insideUnitSphere * strength + startPosition;
