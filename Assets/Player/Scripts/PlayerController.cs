@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
         anim.SetTrigger("Attack");
         
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(0.7f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
