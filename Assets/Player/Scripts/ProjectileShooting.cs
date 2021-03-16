@@ -16,17 +16,41 @@ public class ProjectileShooting : MonoBehaviour
     private float hSliderValue = 0.1f;
     private float fireCountdown = 0f;
 
+    public PlayerSkills.DamageSpell currSkill;
     void Start()
     {
         Prefab = 0;
+        currSkill = new PlayerSkills.Fireball();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))//Fire
+        {
+            Prefab = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
+        {
+            Prefab = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
+        {
+            Prefab = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
+        {
+            Prefab = 4;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))//Default
+        {
+            Prefab = 0;
+        }
+        
         //Fast shooting
         if (Input.GetMouseButton(1) && fireCountdown <= -0.5f)
         {
-            Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation).GetComponent<ProjectileCollision>().Damage = Damage;
+            Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation).GetComponent<Projectile>().currSkill = this.currSkill;
+
             fireCountdown = 0;
             fireCountdown += hSliderValue;
         }
