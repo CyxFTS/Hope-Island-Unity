@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Level1Boss : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Level1Boss : MonoBehaviour
     public GameObject player;
     public Transform[] waypoints;
     public GameObject[] objs;
-    // public GameObject healthSlider;
+    public GameObject healthSlider;
 
 
     [Header("============= Property ============")]
@@ -47,7 +48,8 @@ public class Level1Boss : MonoBehaviour
     void Update()
     {
         if (!stateCanChange) return;
-        distance = Vector3.Distance(transform.position, player.transform.position);
+        distance = Vector3.Distance(this.transform.position
+        , player.transform.position);
         if(Input.GetKey(KeyCode.J)){
             setDamage(10);
             return;
@@ -133,7 +135,7 @@ public class Level1Boss : MonoBehaviour
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
-        // healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
+        healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetInteger("State", 5);
     }
     
@@ -148,7 +150,7 @@ public class Level1Boss : MonoBehaviour
         } else
         {
             if(enemyHealth<=30&&!isPlaying){
-                print("play the particle!!!");
+                // print("play the particle!!!");
                 particle.Play();
                 isPlaying = true;
             }
@@ -161,7 +163,7 @@ public class Level1Boss : MonoBehaviour
     public void dead()
     {
         isPlaying = false;
-        print("dead!!!!");
+        // print("dead!!!!");
         particle.Stop();
         this.gameObject.SetActive(false);
         Vector3 itemLocation = this.transform.position;
@@ -171,7 +173,7 @@ public class Level1Boss : MonoBehaviour
             Instantiate(objs[i],randomItemLocation,objs[i].transform.rotation);
         }
         
-        // healthSlider.SetActive(false);
+        healthSlider.SetActive(false);
     }
     public void attackPlayer01()
     {
