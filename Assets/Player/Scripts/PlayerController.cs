@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
         //StartAttack();
-        if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+        if (Input.GetKeyDown(KeyCode.C) && !attacking)
         {
             //StartCoroutine(StrengthMod(-0.2f, 5f));
             //Debug.Log(BonusId);
@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
         moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
+        //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
         //Debug.Log(moveDirection);
 
 
@@ -150,7 +151,7 @@ public class PlayerController : MonoBehaviour
         
         if(!attacking)
         {
-            //Rotate();
+            Rotate();
         }
     }
     private void UpdateProjectile()
