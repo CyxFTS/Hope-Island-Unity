@@ -8,6 +8,7 @@ public class SliderScripts : MonoBehaviour
 
     public GameObject healthSlider;
     public GameObject player;
+    public int topmargin=85;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class SliderScripts : MonoBehaviour
     void Update()
     {
         Vector2 playerP = Camera.main.WorldToScreenPoint(player.transform.position);
-        healthSlider.GetComponent<RectTransform>().position = playerP + Vector2.up * 85;
+        healthSlider.GetComponent<RectTransform>().position = playerP + Vector2.up * topmargin;
 
     }
 }
