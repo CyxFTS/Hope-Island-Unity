@@ -117,7 +117,7 @@ public class Level1Boss : MonoBehaviour
         else if (nowstate == -1)
         {
             anim.SetInteger("State", 0);
-            transform.LookAt(new Vector3(0, -1, 0));
+            // transform.LookAt(new Vector3(0, -1, 0));
         }
         print("set"+anim.GetInteger("State"));
     }
