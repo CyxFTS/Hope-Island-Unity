@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
     {
         if (invincible)
             return;
-        float damage = power;// / stats.defense.GetCalculatedStatValue();
+        float damage = power / stats.defense.GetCalculatedStatValue();
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
     }
