@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Level1Boss : MonoBehaviour
 {
     [Header("============= Object =============")]
     public Animator anim;
-    public UnityEngine.AI.NavMeshAgent NMA;
+    public NavMeshAgent NMA;
     public GameObject player;
     public Transform[] waypoints;
     public GameObject[] objs;
@@ -48,15 +49,15 @@ public class Level1Boss : MonoBehaviour
     void Update()
     {
         if (!stateCanChange) return;
-        distance = Vector3.Distance(this.transform.position
-        , player.transform.position);
-        if(Input.GetKey(KeyCode.J)){
-            setDamage(10);
-            return;
-        }
+        distance = Vector3.Distance(this.transform.position, player.transform.position);
+        // if(Input.GetKey(KeyCode.J)){
+        //     setDamage(10);
+        //     return;
+        // }
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
         distancechange(angle);
+        print("state:"+nowstate);
         statechange();
     }
 
@@ -118,6 +119,7 @@ public class Level1Boss : MonoBehaviour
             anim.SetInteger("State", 0);
             transform.LookAt(new Vector3(0, -1, 0));
         }
+        print("set"+anim.GetInteger("State"));
     }
 
     private void CruisePosition(){
@@ -179,14 +181,14 @@ public class Level1Boss : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerMovement>().setDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerMovement>().setDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(20);
         }
     }
 }
