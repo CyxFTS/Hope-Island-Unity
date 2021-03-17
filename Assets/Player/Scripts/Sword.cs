@@ -31,13 +31,21 @@ public class Sword : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
         if (other.tag == "Enemy" && !GetComponentInParent<PlayerController>().AttackedEnemies.Contains(other.GetInstanceID()))
         {
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
             other.GetComponent<FootmanScript>().setDamage((int)Damage);
+            AttackSense.Instance.HitPause(lightPause);
+            _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
+        }
+        if (other.tag == "Boss" && !GetComponentInParent<PlayerController>().AttackedEnemies.Contains(other.GetInstanceID()))
+        {
+            audioSource.clip = swordHit;
+            audioSource.Play();
+            GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
+            other.GetComponent<Level1Boss>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
             _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
         }

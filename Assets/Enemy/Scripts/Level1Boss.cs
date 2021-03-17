@@ -139,6 +139,7 @@ public class Level1Boss : MonoBehaviour
         enemyHealth -= damage;
         healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetInteger("State", 5);
+        Debug.Log(damage);
     }
     
     public void finishDamage()
