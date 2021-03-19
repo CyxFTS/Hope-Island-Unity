@@ -13,6 +13,7 @@ public class FootmanScript : MonoBehaviour
     public GameObject player;
     public Transform[] waypoints;
     public GameObject healthSlider;
+    public GameObject[] objs;
 
 
     [Header("============= Property ============")]
@@ -144,6 +145,14 @@ public class FootmanScript : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         healthSlider.SetActive(false);
+        Vector3 itemLocation = this.transform.position;
+        for (int i = 0; i < objs.Length; i++)
+        {
+            Vector3 randomItemLocation = itemLocation;
+            randomItemLocation += new Vector3(Random.Range(-2, 3), 0.2f, Random.Range(-2, 2));
+            Instantiate(objs[i], randomItemLocation, objs[i].transform.rotation);
+        }
+
     }
     public void attackPlayer()
     {

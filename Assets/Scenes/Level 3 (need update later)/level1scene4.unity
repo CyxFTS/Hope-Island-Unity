@@ -1416,6 +1416,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 812580918}
+  - {fileID: 814762240}
   - {fileID: 239343511}
   - {fileID: 938630955}
   - {fileID: 1705597017}
@@ -1826,6 +1827,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
+      propertyPath: objs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
+        type: 3}
+      propertyPath: objs.Array.data[0]
+      value: 
+      objectReference: {fileID: 5809868037966971234, guid: 5e68453d1e0f52f438ed6d26fcae8530,
+        type: 3}
+    - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
+        type: 3}
       propertyPath: waypoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2166,6 +2178,15 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 1500412764}
+    - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
+      propertyPath: objs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
+      propertyPath: objs.Array.data[0]
+      value: 
+      objectReference: {fileID: 5809868037966971234, guid: 5e68453d1e0f52f438ed6d26fcae8530,
+        type: 3}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: waypoints.Array.size
       value: 2
@@ -20133,6 +20154,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aecaf73c950a6664e926dbffe7b9d800, type: 3}
+--- !u!4 &2090841340 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4389564767360752, guid: aecaf73c950a6664e926dbffe7b9d800,
+    type: 3}
+  m_PrefabInstance: {fileID: 2090841339}
+  m_PrefabAsset: {fileID: 0}
+
 --- !u!1001 &2094220116
 PrefabInstance:
   m_ObjectHideFlags: 0
