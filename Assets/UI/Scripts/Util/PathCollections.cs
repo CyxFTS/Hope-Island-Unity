@@ -12,4 +12,5 @@ public static class PathCollections
     public static readonly string UI_Setting = "Prefabs/Setting";
     public static readonly string UI_Pause = "Prefabs/Pause";
     public static readonly string UI_MainMenuScreen_saved = "Prefabs/MainMenuScreen_saved";
+    public static readonly string UI_DeathPrompt = "Prefabs/DeathPrompt";
 }

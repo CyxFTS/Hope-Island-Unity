@@ -33,6 +33,7 @@ public class Projectile : MonoBehaviour
             if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
             {
                 other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                
                 int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
                 for (int i = 0; i < numCollisionEvents; i++)
                 {
@@ -61,7 +62,41 @@ public class Projectile : MonoBehaviour
                 StartCoroutine(Dot(other, p.duration, p.interval));
             }
         }
-        
+        if (other.tag == "Boss" && !AttackedEnemies.Contains(other.GetInstanceID()))
+        {
+            AttackedEnemies.Add(other.GetInstanceID());
+            if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
+            {
+                other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+
+                int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
+                for (int i = 0; i < numCollisionEvents; i++)
+                {
+                    foreach (var effect in EffectsOnCollision)
+                    {
+                        var instance = Instantiate(effect, collisionEvents[i].intersection + collisionEvents[i].normal * Offset, new Quaternion()) as GameObject;
+                        if (!UseWorldSpacePosition) instance.transform.parent = transform;
+                        if (UseFirePointRotation) { instance.transform.LookAt(transform.position); }
+                        else if (rotationOffset != Vector3.zero && useOnlyRotationOffset) { instance.transform.rotation = Quaternion.Euler(rotationOffset); }
+                        else
+                        {
+                            instance.transform.LookAt(collisionEvents[i].intersection + collisionEvents[i].normal);
+                            instance.transform.rotation *= Quaternion.Euler(rotationOffset);
+                        }
+                        Destroy(instance, DestroyTimeDelay);
+                    }
+                }
+                if (DestoyMainEffect == true)
+                {
+                    Destroy(gameObject, DestroyTimeDelay + 0.5f);
+                }
+            }
+            else if (currSkill.type == (int)PlayerSkills.SkillType.Dot)
+            {
+                PlayerSkills.PoisonousFumes p = (PlayerSkills.PoisonousFumes)currSkill;
+                StartCoroutine(Dot(other, p.duration, p.interval));
+            }
+        }
     }
 
     public IEnumerator Dot(GameObject other, float duration, float interv)

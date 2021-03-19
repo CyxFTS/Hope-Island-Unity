@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuScreenUI : Window
 {
@@ -11,15 +12,15 @@ public class MainMenuScreenUI : Window
         m_MainMenuScreenPanel = m_GameObject.GetComponent<MainMenuScreenPanel>();
         AddButtonClickListener(m_MainMenuScreenPanel.m_NewGame, () =>
         {
-            
-            UIManager.Instance.PopUpWnd(PathCollections.UI_In_GameSreen);
-            Debug.Log("½øÈë³¡¾°");
-            //TODO ½øÈë³¡¾°
+
+            //SceneManager.LoadScene("level0scene1");
+            Debug.Log("Â½Ã¸ÃˆÃ«Â³Â¡Â¾Â°");
+            //TODO Â½Ã¸ÃˆÃ«Â³Â¡Â¾Â°
         });
         AddButtonClickListener(m_MainMenuScreenPanel.m_Settings, () =>
         {
             UIManager.Instance.PopUpWnd(PathCollections.UI_Setting);
-            //TODO ½øÈëÉèÖÃ
+            //TODO Â½Ã¸ÃˆÃ«Ã‰Ã¨Ã–Ãƒ
         });
     }
 }

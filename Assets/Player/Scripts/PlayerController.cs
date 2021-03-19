@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private float nextAttack;
 
-    private bool attacking = false, moving = true, invincible;
+    private bool attacking = false, moving = true, invincible, died = false;
 
     public PlayerStats stats;// = new PlayerStats();
 
@@ -70,10 +71,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (died)
+            return;
         sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
         //StartAttack();
-        if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+        if (Input.GetKeyDown(KeyCode.C) && !attacking)
         {
             //StartCoroutine(StrengthMod(-0.2f, 5f));
             //Debug.Log(BonusId);
@@ -82,6 +85,7 @@ public class PlayerController : MonoBehaviour
         UpdateProjectile();
         if (healthSlider.TryGetComponent(typeof(Slider), out Component component))
             healthSlider.GetComponent<Slider>().value = (float)stats.HP.GetCalculatedStatValue() / stats.HP.BaseValue;
+        CheckHP();
     }
 
     private void Move()
@@ -99,16 +103,13 @@ public class PlayerController : MonoBehaviour
         {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
-            if (!attacking)
-            {
-                Rotate();
-            }
         }
         moveDirection = new Vector3(horizontal, 0f, vertical);
-        Debug.Log(moveDirection);
+        //Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
         moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
-        Debug.Log(moveDirection);
+        //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
+        //Debug.Log(moveDirection);
 
 
 
@@ -148,9 +149,9 @@ public class PlayerController : MonoBehaviour
 
         LockUnlock();
         
-        if(!attacking)
+        if(moveDirection != Vector3.zero && !attacking)
         {
-            //Rotate();
+            Rotate();
         }
     }
     private void UpdateProjectile()
@@ -179,15 +180,16 @@ public class PlayerController : MonoBehaviour
 
     private void Rotate()
     {
-
-        if (horizontal > 0)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.right), rotationSpeed * Time.deltaTime);
-        else if (horizontal < 0)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.left), rotationSpeed * Time.deltaTime);
-        if (vertical > 0)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.forward), 0.67f * rotationSpeed * Time.deltaTime);
-        else if (vertical < 0)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.back), 0.67f * rotationSpeed * Time.deltaTime);
+        
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Quaternion.Euler(0, -45, 0) * moveDirection), rotationSpeed * Time.deltaTime);
+        //if (horizontal > 0)
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.right), rotationSpeed * Time.deltaTime);
+        //else if (horizontal < 0)
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.left), rotationSpeed * Time.deltaTime);
+        //if (vertical > 0)
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.forward), 0.67f * rotationSpeed * Time.deltaTime);
+        //else if (vertical < 0)
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.back), 0.67f * rotationSpeed * Time.deltaTime);
     }
 
     private void Idle()
@@ -205,6 +207,25 @@ public class PlayerController : MonoBehaviour
     {
         moveSpeed = runSpeed;
         anim.SetFloat("Run Blend", 1.0f, 0.1f, Time.deltaTime);
+    }
+
+    private void CheckHP()
+    {
+        if(stats.HP.GetCalculatedStatValue() <= 0 && died == false )
+        {
+            died = true;
+            moving = false;
+            StartCoroutine(Died());
+        }
+    }
+
+    private IEnumerator Died()
+    {
+        anim.SetTrigger("Died");
+        yield return new WaitForSeconds(1.2f);
+        SceneManager.LoadScene("death");
+        //UIManager.Instance.PopUpWnd(PathCollections.UI_DeathPrompt);
+        this.gameObject.SetActive(false);
     }
 
     public void StartAttack()
@@ -226,7 +247,7 @@ public class PlayerController : MonoBehaviour
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
         anim.SetTrigger("Attack");
         
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(0.7f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
@@ -247,7 +268,7 @@ public class PlayerController : MonoBehaviour
     {
         if (invincible)
             return;
-        float damage = power;// / stats.defense.GetCalculatedStatValue();
+        float damage = power / stats.defense.GetCalculatedStatValue();
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
     }
