@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject healthSlider;
 
+    private AudioSource audioSource;
+
+    public AudioClip deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +68,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
-        if(healthSlider == null)
+        audioSource = GetComponent<AudioSource>();
+        if (healthSlider == null)
             healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
@@ -221,6 +226,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Died()
     {
+        audioSource.clip = deathSound;
+        audioSource.Play();
         anim.SetTrigger("Died");
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene("death");
