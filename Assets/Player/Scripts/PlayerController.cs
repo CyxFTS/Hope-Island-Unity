@@ -223,7 +223,6 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Died());
         }
     }
-
     private IEnumerator Died()
     {
         audioSource.clip = deathSound;
@@ -304,9 +303,36 @@ public class PlayerController : MonoBehaviour
     public IEnumerator HPMod(float additive, float time)
     {
         StatBonus b = new StatBonus(additive, BonusId++);
-        stats.HP.AddStatBonus(b);
-        yield return new WaitForSeconds(time);
-        stats.HP.RemoveStatBonus(b);
+        
+        float t = 0f;
+        while(t < time)
+        {
+            stats.HP.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public IEnumerator EnergyMod(float additive, float time)
+    {
+        StatBonus b = new StatBonus(additive, BonusId++);
+        float t = 0f;
+        while (t < time)
+        {
+            stats.Energy.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public IEnumerator StaminaMod(float additive, float time)
+    {
+        StatBonus b = new StatBonus(additive, BonusId++);
+        float t = 0f;
+        while (t < time)
+        {
+            stats.Stamina.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
     }
     public void LockUnlock()
     {
