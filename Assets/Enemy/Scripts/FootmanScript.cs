@@ -58,7 +58,7 @@ public class FootmanScript : MonoBehaviour
         float orientTransform = transform.position.x;
         float orientTarget = player.transform.position.x;
         Quaternion newRotation;
-        float enemyAimSpeed = 5.0f;
+        float enemyAimSpeed = 6.5f;
         if (orientTransform > orientTarget)
         {
             // Will Give Rotation angle , so that Arrow Points towards that target
@@ -105,7 +105,6 @@ public class FootmanScript : MonoBehaviour
         NMA.isStopped = false;
         if (nowstate == 0)//Cruise State
         {
-            print("State0");
             NMA.stoppingDistance = 0;
             anim.SetInteger("State", 1);
             NMA.speed = walkSpeed;
@@ -118,7 +117,6 @@ public class FootmanScript : MonoBehaviour
             NMA.destination = player.transform.position;
             NMA.speed = runSpeed;
             anim.SetInteger("State", 2);
-            print("State1");
 
         }
         else if (nowstate == 2)//Attack State
@@ -126,8 +124,8 @@ public class FootmanScript : MonoBehaviour
             NMA.stoppingDistance = AttackDistance;
             Vector3 direction = player.transform.position - transform.position;
             float angle = Vector3.Angle(transform.forward, direction);
-            if (angle < 40 && angle > -40) anim.SetInteger("State", 3);
-            else {
+            if (angle < 45 && angle > -45) anim.SetInteger("State", 3);
+            if (angle > 20 || angle < -20) {
                 anim.SetInteger("State", 0);
                 lookatPlayer();
             }
@@ -136,7 +134,6 @@ public class FootmanScript : MonoBehaviour
         }
         else if (nowstate == -1)
         {
-            print("State-1");
             anim.SetInteger("State", 0);
             transform.LookAt(new Vector3(0, -1, 0));
         }
@@ -198,11 +195,10 @@ public class FootmanScript : MonoBehaviour
     }
     public void stopMoving()
     {
-       // NMA.isStopped = true;
+       
     }
     public void startMoving()
     {
-        //transform.LookAt(player.transform.position);
-        //NMA.isStopped = false;
+        
     }
 }

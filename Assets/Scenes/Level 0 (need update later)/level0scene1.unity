@@ -1340,6 +1340,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 864701261128600749, guid: b6a8839be0d69774ca451f2e82db2289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 235.74023
+      objectReference: {fileID: 0}
+    - target: {fileID: 864701261128600749, guid: b6a8839be0d69774ca451f2e82db2289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 235.74023
+      objectReference: {fileID: 0}
     - target: {fileID: 2162111428704946758, guid: b6a8839be0d69774ca451f2e82db2289,
         type: 3}
       propertyPath: m_Name
@@ -1400,6 +1410,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4437831602043912063, guid: b6a8839be0d69774ca451f2e82db2289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 437.9004
+      objectReference: {fileID: 0}
     - target: {fileID: 4499676313218327348, guid: b6a8839be0d69774ca451f2e82db2289,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1409,6 +1424,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243569252778088006, guid: b6a8839be0d69774ca451f2e82db2289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 437.9004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6a8839be0d69774ca451f2e82db2289, type: 3}
@@ -2108,6 +2128,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2052392551}
     m_Modifications:
+    - target: {fileID: 310942089, guid: 327f9ed039b8e8441b254c748b5abcc4, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1353262534404614, guid: 327f9ed039b8e8441b254c748b5abcc4, type: 3}
       propertyPath: m_Name
       value: Footman Standard
@@ -3939,7 +3963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 384941153}
   player: {fileID: 1174875467}
-  topmargin: 85
+  topmargin: 70
 --- !u!4 &385242149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3757624128917501386, guid: a97266139673b1845b91b596fcd0899c,
@@ -4372,12 +4396,12 @@ PrefabInstance:
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
@@ -4459,7 +4483,8 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!1001 &419850705
 PrefabInstance:
@@ -10888,7 +10913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 905265828}
   player: {fileID: 899244916}
-  topmargin: 85
+  topmargin: 70
 --- !u!1 &914116301
 GameObject:
   m_ObjectHideFlags: 0
@@ -16445,12 +16470,12 @@ PrefabInstance:
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 617240417585309794, guid: 59c4aa4ba20524600ac53c0d09e2a8de,
         type: 3}
@@ -16532,7 +16557,8 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!1 &1366695363
 GameObject:
@@ -22495,7 +22521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 235.74, y: 423.94}
+  m_AnchoredPosition: {x: 235.74023, y: 423.93994}
   m_SizeDelta: {x: 271.48, y: 271.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1734456308
