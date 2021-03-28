@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject healthSlider;
 
+    private AudioSource audioSource;
+
+    public AudioClip deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +68,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
-        if(healthSlider == null)
+        audioSource = GetComponent<AudioSource>();
+        if (healthSlider == null)
             healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
@@ -218,9 +223,10 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Died());
         }
     }
-
     private IEnumerator Died()
     {
+        audioSource.clip = deathSound;
+        audioSource.Play();
         anim.SetTrigger("Died");
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene("death");
@@ -297,9 +303,36 @@ public class PlayerController : MonoBehaviour
     public IEnumerator HPMod(float additive, float time)
     {
         StatBonus b = new StatBonus(additive, BonusId++);
-        stats.HP.AddStatBonus(b);
-        yield return new WaitForSeconds(time);
-        stats.HP.RemoveStatBonus(b);
+        
+        float t = 0f;
+        while(t < time)
+        {
+            stats.HP.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public IEnumerator EnergyMod(float additive, float time)
+    {
+        StatBonus b = new StatBonus(additive, BonusId++);
+        float t = 0f;
+        while (t < time)
+        {
+            stats.Energy.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public IEnumerator StaminaMod(float additive, float time)
+    {
+        StatBonus b = new StatBonus(additive, BonusId++);
+        float t = 0f;
+        while (t < time)
+        {
+            stats.Stamina.AddStatBonus(b);
+            t += 1;
+            yield return new WaitForSeconds(1f);
+        }
     }
     public void LockUnlock()
     {
