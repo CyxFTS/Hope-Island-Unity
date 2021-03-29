@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 
-public class Level1Boss : MonoBehaviour
+public class Level2Boss : MonoBehaviour
 {
     [Header("============= Object =============")]
     public Animator anim;
@@ -133,6 +133,7 @@ public class Level1Boss : MonoBehaviour
     }
     public void setDamage(int damage)
     {
+        print("set Damage in boss2");
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
@@ -143,6 +144,7 @@ public class Level1Boss : MonoBehaviour
     
     public void finishDamage()
     {
+        print("damage in boss2!!!");
         if (enemyHealth <= 0)
         {
             NMA.isStopped = true;
@@ -181,14 +183,14 @@ public class Level1Boss : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerController>().SetDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerController>().SetDamage(20);
+            player.GetComponent<PlayerController>().SetDamage(20);
         }
     }
 }
