@@ -37,7 +37,7 @@ public class Sword : MonoBehaviour
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
-            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(10f, 0.1f));
+            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(energyCharge, 0.1f));
 
             other.GetComponent<FootmanScript>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
@@ -48,7 +48,7 @@ public class Sword : MonoBehaviour
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
-            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(10f, 0.1f));
+            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(energyCharge, 0.1f));
 
             other.GetComponent<Level1Boss>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
