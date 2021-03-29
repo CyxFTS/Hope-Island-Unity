@@ -18,6 +18,7 @@ public class Sword : MonoBehaviour
     private AudioSource audioSource;
 
     public AudioClip swordHit;
+    public float energyCharge = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,8 @@ public class Sword : MonoBehaviour
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
+            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(10f, 0.1f));
+
             other.GetComponent<FootmanScript>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
             _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
@@ -45,6 +48,8 @@ public class Sword : MonoBehaviour
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
+            StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(10f, 0.1f));
+
             other.GetComponent<Level1Boss>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
             _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
