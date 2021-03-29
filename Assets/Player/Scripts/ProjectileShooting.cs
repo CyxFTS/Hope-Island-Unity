@@ -17,13 +17,10 @@ public class ProjectileShooting : MonoBehaviour
     private float fireCountdown = 0f;
 
     public PlayerSkills.DamageSpell currSkill;
-
-    private PlayerController player;
     void Start()
     {
         Prefab = 0;
         currSkill = new PlayerSkills.Fireball();
-        player = GetComponent<PlayerController>();
     }
 
     void Update()
