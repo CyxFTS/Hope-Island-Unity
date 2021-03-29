@@ -17,10 +17,13 @@ public class ProjectileShooting : MonoBehaviour
     private float fireCountdown = 0f;
 
     public PlayerSkills.DamageSpell currSkill;
+    private PlayerController player;
     void Start()
     {
         Prefab = 0;
         currSkill = new PlayerSkills.Fireball();
+        player = GetComponent<PlayerController>();
+
     }
 
     void Update()
@@ -47,14 +50,25 @@ public class ProjectileShooting : MonoBehaviour
         }
         
         //Fast shooting
-        if (Input.GetMouseButton(1) && fireCountdown <= -0.5f)
+        if (Input.GetMouseButton(1) && fireCountdown <= -0.5f && CostPlayerEnergy())
         {
             Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation).GetComponent<Projectile>().currSkill = this.currSkill;
-
+            Debug.Log(player.stats.Energy.GetCalculatedStatValue());
+            
             fireCountdown = 0;
             fireCountdown += hSliderValue;
         }
         fireCountdown -= Time.deltaTime;
 
+    }
+
+    bool CostPlayerEnergy()
+    {
+        if(player.stats.Energy.GetCalculatedStatValue() >= currSkill.energyCost)
+        {
+            StartCoroutine(player.EnergyMod(-currSkill.energyCost, 0.1f));
+            return true;
+        }
+        return false;
     }
 }
