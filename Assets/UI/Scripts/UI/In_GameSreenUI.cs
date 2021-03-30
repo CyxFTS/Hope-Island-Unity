@@ -16,9 +16,9 @@ public class In_GameSreenUI :Window
             Debug.Log("暂停");
             //TODO 进入暂停
         });
-        m_In_GameSreenPanel.m_ETCJoystick.onMove.AddListener((v2) =>
-        {
-            Debug.Log($"移动中{v2}");
-        });
+        //m_In_GameSreenPanel.m_ETCJoystick.onMove.AddListener((v2) =>
+        //{
+        //    Debug.Log($"移动中{v2}");
+        //});
     }
 }

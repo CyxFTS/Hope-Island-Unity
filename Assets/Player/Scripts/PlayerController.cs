@@ -52,6 +52,22 @@ public class PlayerController : MonoBehaviour
 
     public AudioClip deathSound;
 
+    private PlayerInput input;
+
+    private void Awake()
+    {
+        input = new PlayerInput();
+    }
+
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+    private void OnDisable()
+    {
+        input.Disable();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +87,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         //if (healthSlider == null)
         //    healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
+        
     }
 
     // Update is called once per frame
@@ -81,7 +98,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
         //StartAttack();
-        if (Input.GetKeyDown(KeyCode.C) && !attacking)
+        if (/*Input.GetKeyDown(KeyCode.C) &&*/ input.PlayerMain.StaminaSkill.triggered &&!attacking)
         {
             //StartCoroutine(StrengthMod(-0.2f, 5f));
             //Debug.Log(BonusId);
@@ -102,15 +119,17 @@ public class PlayerController : MonoBehaviour
             velocity.y = 0f;
         }
 
-        horizontal = ETCInput.GetAxis("Horizontal");
-        vertical = ETCInput.GetAxis("Vertical");
-        if(horizontal == 0 && vertical == 0)
-        {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
-        }
+        //horizontal = ETCInput.GetAxis("Horizontal");
+        //vertical = ETCInput.GetAxis("Vertical");
+        //if(horizontal == 0 && vertical == 0)
+        //{
+        //    horizontal = Input.GetAxis("Horizontal");
+        //    vertical = Input.GetAxis("Vertical");
+        //}
+        horizontal = input.PlayerMain.Move.ReadValue<Vector2>().x;
+        vertical = input.PlayerMain.Move.ReadValue<Vector2>().y;
         moveDirection = new Vector3(horizontal, 0f, vertical);
-        //Debug.Log(moveDirection);
+        Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
         moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
         //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
@@ -124,15 +143,15 @@ public class PlayerController : MonoBehaviour
         //_animator.SetFloat("VelocityZ", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
         //_animator.SetFloat("VelocityX", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
 
-
+        bool running = (input.PlayerMain.EnergySkill2.activeControl != null) ? true : false;
         if (true)//isGrounded)
         {
-            if (moveDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
+            if (moveDirection != Vector3.zero && !running/* && !Input.GetKey(KeyCode.LeftShift)*/)
             {
                 //Walk
                 Walk();
             }
-            else if (moveDirection != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
+            else if (moveDirection != Vector3.zero && running/* && Input.GetKey(KeyCode.LeftShift)*/)
             {
                 //Run
                 Run();
@@ -161,26 +180,26 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateProjectile()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))//Fire
-        {
-            proj.currSkill = mods.fireball;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
-        {
-            proj.currSkill = mods.summonArrows;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
-        {
-            proj.currSkill = mods.lightning;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
-        {
-            proj.currSkill = mods.poisonousFumes;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))//Default
-        {
-            mods.feelNoPain.StartSkill();
-        }
+        //if(Input.GetKeyDown(KeyCode.Alpha1))//Fire
+        //{
+        //    proj.currSkill = mods.fireball;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
+        //{
+        //    proj.currSkill = mods.summonArrows;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
+        //{
+        //    proj.currSkill = mods.lightning;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
+        //{
+        //    proj.currSkill = mods.poisonousFumes;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha0))//Default
+        //{
+        //    mods.feelNoPain.StartSkill();
+        //}
     }
 
     private void Rotate()

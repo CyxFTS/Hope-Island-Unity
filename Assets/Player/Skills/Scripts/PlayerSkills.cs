@@ -321,7 +321,7 @@ public class PlayerSkills : MonoBehaviour
         {
             return speedUpDuration[skillLevel];
         }
-        public void StartSkill()
+        public new void StartSkill()
         {
             flag = true;
             flagSpeed = true;
