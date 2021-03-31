@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 137424886721882064}
   m_Layer: 0
   m_Name: BerserkerMesh
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -617,7 +617,7 @@ GameObject:
   - component: {fileID: 4855471746589266}
   m_Layer: 0
   m_Name: Hips
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1024,7 +1024,7 @@ GameObject:
   - component: {fileID: 6202338528725474045}
   m_Layer: 0
   m_Name: Berserker Standard
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1133,8 +1133,9 @@ MonoBehaviour:
   player: {fileID: 0}
   waypoints: []
   healthSlider: {fileID: 0}
+  objs: []
   ChasingDistance: 15
-  chaseAngle: 180
+  attackAngle: 0
   AttackDistance: 3.2
   runSpeed: 4
   walkSpeed: 2

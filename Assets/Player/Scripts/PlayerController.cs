@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         horizontal = input.PlayerMain.Move.ReadValue<Vector2>().x;
         vertical = input.PlayerMain.Move.ReadValue<Vector2>().y;
         moveDirection = new Vector3(horizontal, 0f, vertical);
-        Debug.Log(moveDirection);
+        //Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
         moveDirection = Quaternion.Euler(0, 45, 0) * moveDirection;
         //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
         {
             Rotate();
         }
+        
     }
     private void UpdateProjectile()
     {
