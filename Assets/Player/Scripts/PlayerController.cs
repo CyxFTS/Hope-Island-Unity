@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
             return;
         sword.Damage = stats.strength.GetCalculatedStatValue();
         Move();
-        //StartAttack();
+        StartAttack();
         if (/*Input.GetKeyDown(KeyCode.C) &&*/ input.PlayerMain.StaminaSkill.triggered &&!attacking)
         {
             //StartCoroutine(StrengthMod(-0.2f, 5f));
@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartAttack()
     {
-        if (/*Input.GetButton("Fire1") &&*/ Time.time > nextAttack && moving)
+        if (input.PlayerMain.Attack.triggered && Time.time > nextAttack && moving)
         {
             nextAttack = Time.time + attackRate;
             StartCoroutine(Attack());
