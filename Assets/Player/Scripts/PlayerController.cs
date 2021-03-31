@@ -143,28 +143,32 @@ public class PlayerController : MonoBehaviour
         //_animator.SetFloat("VelocityZ", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
         //_animator.SetFloat("VelocityX", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
 
-        bool running = (input.PlayerMain.EnergySkill2.activeControl != null) ? true : false;
-        if (true)//isGrounded)
+        bool running = (input.PlayerMain.EnergySkill2.activeControl != null && stats.Stamina.GetCalculatedStatValue() > 0) ? true : false;
+    
+        if (moveDirection != Vector3.zero && !running/* && !Input.GetKey(KeyCode.LeftShift)*/)
         {
-            if (moveDirection != Vector3.zero && !running/* && !Input.GetKey(KeyCode.LeftShift)*/)
-            {
-                //Walk
-                Walk();
-            }
-            else if (moveDirection != Vector3.zero && running/* && Input.GetKey(KeyCode.LeftShift)*/)
-            {
-                //Run
-                Run();
-            }
-            else if (moveDirection == Vector3.zero)
-            {
-                //Idle
-                Idle();
-                
-            }
-
-            moveDirection *= moveSpeed;
+            //Walk
+            Walk();
         }
+        else if (moveDirection != Vector3.zero && running/* && Input.GetKey(KeyCode.LeftShift)*/)
+        {
+            //Run
+            StartCoroutine(StaminaMod(-0.5f, 0.1f));
+            Run();
+        }
+        else if (moveDirection == Vector3.zero)
+        {
+            //Idle
+            Idle();
+                
+        }
+
+        if(stats.Stamina.GetCalculatedStatValue() < 100f)
+        {
+            StartCoroutine(StaminaMod(0.2f, 0.1f)); ;
+        }
+
+        moveDirection *= moveSpeed;
 
         controller.Move(moveDirection * Time.deltaTime);
 
