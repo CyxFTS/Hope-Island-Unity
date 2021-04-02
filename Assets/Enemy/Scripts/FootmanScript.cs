@@ -13,12 +13,14 @@ public class FootmanScript : MonoBehaviour
     public GameObject player;
     public Transform[] waypoints;
     public GameObject healthSlider;
+    public GameObject[] objs;
 
 
     [Header("============= Property ============")]
     public int ChasingDistance;
-    [Range(0, 360)]
-    public float chaseAngle;
+    //[Range(180, 360)]
+    //public float chaseAngle;
+    public int attackAngle;
     [Range(3,5)]
     public float AttackDistance;
     public int runSpeed;
@@ -31,6 +33,7 @@ public class FootmanScript : MonoBehaviour
     int nowstate;
     bool stateCanChange = true;
     private int totalhealth;
+    bool seeingPlayer = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,21 +47,42 @@ public class FootmanScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         if (!stateCanChange) return;
         distance = Vector3.Distance(transform.position, player.transform.position);
-        Vector3 direction = player.transform.position - transform.position;
-        float angle = Vector3.Angle(transform.forward, direction);
-        distancechange(angle);
+        distancechange();
         statechange();
     }
-
-     void distancechange(float angle)
-   {
-        if (distance <= AttackDistance) {
-            transform.LookAt(player.transform.position);
-            nowstate = 2;
+    void lookatPlayer()
+    {
+        float orientTransform = transform.position.x;
+        float orientTarget = player.transform.position.x;
+        Quaternion newRotation;
+        float enemyAimSpeed = 6.5f;
+        if (orientTransform > orientTarget)
+        {
+            // Will Give Rotation angle , so that Arrow Points towards that target
+            newRotation = Quaternion.LookRotation(player.transform.position - transform.position, -Vector3.left);
         }
-        else if (distance <= ChasingDistance && angle < chaseAngle / 2 && angle > -chaseAngle / 2)
+        else
+        {
+            newRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.left);
+        }
+        newRotation.x = 0.0f;
+        newRotation.z = 0.0f;
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * enemyAimSpeed);
+
+    }
+    void distancechange()
+   {
+
+        
+        if (distance <= AttackDistance) {
+            
+                nowstate = 2;
+            
+        }
+        else if (distance <= ChasingDistance)
         {
             nowstate = 1;
         }
@@ -98,7 +122,14 @@ public class FootmanScript : MonoBehaviour
         else if (nowstate == 2)//Attack State
         {
             NMA.stoppingDistance = AttackDistance;
-            anim.SetInteger("State", 3);
+            Vector3 direction = player.transform.position - transform.position;
+            float angle = Vector3.Angle(transform.forward, direction);
+            if (angle < 45 && angle > -45) anim.SetInteger("State", 3);
+            if (angle > 20 || angle < -20) {
+                anim.SetInteger("State", 0);
+                lookatPlayer();
+            }
+            
             //Debug.DrawLine(transform.position,player.transform.position,Color.red);
         }
         else if (nowstate == -1)
@@ -106,6 +137,7 @@ public class FootmanScript : MonoBehaviour
             anim.SetInteger("State", 0);
             transform.LookAt(new Vector3(0, -1, 0));
         }
+        
     }
 
     private void CruisePosition(){
@@ -123,7 +155,6 @@ public class FootmanScript : MonoBehaviour
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
-        healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetInteger("State", 4);
     }
     
@@ -144,12 +175,30 @@ public class FootmanScript : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         healthSlider.SetActive(false);
+        Vector3 itemLocation = this.transform.position;
+        for (int i = 0; i < objs.Length; i++)
+        {
+            Vector3 randomItemLocation = itemLocation;
+            randomItemLocation += new Vector3(Random.Range(-2, 3), 0.2f, Random.Range(-2, 2));
+            Instantiate(objs[i], randomItemLocation, objs[i].transform.rotation);
+        }
+
     }
     public void attackPlayer()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
+        Vector3 direction = player.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, direction);
+        if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1&& angle < 30 && angle > -30)
         {
             player.GetComponent<PlayerController>().SetDamage(10);
         }
+    }
+    public void stopMoving()
+    {
+       
+    }
+    public void startMoving()
+    {
+        
     }
 }

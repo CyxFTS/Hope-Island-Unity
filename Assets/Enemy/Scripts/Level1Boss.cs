@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Level1Boss : MonoBehaviour
 {
     [Header("============= Object =============")]
     public Animator anim;
-    public UnityEngine.AI.NavMeshAgent NMA;
+    public NavMeshAgent NMA;
     public GameObject player;
     public Transform[] waypoints;
     public GameObject[] objs;
-    // public GameObject healthSlider;
+    public GameObject healthSlider;
 
 
     [Header("============= Property ============")]
@@ -47,14 +49,15 @@ public class Level1Boss : MonoBehaviour
     void Update()
     {
         if (!stateCanChange) return;
-        distance = Vector3.Distance(transform.position, player.transform.position);
-        if(Input.GetKey(KeyCode.J)){
-            setDamage(10);
-            return;
-        }
+        distance = Vector3.Distance(this.transform.position, player.transform.position);
+        // if(Input.GetKey(KeyCode.J)){
+        //     setDamage(10);
+        //     return;
+        // }
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
         distancechange(angle);
+        print("state:"+nowstate);
         statechange();
     }
 
@@ -114,7 +117,7 @@ public class Level1Boss : MonoBehaviour
         else if (nowstate == -1)
         {
             anim.SetInteger("State", 0);
-            transform.LookAt(new Vector3(0, -1, 0));
+            // transform.LookAt(new Vector3(0, -1, 0));
         }
     }
 
@@ -133,8 +136,9 @@ public class Level1Boss : MonoBehaviour
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
-        // healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
+        healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetInteger("State", 5);
+        Debug.Log(damage);
     }
     
     public void finishDamage()
@@ -148,7 +152,7 @@ public class Level1Boss : MonoBehaviour
         } else
         {
             if(enemyHealth<=30&&!isPlaying){
-                print("play the particle!!!");
+                // print("play the particle!!!");
                 particle.Play();
                 isPlaying = true;
             }
@@ -161,7 +165,7 @@ public class Level1Boss : MonoBehaviour
     public void dead()
     {
         isPlaying = false;
-        print("dead!!!!");
+        // print("dead!!!!");
         particle.Stop();
         this.gameObject.SetActive(false);
         Vector3 itemLocation = this.transform.position;
@@ -171,20 +175,20 @@ public class Level1Boss : MonoBehaviour
             Instantiate(objs[i],randomItemLocation,objs[i].transform.rotation);
         }
         
-        // healthSlider.SetActive(false);
+        healthSlider.SetActive(false);
     }
     public void attackPlayer01()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerMovement>().setDamage(10);
+            // player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerMovement>().setDamage(10);
+            // player.GetComponent<PlayerController>().SetDamage(20);
         }
     }
 }
