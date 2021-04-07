@@ -66,7 +66,7 @@ public class ProjectileShooting : MonoBehaviour
         //}
         
         //Fast shooting
-        if (/*Input.GetMouseButton(1) &&*/ input.PlayerMain.EnergySkill1.triggered && fireCountdown <= -0.5f && CostPlayerEnergy())
+        if (/*Input.GetMouseButton(1) &&*/ player.GetStartShooting() && fireCountdown <= -0.5f && CostPlayerEnergy())
         {
             Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation).GetComponent<Projectile>().currSkill = this.currSkill;
             Debug.Log(player.stats.Energy.GetCalculatedStatValue());

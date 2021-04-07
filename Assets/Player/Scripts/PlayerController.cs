@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
 
-    private float attackRate = 1.0f;
+    private float attackRate = 0.7f;
 
     private float nextAttack;
 
@@ -54,6 +54,13 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInput input;
 
+    public bool firstAttack = true;
+    public bool desireToCombo = false;
+    private bool startShooting = false;
+
+    private PlayerAnimateEvent animEvent;
+
+    private PlayerSkills.BaseSkill energySkill1;
     private void Awake()
     {
         input = new PlayerInput();
@@ -82,6 +89,7 @@ public class PlayerController : MonoBehaviour
         //strength = stats.strength.GetCalculatedStatValue();
         //defense = stats.defense.GetCalculatedStatValue();
         anim = GetComponentInChildren<Animator>();
+        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
@@ -205,6 +213,11 @@ public class PlayerController : MonoBehaviour
         //{
         //    mods.feelNoPain.StartSkill();
         //}
+        energySkill1 = mods.feelNoPain;
+        if(input.PlayerMain.EnergySkill1.triggered)
+            energySkill1.StartSkill();
+        Debug.Log(stats.defense.GetCalculatedStatValue());
+        startShooting = input.PlayerMain.EnergySkill1.triggered;
     }
 
     private void Rotate()
@@ -260,28 +273,49 @@ public class PlayerController : MonoBehaviour
 
     public void StartAttack()
     {
-        if (input.PlayerMain.Attack.triggered && Time.time > nextAttack && moving)
+        if (input.PlayerMain.Attack.triggered /*&& Time.time > nextAttack*/ && moving)
         {
             nextAttack = Time.time + attackRate;
+            if (lockTarget != null)
+            {
+                transform.LookAt(lockTarget.transform);
+            }
+            attacking = true;
+            sword.GetComponent<Collider>().isTrigger = true;
+            anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
+
+            if (firstAttack && !desireToCombo)
+            {
+                firstAttack = false;
+                desireToCombo = false;
+                anim.SetTrigger("Attack");
+                //role.animComponent.animator.CrossFade("AttackCombo", 0.2f, 0, 0);
+            }
+            else
+            {
+                if (animEvent.canCombo)
+                {
+                    desireToCombo = true;
+                    firstAttack = false;
+                }
+            }
             StartCoroutine(Attack());
         }
     }
     private IEnumerator Attack()
     {
-        if (lockTarget != null)
-        {
-            transform.LookAt(lockTarget.transform);
-        }
-        attacking = true;
-        sword.GetComponent<Collider>().isTrigger = true;
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
-        anim.SetTrigger("Attack");
         
-        yield return new WaitForSeconds(0.7f);
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
-        sword.GetComponent<Collider>().isTrigger = false;
+
+        yield return new WaitForSeconds(1.0f);
+        //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
+        //sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
-        attacking = false;
+        //attacking = false;
+    }
+
+    public void setAttacking(bool a)
+    {
+        attacking = a;
     }
 
     private IEnumerator Roll()
@@ -375,5 +409,9 @@ public class PlayerController : MonoBehaviour
         {
             lockTarget = null;
         }
+    }
+    public bool GetStartShooting()
+    {
+        return startShooting;
     }
 }
