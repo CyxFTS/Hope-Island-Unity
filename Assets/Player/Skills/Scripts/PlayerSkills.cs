@@ -27,7 +27,7 @@ public class PlayerSkills : MonoBehaviour
         //Debug.Log(controller.BonusId);
         if(feelNoPain.flag)
         {
-            StartCoroutine(controller.DefenseMod(0.2f, 5f));
+            StartCoroutine(controller.DefenseMod(feelNoPain.mod[feelNoPain.skillLevel]/100f, feelNoPain.duration));
             feelNoPain.flag = false;
         }
     }
@@ -52,6 +52,10 @@ public class PlayerSkills : MonoBehaviour
         public int type;
         public int skillLevel;
         public string description;
+        public virtual void StartSkill()
+        {
+
+        }
     }
     public class DamageSpell : BaseSkill
     {
@@ -177,7 +181,7 @@ public class PlayerSkills : MonoBehaviour
         {
             return duration;
         }
-        public void StartSkill()
+        public override void StartSkill()
         {
             flag = true;
         }
@@ -321,7 +325,7 @@ public class PlayerSkills : MonoBehaviour
         {
             return speedUpDuration[skillLevel];
         }
-        public new void StartSkill()
+        public override void StartSkill()
         {
             flag = true;
             flagSpeed = true;
