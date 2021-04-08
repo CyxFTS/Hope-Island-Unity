@@ -16,6 +16,7 @@ public class PlayerSkills : MonoBehaviour
     public Rushdown rushdown = new Rushdown();
     public Offering offering = new Offering();
     public HealingWave healingWave = new HealingWave();
+    public static bool rushDowningActiving = false;
     private static PlayerController controller;
     void Start()
     {
@@ -25,10 +26,47 @@ public class PlayerSkills : MonoBehaviour
     {
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
-        if(feelNoPain.flag)
+        if (warcry.flag)
         {
-            StartCoroutine(controller.DefenseMod(feelNoPain.mod[feelNoPain.skillLevel]/100f, feelNoPain.duration));
+            StartCoroutine(controller.StrengthMod(warcry.GetStrengthUpMod() / 100f, warcry.duration));
+            warcry.flag = false;
+        }
+        if (metallicize.flag)
+        {
+            StartCoroutine(controller.StartInvincible(metallicize.duration));
+            StartCoroutine(controller.SpeedMod(-metallicize.GetSpeedDownMod() / 100f, metallicize.GetSpeedDownTime()));
+            metallicize.flag = false;
+        }
+        if (berserk.flag)
+        {
+            StartCoroutine(controller.StrengthMod(berserk.GetStrengthUpMod() / 100f, berserk.duration));
+            StartCoroutine(controller.SpeedMod(berserk.GetSpeedUpMod() / 100f, berserk.duration));
+            StartCoroutine(controller.HPMod(-berserk.GetHpLostPerSec(), berserk.duration));
+            berserk.flag = false;
+        }
+        if (feelNoPain.flag)
+        {
+            StartCoroutine(controller.DefenseMod(feelNoPain.GetDefenseUpMod() / 100f, feelNoPain.duration));
             feelNoPain.flag = false;
+        }
+        if (rushdown.flag)
+        {
+            //StartCoroutine(controller.SpeedMod(rushdown.GetSpeedUpMod() / 100f, rushdown.GetSpeedUpDuration()));
+            StartCoroutine(rushdown.StartRushDown(rushdown.duration));
+            rushdown.flag = false;
+        }
+        if (offering.flag)
+        {
+            StartCoroutine(controller.EnergyRechargeMod(offering.GetEnergyRechargeMod() / 100f, offering.duration));
+            StartCoroutine(controller.StrengthMod(offering.GetStrengthUpMod() / 100f, offering.duration));
+            StartCoroutine(controller.HPMod(-offering.GetHpLostPerSec(), offering.duration));
+            offering.flag = false;
+        }
+        if (healingWave.flag)
+        {
+            StartCoroutine(controller.HPMod(healingWave.GetHpRecoveryMod() , healingWave.duration));
+            StartCoroutine(controller.StrengthMod(healingWave.GetStrengthUpMod() / 100f, healingWave.duration));
+            healingWave.flag = false;
         }
     }
     
@@ -78,6 +116,10 @@ public class PlayerSkills : MonoBehaviour
         public float GetCurrentMod()
         {
             return mod[skillLevel];
+        }
+        public override void StartSkill()
+        {
+            controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
         }
 
     }
@@ -329,6 +371,12 @@ public class PlayerSkills : MonoBehaviour
         {
             flag = true;
             flagSpeed = true;
+        }
+        public IEnumerator StartRushDown(float duration)
+        {
+            rushDowningActiving = true;
+            yield return new WaitForSeconds(duration);
+            rushDowningActiving = false;
         }
     }
     /// <summary>
