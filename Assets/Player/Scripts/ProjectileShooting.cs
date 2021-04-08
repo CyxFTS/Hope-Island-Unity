@@ -73,6 +73,7 @@ public class ProjectileShooting : MonoBehaviour
             
             fireCountdown = 0;
             fireCountdown += hSliderValue;
+            player.SetStartShooting(false);
         }
         fireCountdown -= Time.deltaTime;
 
