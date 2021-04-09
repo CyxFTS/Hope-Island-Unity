@@ -18,12 +18,20 @@ public class PlayerSkills : MonoBehaviour
     public HealingWave healingWave = new HealingWave();
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
+    public GameObject[] Clothes;
+    Renderer rend;
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        rend = Clothes[1].GetComponent<Renderer>();
+        
+        rend.materials[1].shader = Shader.Find("ASESampleShaders/RimLight");
     }
     void Update()
     {
+        float shininess = Mathf.PingPong(Time.time, 1.0f);
+        rend.material.SetFloat("_RimPower", shininess);
+        rend.material.SetColor("_RimColor", Color.red);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
