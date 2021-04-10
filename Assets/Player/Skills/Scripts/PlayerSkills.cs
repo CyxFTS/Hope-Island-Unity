@@ -16,6 +16,9 @@ public class PlayerSkills : MonoBehaviour
     public Rushdown rushdown = new Rushdown();
     public Offering offering = new Offering();
     public HealingWave healingWave = new HealingWave();
+    public Sprint sprint = new Sprint();
+    public Roll roll = new Roll();
+    public Invisibility invisibility = new Invisibility();
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
     public GameObject[] Clothes;
@@ -31,12 +34,12 @@ public class PlayerSkills : MonoBehaviour
     {
         float shininess = Mathf.PingPong(Time.time, 1.0f);
         rend.material.SetFloat("_RimPower", shininess);
-        rend.material.SetColor("_RimColor", Color.red);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
         {
             StartCoroutine(controller.StrengthMod(warcry.GetStrengthUpMod() / 100f, warcry.duration));
+            StartCoroutine(ChangeRim(Color.red, warcry.duration));
             warcry.flag = false;
         }
         if (metallicize.flag)
@@ -77,7 +80,13 @@ public class PlayerSkills : MonoBehaviour
             healingWave.flag = false;
         }
     }
-    
+    private IEnumerator ChangeRim(Color c, float duration)
+    {
+        
+        rend.material.SetColor("_RimColor", c);
+        yield return new WaitForSeconds(duration);
+        rend.material.SetColor("_RimColor", Color.black);
+    }
     public enum SkillType
     {
         Basic,
@@ -92,6 +101,11 @@ public class PlayerSkills : MonoBehaviour
         Electro,
         Poison
     }
+    public enum StaminaType
+    {
+        Once,
+        OverTime
+    }
     public class BaseSkill
     {
         public List<float> mod;
@@ -101,6 +115,37 @@ public class PlayerSkills : MonoBehaviour
         public virtual void StartSkill()
         {
 
+        }
+    }
+    public class StaminaSkill : BaseSkill
+    {
+        public float staminaCost;
+        public int staminaType;
+        public float GetCurrentMod()
+        {
+            return mod[skillLevel];
+        }
+
+    }
+    public class Sprint : StaminaSkill
+    {
+        public Sprint()
+        {
+            description = "Sprint";
+        }
+    }
+    public class Roll : StaminaSkill
+    {
+        public Roll()
+        {
+            description = "Roll";
+        }
+    }
+    public class Invisibility : StaminaSkill
+    {
+        public Invisibility()
+        {
+            description = "Invisibility";
         }
     }
     public class DamageSpell : BaseSkill

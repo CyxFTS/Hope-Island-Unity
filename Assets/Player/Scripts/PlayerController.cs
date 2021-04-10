@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     public int BonusId = 0;
 
-    private PlayerSkills mods;// = new PlayerSkills();
+    private PlayerSkills skills;// = new PlayerSkills();
 
     private ProjectileShooting proj;
 
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerAnimateEvent animEvent;
 
-    private PlayerSkills.BaseSkill energySkill1;
+    private PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
     private void Awake()
     {
         input = new PlayerInput();
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         proj = GetComponent<ProjectileShooting>();
-        mods = GetComponent<PlayerSkills>();
+        skills = GetComponent<PlayerSkills>();
         stats = GetComponent<PlayerStats>();
         moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
         walkSpeed = moveSpeed / 10f * 5f;
@@ -91,8 +91,6 @@ public class PlayerController : MonoBehaviour
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
-        //if (healthSlider == null)
-        //    healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
         
     }
 
@@ -101,15 +99,25 @@ public class PlayerController : MonoBehaviour
     {
         if (died)
             return;
+
         sword.Damage = stats.strength.GetCalculatedStatValue();
-        Move();
         StartAttack();
-        if (input.PlayerMain.StaminaSkill.triggered &&!attacking)
+
+        staminaSkill = skills.roll;
+        StaminaSkill();
+
+        energySkill1 = skills.fireball;
+        energySkill2 = skills.warcry;
+        EnergySkills();
+        CheckHP();
+    }
+    private void StaminaSkill()
+    {
+        if (staminaSkill.description == "Roll" && input.PlayerMain.StaminaSkill.triggered && !attacking)
         {
             Roll();
         }
-        StartSkills();
-        CheckHP();
+        Move();
     }
 
     private void Move()
@@ -130,7 +138,9 @@ public class PlayerController : MonoBehaviour
         //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
         //Debug.Log(moveDirection);
 
-        bool running = (input.PlayerMain.EnergySkill2.activeControl != null && stats.Stamina.GetCalculatedStatValue() > 0) ? true : false;
+        bool running = false;
+        if (staminaSkill.description == "Sprint")
+            running = (input.PlayerMain.StaminaSkill.activeControl != null && stats.Stamina.GetCalculatedStatValue() > 0) ? true : false;
     
         if (moveDirection != Vector3.zero && !running/* && !Input.GetKey(KeyCode.LeftShift)*/)
         {
@@ -169,13 +179,13 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-    private void StartSkills()
+    private void EnergySkills()
     {
-        energySkill1 = mods.fireball;
-        if(input.PlayerMain.EnergySkill1.triggered)
+        if (input.PlayerMain.EnergySkill1.triggered)
             energySkill1.StartSkill();
+        if (input.PlayerMain.EnergySkill2.triggered)
+            energySkill2.StartSkill();
         Debug.Log(stats.defense.GetCalculatedStatValue());
-        
     }
 
     private void Rotate()
