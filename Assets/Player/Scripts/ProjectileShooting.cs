@@ -44,27 +44,27 @@ public class ProjectileShooting : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Alpha1))//Fire
-        //{
-        //    Prefab = 1;
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
-        //{
-        //    Prefab = 2;
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
-        //{
-        //    Prefab = 3;
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
-        //{
-        //    Prefab = 4;
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha0))//Default
-        //{
-        //    Prefab = 0;
-        //}
-        
+        if (currSkill.description == "Fire Ball")//Fire
+        {
+            Prefab = 1;
+        }
+        else if (currSkill.description == "Summon Arrows")//Arrow
+        {
+            Prefab = 2;
+        }
+        else if (currSkill.description == "Lightning")//Lighting
+        {
+            Prefab = 3;
+        }
+        else if (currSkill.description == "Poisonous Fumes")//Poison
+        {
+            Prefab = 4;
+        }
+        else//Default
+        {
+            Prefab = 0;
+        }
+
         //Fast shooting
         if (/*Input.GetMouseButton(1) &&*/ player.GetStartShooting() && fireCountdown <= -0.5f && CostPlayerEnergy())
         {

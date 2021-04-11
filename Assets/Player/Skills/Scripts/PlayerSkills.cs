@@ -16,19 +16,33 @@ public class PlayerSkills : MonoBehaviour
     public Rushdown rushdown = new Rushdown();
     public Offering offering = new Offering();
     public HealingWave healingWave = new HealingWave();
+    public Sprint sprint = new Sprint();
+    public Roll roll = new Roll();
+    public Invisibility invisibility = new Invisibility();
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
+    public GameObject[] Clothes;
+    Renderer rend;
+
+    private static ProjectileShooting proj;
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        proj = controller.GetComponent<ProjectileShooting>();
+        rend = Clothes[1].GetComponent<Renderer>();
+        
+        rend.materials[1].shader = Shader.Find("ASESampleShaders/RimLight");
     }
     void Update()
     {
+        float shininess = Mathf.PingPong(Time.time, 1.0f);
+        rend.material.SetFloat("_RimPower", shininess);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
         {
             StartCoroutine(controller.StrengthMod(warcry.GetStrengthUpMod() / 100f, warcry.duration));
+            StartCoroutine(ChangeRim(Color.red, warcry.duration));
             warcry.flag = false;
         }
         if (metallicize.flag)
@@ -57,7 +71,7 @@ public class PlayerSkills : MonoBehaviour
         }
         if (offering.flag)
         {
-            StartCoroutine(controller.EnergyRechargeMod(offering.GetEnergyRechargeMod() / 100f, offering.duration));
+            StartCoroutine(controller.EnergyRechargeMod(offering.GetRechargeMod() / 100f, offering.duration));
             StartCoroutine(controller.StrengthMod(offering.GetStrengthUpMod() / 100f, offering.duration));
             StartCoroutine(controller.HPMod(-offering.GetHpLostPerSec(), offering.duration));
             offering.flag = false;
@@ -69,7 +83,13 @@ public class PlayerSkills : MonoBehaviour
             healingWave.flag = false;
         }
     }
-    
+    private IEnumerator ChangeRim(Color c, float duration)
+    {
+        
+        rend.material.SetColor("_RimColor", c);
+        yield return new WaitForSeconds(duration);
+        rend.material.SetColor("_RimColor", Color.black);
+    }
     public enum SkillType
     {
         Basic,
@@ -84,6 +104,11 @@ public class PlayerSkills : MonoBehaviour
         Electro,
         Poison
     }
+    public enum StaminaType
+    {
+        Once,
+        OverTime
+    }
     public class BaseSkill
     {
         public List<float> mod;
@@ -93,6 +118,37 @@ public class PlayerSkills : MonoBehaviour
         public virtual void StartSkill()
         {
 
+        }
+    }
+    public class StaminaSkill : BaseSkill
+    {
+        public float staminaCost;
+        public int staminaType;
+        public float GetCurrentMod()
+        {
+            return mod[skillLevel];
+        }
+
+    }
+    public class Sprint : StaminaSkill
+    {
+        public Sprint()
+        {
+            description = "Sprint";
+        }
+    }
+    public class Roll : StaminaSkill
+    {
+        public Roll()
+        {
+            description = "Roll";
+        }
+    }
+    public class Invisibility : StaminaSkill
+    {
+        public Invisibility()
+        {
+            description = "Invisibility";
         }
     }
     public class DamageSpell : BaseSkill
@@ -119,6 +175,7 @@ public class PlayerSkills : MonoBehaviour
         }
         public override void StartSkill()
         {
+            proj.currSkill = this;
             controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
         }
 
@@ -173,7 +230,7 @@ public class PlayerSkills : MonoBehaviour
             mod.Add(60f); mod.Add(65f); mod.Add(70f);
             type = (int)SkillType.Basic;
             damageType = (int)DamageType.Electro;
-            energyCost = 50;
+            energyCost = 0;
             skillLevel = 0;
             description = "Lightning";
         }
@@ -380,7 +437,7 @@ public class PlayerSkills : MonoBehaviour
         }
     }
     /// <summary>
-    /// Offering: lose HP, increase energy recharge & strength
+    /// Offering: lose HP, increase energy and stamina recharge & strength
     ///     3% HP/s, 20%/25%/30%, 20%, 5s
     ///     energy cost: 100
     /// </summary>
@@ -398,7 +455,7 @@ public class PlayerSkills : MonoBehaviour
             duration = 5f;
             description = "Offering";
         }
-        public float GetEnergyRechargeMod()
+        public float GetRechargeMod()
         {
             return mod[skillLevel];
         }
