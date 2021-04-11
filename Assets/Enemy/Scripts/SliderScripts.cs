@@ -19,6 +19,7 @@ public class SliderScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(player==null)return;
         Vector2 playerP = Camera.main.WorldToScreenPoint(player.transform.position);
         healthSlider.GetComponent<RectTransform>().position = playerP + Vector2.up * topmargin;
 

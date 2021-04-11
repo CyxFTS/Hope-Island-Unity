@@ -14,6 +14,8 @@ public class Level2Boss : MonoBehaviour
     public GameObject[] objs;
     public GameObject healthSlider;
 
+     
+
 
     [Header("============= Property ============")]
     public int ChasingDistance;
@@ -57,7 +59,7 @@ public class Level2Boss : MonoBehaviour
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
         distancechange(angle);
-        print("state:"+nowstate);
+        // print("state:"+nowstate);
         statechange();
     }
 
@@ -183,14 +185,24 @@ public class Level2Boss : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(10);
+            // player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(20);
+            // player.GetComponent<PlayerController>().SetDamage(20);
         }
+    }
+    public void setDamageTask(){
+        InvokeRepeating("damageTask",0.1f,1f);
+    }
+
+    public void damageTask(){
+        setDamage(20);
+    }
+    public void cancelDamageTask(){
+        CancelInvoke();
     }
 }
