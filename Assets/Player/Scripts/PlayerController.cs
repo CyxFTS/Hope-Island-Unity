@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
 
     private PlayerSkills skills;// = new PlayerSkills();
 
-    private ProjectileShooting proj;
-
     //public GameObject healthSlider;
 
     private AudioSource audioSource;
@@ -77,7 +75,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        proj = GetComponent<ProjectileShooting>();
+        
         skills = GetComponent<PlayerSkills>();
         stats = GetComponent<PlayerStats>();
         moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
@@ -106,7 +104,12 @@ public class PlayerController : MonoBehaviour
         staminaSkill = skills.roll;
         StaminaSkill();
 
-        energySkill1 = skills.fireball;
+        if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
+        {
+            StartCoroutine(StaminaMod(0.2f * stats.StaminaRecharge.GetCalculatedStatValue(), 0.1f)); ;
+        }
+
+        energySkill1 = skills.lightning;
         energySkill2 = skills.warcry;
         EnergySkills();
         CheckHP();
@@ -159,10 +162,7 @@ public class PlayerController : MonoBehaviour
             Idle();
         }
 
-        if(stats.Stamina.GetCalculatedStatValue() < 100f)
-        {
-            StartCoroutine(StaminaMod(0.2f, 0.1f)); ;
-        }
+        
 
         moveDirection *= moveSpeed;
 
@@ -349,6 +349,13 @@ public class PlayerController : MonoBehaviour
         stats.EnergyRecharge.AddStatMods(b);
         yield return new WaitForSeconds(duration);
         stats.EnergyRecharge.RemoveStatMods(b);
+    }
+    public IEnumerator StaminaRechargeMod(float scale, float duration)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.StaminaRecharge.AddStatMods(b);
+        yield return new WaitForSeconds(duration);
+        stats.StaminaRecharge.RemoveStatMods(b);
     }
     public IEnumerator StaminaMod(float additive, float duration)
     {

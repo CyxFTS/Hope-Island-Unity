@@ -23,9 +23,12 @@ public class PlayerSkills : MonoBehaviour
     private static PlayerController controller;
     public GameObject[] Clothes;
     Renderer rend;
+
+    private static ProjectileShooting proj;
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        proj = controller.GetComponent<ProjectileShooting>();
         rend = Clothes[1].GetComponent<Renderer>();
         
         rend.materials[1].shader = Shader.Find("ASESampleShaders/RimLight");
@@ -68,7 +71,7 @@ public class PlayerSkills : MonoBehaviour
         }
         if (offering.flag)
         {
-            StartCoroutine(controller.EnergyRechargeMod(offering.GetEnergyRechargeMod() / 100f, offering.duration));
+            StartCoroutine(controller.EnergyRechargeMod(offering.GetRechargeMod() / 100f, offering.duration));
             StartCoroutine(controller.StrengthMod(offering.GetStrengthUpMod() / 100f, offering.duration));
             StartCoroutine(controller.HPMod(-offering.GetHpLostPerSec(), offering.duration));
             offering.flag = false;
@@ -172,6 +175,7 @@ public class PlayerSkills : MonoBehaviour
         }
         public override void StartSkill()
         {
+            proj.currSkill = this;
             controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
         }
 
@@ -226,7 +230,7 @@ public class PlayerSkills : MonoBehaviour
             mod.Add(60f); mod.Add(65f); mod.Add(70f);
             type = (int)SkillType.Basic;
             damageType = (int)DamageType.Electro;
-            energyCost = 50;
+            energyCost = 0;
             skillLevel = 0;
             description = "Lightning";
         }
@@ -433,7 +437,7 @@ public class PlayerSkills : MonoBehaviour
         }
     }
     /// <summary>
-    /// Offering: lose HP, increase energy recharge & strength
+    /// Offering: lose HP, increase energy and stamina recharge & strength
     ///     3% HP/s, 20%/25%/30%, 20%, 5s
     ///     energy cost: 100
     /// </summary>
@@ -451,7 +455,7 @@ public class PlayerSkills : MonoBehaviour
             duration = 5f;
             description = "Offering";
         }
-        public float GetEnergyRechargeMod()
+        public float GetRechargeMod()
         {
             return mod[skillLevel];
         }
