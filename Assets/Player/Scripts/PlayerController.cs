@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
 
-    private float attackRate = 1.0f;
+    private float attackRate = 0.7f;
 
     private float nextAttack;
 
@@ -42,22 +42,41 @@ public class PlayerController : MonoBehaviour
 
     public int BonusId = 0;
 
-    private PlayerSkills mods;// = new PlayerSkills();
+    private PlayerSkills skills;// = new PlayerSkills();
 
-    private ProjectileShooting proj;
-
-    public GameObject healthSlider;
+    //public GameObject healthSlider;
 
     private AudioSource audioSource;
 
     public AudioClip deathSound;
 
+    public PlayerInput input;
+
+    public bool firstAttack = true;
+    public bool desireToCombo = false;
+    private bool startShooting = false;
+
+    private PlayerAnimateEvent animEvent;
+
+    private PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
+    private void Awake()
+    {
+        input = new PlayerInput();
+    }
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+    private void OnDisable()
+    {
+        input.Disable();
+    }
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        proj = GetComponent<ProjectileShooting>();
-        mods = GetComponent<PlayerSkills>();
+        
+        skills = GetComponent<PlayerSkills>();
         stats = GetComponent<PlayerStats>();
         moveSpeed = stats.movementSpeed.GetCalculatedStatValue() / 10.0f;
         walkSpeed = moveSpeed / 10f * 5f;
@@ -66,11 +85,11 @@ public class PlayerController : MonoBehaviour
         //strength = stats.strength.GetCalculatedStatValue();
         //defense = stats.defense.GetCalculatedStatValue();
         anim = GetComponentInChildren<Animator>();
+        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
-        if (healthSlider == null)
-            healthSlider = GameObject.FindGameObjectsWithTag("Player")[0];
+        
     }
 
     // Update is called once per frame
@@ -78,19 +97,30 @@ public class PlayerController : MonoBehaviour
     {
         if (died)
             return;
+
         sword.Damage = stats.strength.GetCalculatedStatValue();
-        Move();
-        //StartAttack();
-        if (Input.GetKeyDown(KeyCode.C) && !attacking)
+        StartAttack();
+
+        staminaSkill = skills.roll;
+        StaminaSkill();
+
+        if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
         {
-            //StartCoroutine(StrengthMod(-0.2f, 5f));
-            //Debug.Log(BonusId);
-            StartCoroutine(Roll());
+            StartCoroutine(StaminaMod(0.2f * stats.StaminaRecharge.GetCalculatedStatValue(), 0.1f)); ;
         }
-        UpdateProjectile();
-        if (healthSlider.TryGetComponent(typeof(Slider), out Component component))
-            healthSlider.GetComponent<Slider>().value = (float)stats.HP.GetCalculatedStatValue() / stats.HP.BaseValue;
+
+        energySkill1 = skills.lightning;
+        energySkill2 = skills.warcry;
+        EnergySkills();
         CheckHP();
+    }
+    private void StaminaSkill()
+    {
+        if (staminaSkill.description == "Roll" && input.PlayerMain.StaminaSkill.triggered && !attacking)
+        {
+            Roll();
+        }
+        Move();
     }
 
     private void Move()
@@ -102,13 +132,8 @@ public class PlayerController : MonoBehaviour
             velocity.y = 0f;
         }
 
-        horizontal = ETCInput.GetAxis("Horizontal");
-        vertical = ETCInput.GetAxis("Vertical");
-        if(horizontal == 0 && vertical == 0)
-        {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
-        }
+        horizontal = input.PlayerMain.Move.ReadValue<Vector2>().x;
+        vertical = input.PlayerMain.Move.ReadValue<Vector2>().y;
         moveDirection = new Vector3(horizontal, 0f, vertical);
         //Debug.Log(moveDirection);
         //moveDirection = Quaternion.AngleAxis(90, Vector3.up) * moveDirection;
@@ -116,36 +141,30 @@ public class PlayerController : MonoBehaviour
         //transform.rotation = Quaternion.Euler(0, 45, 0) * transform.rotation;
         //Debug.Log(moveDirection);
 
-
-
-        float velocityX = Vector3.Dot(moveDirection.normalized, transform.right);
-        float velocityZ = Vector3.Dot(moveDirection.normalized, transform.forward);
-
-        //_animator.SetFloat("VelocityZ", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
-        //_animator.SetFloat("VelocityX", Mathf.Abs(velocityZ), 0.1f, Time.deltaTime);
-
-
-        if (true)//isGrounded)
+        bool running = false;
+        if (staminaSkill.description == "Sprint")
+            running = (input.PlayerMain.StaminaSkill.activeControl != null && stats.Stamina.GetCalculatedStatValue() > 0) ? true : false;
+    
+        if (moveDirection != Vector3.zero && !running/* && !Input.GetKey(KeyCode.LeftShift)*/)
         {
-            if (moveDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
-            {
-                //Walk
-                Walk();
-            }
-            else if (moveDirection != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
-            {
-                //Run
-                Run();
-            }
-            else if (moveDirection == Vector3.zero)
-            {
-                //Idle
-                Idle();
-                
-            }
-
-            moveDirection *= moveSpeed;
+            //Walk
+            Walk();
         }
+        else if (moveDirection != Vector3.zero && running/* && Input.GetKey(KeyCode.LeftShift)*/)
+        {
+            //Run
+            StartCoroutine(StaminaMod(-0.5f, 0.1f));
+            Run();
+        }
+        else if (moveDirection == Vector3.zero)
+        {
+            //Idle
+            Idle();
+        }
+
+        
+
+        moveDirection *= moveSpeed;
 
         controller.Move(moveDirection * Time.deltaTime);
 
@@ -158,43 +177,20 @@ public class PlayerController : MonoBehaviour
         {
             Rotate();
         }
+        
     }
-    private void UpdateProjectile()
+    private void EnergySkills()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))//Fire
-        {
-            proj.currSkill = mods.fireball;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))//Arrow
-        {
-            proj.currSkill = mods.summonArrows;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))//Lighting
-        {
-            proj.currSkill = mods.lightning;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))//Poison
-        {
-            proj.currSkill = mods.poisonousFumes;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))//Default
-        {
-            mods.feelNoPain.StartSkill();
-        }
+        if (input.PlayerMain.EnergySkill1.triggered)
+            energySkill1.StartSkill();
+        if (input.PlayerMain.EnergySkill2.triggered)
+            energySkill2.StartSkill();
+        Debug.Log(stats.defense.GetCalculatedStatValue());
     }
 
     private void Rotate()
     {
-        
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Quaternion.Euler(0, -45, 0) * moveDirection), rotationSpeed * Time.deltaTime);
-        //if (horizontal > 0)
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.right), rotationSpeed * Time.deltaTime);
-        //else if (horizontal < 0)
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.left), rotationSpeed * Time.deltaTime);
-        //if (vertical > 0)
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.forward), 0.67f * rotationSpeed * Time.deltaTime);
-        //else if (vertical < 0)
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Vector3.back), 0.67f * rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Quaternion.Euler(0, -45, 0) * moveDirection), rotationSpeed * Time.deltaTime);
     }
 
     private void Idle()
@@ -236,38 +232,57 @@ public class PlayerController : MonoBehaviour
 
     public void StartAttack()
     {
-        if (/*Input.GetButton("Fire1") &&*/ Time.time > nextAttack && moving)
+        if (input.PlayerMain.Attack.triggered /*&& Time.time > nextAttack*/ && moving)
         {
             nextAttack = Time.time + attackRate;
+            if (lockTarget != null)
+            {
+                transform.LookAt(lockTarget.transform);
+            }
+            attacking = true;
+            sword.GetComponent<Collider>().isTrigger = true;
+            anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
+
+            if (firstAttack && !desireToCombo)
+            {
+                firstAttack = false;
+                desireToCombo = false;
+                anim.SetTrigger("Attack");
+                //role.animComponent.animator.CrossFade("AttackCombo", 0.2f, 0, 0);
+            }
+            else
+            {
+                if (animEvent.canCombo)
+                {
+                    desireToCombo = true;
+                    firstAttack = false;
+                }
+            }
             StartCoroutine(Attack());
         }
     }
     private IEnumerator Attack()
     {
-        if (lockTarget != null)
-        {
-            transform.LookAt(lockTarget.transform);
-        }
-        attacking = true;
-        sword.GetComponent<Collider>().isTrigger = true;
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 1);
-        anim.SetTrigger("Attack");
-        
-        yield return new WaitForSeconds(0.7f);
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
-        sword.GetComponent<Collider>().isTrigger = false;
+        yield return new WaitForSeconds(1.0f);
+        //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
+        //sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
-        attacking = false;
+        //attacking = false;
     }
 
-    private IEnumerator Roll()
+    public void setAttacking(bool a)
+    {
+        attacking = a;
+    }
+
+    private void Roll()
     {
         moving = false;
         anim.SetTrigger("Roll");
-        invincible = true;
-        yield return new WaitForSeconds(0.9f);
+        if(!invincible)
+            StartCoroutine(StartInvincible(0.9f));
         moving = true;
-        invincible = false;
+        
     }
 
     public void SetDamage(float power)
@@ -278,56 +293,75 @@ public class PlayerController : MonoBehaviour
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
     }
-
-    public IEnumerator StrengthMod(float scale, float time)
+    public IEnumerator StartInvincible(float duration)
+    {
+        invincible = true;
+        yield return new WaitForSeconds(duration);
+        invincible = false;
+    }
+    public IEnumerator StrengthMod(float scale, float duration)
     {
         StatBonus b = new StatBonus(scale, BonusId++);
         stats.strength.AddStatMods(b);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(duration);
         stats.strength.RemoveStatMods(b);
     }
-    public IEnumerator DefenseMod(float scale, float time)
+    public IEnumerator DefenseMod(float scale, float duration)
     {
         StatBonus b = new StatBonus(scale, BonusId++);
         stats.defense.AddStatMods(b);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(duration);
         stats.defense.RemoveStatMods(b);
     }
-    public IEnumerator MovmentMod(float scale, float time)
+    public IEnumerator SpeedMod(float scale, float duration)
     {
         StatBonus b = new StatBonus(scale, BonusId++);
         stats.movementSpeed.AddStatMods(b);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(duration);
         stats.movementSpeed.RemoveStatMods(b);
     }
-    public IEnumerator HPMod(float additive, float time)
+    public IEnumerator HPMod(float additive, float duration)
     {
         StatBonus b = new StatBonus(additive, BonusId++);
         
         float t = 0f;
-        while(t < time)
+        while(t < duration)
         {
             stats.HP.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
         }
     }
-    public IEnumerator EnergyMod(float additive, float time)
+    public IEnumerator EnergyMod(float additive, float duration)
     {
         StatBonus b = new StatBonus(additive, BonusId++);
         float t = 0f;
-        while (t < time)
+        while (t < duration)
         {
             stats.Energy.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
         }
     }
-    public IEnumerator StaminaMod(float additive, float time)
+    public IEnumerator EnergyRechargeMod(float scale, float duration)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.EnergyRecharge.AddStatMods(b);
+        yield return new WaitForSeconds(duration);
+        stats.EnergyRecharge.RemoveStatMods(b);
+    }
+    public IEnumerator StaminaRechargeMod(float scale, float duration)
+    {
+        StatBonus b = new StatBonus(scale, BonusId++);
+        stats.StaminaRecharge.AddStatMods(b);
+        yield return new WaitForSeconds(duration);
+        stats.StaminaRecharge.RemoveStatMods(b);
+    }
+    public IEnumerator StaminaMod(float additive, float duration)
     {
         StatBonus b = new StatBonus(additive, BonusId++);
         float t = 0f;
-        while (t < time)
+        while (t < duration)
         {
             stats.Stamina.AddStatBonus(b);
             t += 1;
@@ -351,5 +385,14 @@ public class PlayerController : MonoBehaviour
         {
             lockTarget = null;
         }
+    }
+    public bool SetStartShooting(bool s)
+    {
+        startShooting = s;
+        return startShooting;
+    }
+    public bool GetStartShooting()
+    {
+        return startShooting;
     }
 }
