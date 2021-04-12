@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private float nextAttack;
 
-    private bool attacking = false, moving = true, invincible, died = false;
+    private bool attacking = false, moving = true, invincible, died = false, dodging = false;
 
     public PlayerStats stats;// = new PlayerStats();
 
@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerAnimateEvent animEvent;
 
-    private PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
+    public PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
+    public int CrescendoCnt = 0;
     private void Awake()
     {
         input = new PlayerInput();
@@ -89,7 +90,9 @@ public class PlayerController : MonoBehaviour
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
-        
+        energySkill1 = skills.fireball;
+        energySkill2 = skills.lightning;
+        staminaSkill = skills.sprint;
     }
 
     // Update is called once per frame
@@ -101,7 +104,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         StartAttack();
 
-        staminaSkill = skills.roll;
+        staminaSkill = skills.riposte;
         StaminaSkill();
 
         if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
@@ -110,7 +113,7 @@ public class PlayerController : MonoBehaviour
         }
 
         energySkill1 = skills.lightning;
-        energySkill2 = skills.warcry;
+        energySkill2 = skills.metallicize;
         EnergySkills();
         CheckHP();
     }
@@ -182,12 +185,33 @@ public class PlayerController : MonoBehaviour
     private void EnergySkills()
     {
         if (input.PlayerMain.EnergySkill1.triggered)
+        {
             energySkill1.StartSkill();
+            if (staminaSkill.description == "Crescendo")
+            {
+                staminaSkill.StartSkill();
+            }
+            if (energySkill1.energyCost >= 60.0f && staminaSkill.description == "Riposte")
+            {
+                staminaSkill.StartSkill();
+            }
+        }
+            
         if (input.PlayerMain.EnergySkill2.triggered)
+        {
             energySkill2.StartSkill();
-        Debug.Log(stats.defense.GetCalculatedStatValue());
+            if (staminaSkill.description == "Crescendo")
+            {
+                staminaSkill.StartSkill();
+            }
+            if (energySkill2.energyCost >= 60.0f && staminaSkill.description == "Riposte")
+            {
+                staminaSkill.StartSkill();
+            }
+        }
+            
+        //Debug.Log(stats.defense.GetCalculatedStatValue());
     }
-
     private void Rotate()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Quaternion.AngleAxis(45, Vector3.up) * Quaternion.Euler(0, -45, 0) * moveDirection), rotationSpeed * Time.deltaTime);
@@ -265,7 +289,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
-        //sword.GetComponent<Collider>().isTrigger = false;
+        sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
         //attacking = false;
     }
@@ -289,6 +313,11 @@ public class PlayerController : MonoBehaviour
     {
         if (invincible)
             return;
+        if(dodging)
+        {
+            ((PlayerSkills.Riposte)staminaSkill).Consume();
+            return;
+        }
         float damage = power / stats.defense.GetCalculatedStatValue();
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
         print(stats.HP.GetCalculatedStatValue());
@@ -394,5 +423,9 @@ public class PlayerController : MonoBehaviour
     public bool GetStartShooting()
     {
         return startShooting;
+    }
+    public void SetDodging(bool d)
+    {
+        dodging = d;
     }
 }

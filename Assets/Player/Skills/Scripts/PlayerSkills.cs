@@ -9,6 +9,7 @@ public class PlayerSkills : MonoBehaviour
     public SummonArrows summonArrows = new SummonArrows();
     public Lightning lightning = new Lightning();
     public PoisonousFumes poisonousFumes = new PoisonousFumes();
+
     public Warcry warcry = new Warcry();
     public Metallicize metallicize = new Metallicize();
     public Berserk berserk = new Berserk();
@@ -16,9 +17,14 @@ public class PlayerSkills : MonoBehaviour
     public Rushdown rushdown = new Rushdown();
     public Offering offering = new Offering();
     public HealingWave healingWave = new HealingWave();
+
     public Sprint sprint = new Sprint();
     public Roll roll = new Roll();
     public Invisibility invisibility = new Invisibility();
+    
+    public Crescendo crescendo = new Crescendo();
+    public Riposte riposte = new Riposte();
+
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
     public GameObject[] Clothes;
@@ -82,6 +88,16 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StrengthMod(healingWave.GetStrengthUpMod() / 100f, healingWave.duration));
             healingWave.flag = false;
         }
+        if (controller.staminaSkill.description == "Crescendo")
+        {
+            //crescendo.SetLevel(controller.CrescendoCnt);
+            if (crescendo.isCrescendo())
+            {
+                crescendo.Consume();
+                controller.energySkill1.inCrescendo = true;
+                controller.energySkill2.inCrescendo = true;
+            }
+        }
     }
     private IEnumerator ChangeRim(Color c, float duration)
     {
@@ -115,6 +131,8 @@ public class PlayerSkills : MonoBehaviour
         public int type;
         public int skillLevel;
         public string description;
+        public bool inCrescendo = false;
+        public virtual float energyCost { get; set; }
         public virtual void StartSkill()
         {
 
@@ -153,8 +171,8 @@ public class PlayerSkills : MonoBehaviour
     }
     public class DamageSpell : BaseSkill
     {
-        public float energyCost;
         public int damageType;
+
         public void LevelUp()
         {
             if (skillLevel < 3)
@@ -173,10 +191,33 @@ public class PlayerSkills : MonoBehaviour
         {
             return mod[skillLevel];
         }
+        public void CheckCrescendo()
+        {
+            if (inCrescendo)
+            {
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] *= 1.5f;
+                }
+            }
+        }
+        public void RemoveCrescendo()
+        {
+            if (inCrescendo)
+            {
+                inCrescendo = false;
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] /= 1.5f;
+                }
+            }
+        }
         public override void StartSkill()
         {
+            CheckCrescendo();
             proj.currSkill = this;
             controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
+            RemoveCrescendo();
         }
 
     }
@@ -261,7 +302,6 @@ public class PlayerSkills : MonoBehaviour
     {
         public bool flag = false;
         public float duration;
-        public float energyCost;
         public void LevelUp()
         {
             if (skillLevel < 3)
@@ -495,6 +535,72 @@ public class PlayerSkills : MonoBehaviour
             return strengthUpMod;
         }
     }
-
+    public class Crescendo : BaseSkill
+    {
+        private const int maxLvl = 3;
+        private int curLvl = 0;
+        public Crescendo()
+        {
+            mod = new List<float>();
+            mod.Add(50.0f);
+            description = "Crescendo";
+        }
+        public override void StartSkill()
+        {
+            if (curLvl <= maxLvl)
+                curLvl++;
+        }
+        public void SetLevel(int l)
+        {
+            curLvl = l;
+        }
+        public void Consume()
+        {
+            curLvl = 0;
+        }
+        public bool isCrescendo()
+        {
+            return curLvl == maxLvl;
+        }
+    }
+    public class Riposte : BaseSkill
+    {
+        private const int maxStk = 3;
+        private int curStk = 0;
+        public Riposte()
+        {
+            mod = new List<float>();
+            mod.Add(60.0f);
+            description = "Riposte";
+        }
+        public override void StartSkill()
+        {
+            if (curStk < maxStk)
+                curStk++;
+            //Debug.Log(curStk);
+            controller.SetDodging(true);
+        }
+        public void SetLevel(int l)
+        {
+            curStk = l;
+        }
+        public void Consume()
+        {
+            if(curStk > 0)
+                curStk--;
+            if(curStk == 0)
+                controller.SetDodging(false);
+            //Debug.Log(curStk);
+        }
+        public bool isCrescendo()
+        {
+            return curStk == maxStk;
+        }
+    }
+    public class LockedTalent : BaseSkill
+    {
+        private int hitRemain = 10;
+        public bool isTalentRealsed = false; 
+    }
 }
 
