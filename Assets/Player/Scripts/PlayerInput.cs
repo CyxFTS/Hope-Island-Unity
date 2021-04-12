@@ -40,7 +40,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""id"": ""0af7098f-affe-4e18-b6d7-9efb94f8060f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Energy Skill 2"",
@@ -48,7 +48,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""id"": ""20ccd738-0da1-45dd-8e31-480ea6e8eac6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Stamina Skill"",
