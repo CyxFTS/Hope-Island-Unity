@@ -9,7 +9,7 @@ public class MagicBall : MonoBehaviour
     public float mySpeed;
     private float passTime;
 
-    public int damage;
+    public int damage=10;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +39,10 @@ public class MagicBall : MonoBehaviour
         // speed = speed * -1;
         // Debug.Log("hello in trigger!"+other);
         Debug.Log(other.name+" "+other.gameObject);
+        GameObject gobj = other.gameObject;
+        if(gobj.tag.Equals("Player")){
+            gobj.GetComponent<PlayerController>().SetDamage(damage);
+        }
         // if(other.name.Equals("<name>")){
         //     GameObject gameobj = other.gameObject;
         //     gameobj.GetComponent<script>().setDamage(this.damage);
