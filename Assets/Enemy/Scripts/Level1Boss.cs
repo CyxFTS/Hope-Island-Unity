@@ -57,7 +57,7 @@ public class Level1Boss : MonoBehaviour
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
         distancechange(angle);
-        print("state:"+nowstate);
+        // print("state:"+nowstate);
         statechange();
     }
 
@@ -190,5 +190,17 @@ public class Level1Boss : MonoBehaviour
         {
             // player.GetComponent<PlayerController>().SetDamage(20);
         }
+    }
+
+   // test the magic circle.
+    public void setDamageTask(){
+        InvokeRepeating("damageTask",0.1f,1f);
+    }
+
+    public void damageTask(){
+        setDamage(20);
+    }
+    public void cancelDamageTask(){
+        CancelInvoke();
     }
 }
