@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSkills : MonoBehaviour
 {
     public BasicAttack basicAttack = new BasicAttack();
+
     public Fireball fireball = new Fireball();
     public SummonArrows summonArrows = new SummonArrows();
     public Lightning lightning = new Lightning();
@@ -31,6 +32,32 @@ public class PlayerSkills : MonoBehaviour
     private static PlayerController controller;
     public GameObject[] Clothes;
     Renderer rend;
+
+    [Header("============= Damage Spell =============")]
+    public Texture fireballIcon;
+    public Texture summonArrowsIcon;
+    public Texture lightningIcon;
+    public Texture poisonousFumesIcon;
+
+    [Header("============= Power =============")]
+    public Texture warcryIcon;
+    public Texture metallicizeIcon;
+    public Texture berserkIcon;
+    public Texture feelNoPainIcon;
+    public Texture rushdownIcon;
+    public Texture offeringIcon;
+    public Texture healingWaveIcon;
+
+    [Header("============= Stamina Skill =============")]
+    public Texture sprintIcon;
+    public Texture rollIcon;
+    public Texture invisibilityIcon;
+
+    [Header("============= Ability =============")]
+    public Texture crescendoIcon;
+    public Texture riposteIcon;
+    public Texture lockedTalentIcon;
+    public Texture cursedBloodIcon;
 
     private static ProjectileShooting proj;
     void Start()
