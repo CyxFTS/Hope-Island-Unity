@@ -24,6 +24,8 @@ public class PlayerSkills : MonoBehaviour
     
     public Crescendo crescendo = new Crescendo();
     public Riposte riposte = new Riposte();
+    public LockedTalent lockedTalent = new LockedTalent();
+    public CursedBlood cursedBlood = new CursedBlood();
 
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
@@ -37,12 +39,12 @@ public class PlayerSkills : MonoBehaviour
         proj = controller.GetComponent<ProjectileShooting>();
         rend = Clothes[1].GetComponent<Renderer>();
         
-        rend.materials[1].shader = Shader.Find("ASESampleShaders/RimLight");
+        rend.materials[0].shader = Shader.Find("ASESampleShaders/RimLight");
     }
     void Update()
     {
         float shininess = Mathf.PingPong(Time.time, 1.0f);
-        rend.material.SetFloat("_RimPower", shininess);
+        rend.materials[0].SetFloat("_RimPower", shininess);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
@@ -53,8 +55,10 @@ public class PlayerSkills : MonoBehaviour
         }
         if (metallicize.flag)
         {
+            //Debug.Log(controller.BonusId);
             StartCoroutine(controller.StartInvincible(metallicize.duration));
             StartCoroutine(controller.SpeedMod(-metallicize.GetSpeedDownMod() / 100f, metallicize.GetSpeedDownTime()));
+            StartCoroutine(ChangeRim(Color.white, metallicize.duration));
             metallicize.flag = false;
         }
         if (berserk.flag)
@@ -98,13 +102,21 @@ public class PlayerSkills : MonoBehaviour
                 controller.energySkill2.inCrescendo = true;
             }
         }
+        if (controller.staminaSkill.description == "LockedTalent")
+        {
+            lockedTalent.CheckUnlock();
+        }
+        if (controller.staminaSkill.description == "CursedBlood")
+        {
+            cursedBlood.Check();
+        }
     }
     private IEnumerator ChangeRim(Color c, float duration)
     {
         
-        rend.material.SetColor("_RimColor", c);
+        rend.materials[0].SetColor("_RimColor", c);
         yield return new WaitForSeconds(duration);
-        rend.material.SetColor("_RimColor", Color.black);
+        rend.materials[0].SetColor("_RimColor", Color.black);
     }
     public enum SkillType
     {
@@ -600,7 +612,64 @@ public class PlayerSkills : MonoBehaviour
     public class LockedTalent : BaseSkill
     {
         private int hitRemain = 10;
-        public bool isTalentRealsed = false; 
+        public bool isTalentRealsed = false;
+        private bool unlocked = false;
+        public LockedTalent()
+        {
+            mod = new List<float>();
+            mod.Add(0.3f);
+            description = "LockedTalent";
+        }
+        public void UnlockOnce()
+        {
+            if(hitRemain > 0)
+                hitRemain--;
+            if (hitRemain == 0)
+                isTalentRealsed = true;
+        }
+        public void CheckUnlock()
+        {
+            if(!isTalentRealsed)
+            {
+                controller.sword.Damage = 0;
+            }
+            if (isTalentRealsed && !unlocked)
+            {
+                unlocked = true;
+                controller.sword.Damage = 10;
+                controller.stats.strength.BaseValue *= 1f+mod[0];
+                controller.stats.defense.BaseValue *= 1f+mod[0];
+                controller.stats.movementSpeed.BaseValue *= 1f+mod[0];
+            }
+                
+        }
+    }
+    public class CursedBlood : BaseSkill
+    {
+        private float strengthUp = 0.3f;
+        private float defenseDown = 0.5f;
+        private float HPThreshold = 0.3f;
+        private bool isActivated = false;
+        public CursedBlood()
+        {
+            description = "CursedBlood";
+        }
+        public void Check()
+        {
+            float ratio = (float)controller.stats.HP.GetCalculatedStatValue() / controller.stats.HP.BaseValue;
+            if (ratio >= HPThreshold && !isActivated)
+            {
+                controller.stats.strength.BaseValue *= (1f + strengthUp);
+                controller.stats.defense.BaseValue *= (1f - defenseDown);
+                isActivated = true;
+            }
+            if(ratio < HPThreshold && isActivated)
+            {
+                controller.stats.strength.BaseValue /= (1f + strengthUp);
+                controller.stats.defense.BaseValue /= (1f - defenseDown);
+                isActivated = false;
+            }
+        }
     }
 }
 
