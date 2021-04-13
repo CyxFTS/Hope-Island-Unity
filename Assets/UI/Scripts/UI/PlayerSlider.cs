@@ -8,15 +8,25 @@ public class PlayerSlider : MonoBehaviour
 {
 
     public GameObject healthSlider;
+    public GameObject energySlider;
+    public GameObject staminaSlider;
+    public GameObject player;
+    private PlayerController controller;
 
     // Start is called before the first frame update
     void Start()
     {
         healthSlider.GetComponent<Slider>().value = 1;
+        energySlider.GetComponent<Slider>().value = 1;
+        staminaSlider.GetComponent<Slider>().value = 1;
+        controller = player.GetComponentInChildren<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        healthSlider.GetComponent<Slider>().value = (float)controller.stats.HP.GetCalculatedStatValue() / controller.stats.HP.BaseValue;
+        energySlider.GetComponent<Slider>().value = (float)controller.stats.Energy.GetCalculatedStatValue() / controller.stats.Energy.BaseValue;
+        staminaSlider.GetComponent<Slider>().value = (float)controller.stats.Stamina.GetCalculatedStatValue() / controller.stats.Stamina.BaseValue;
     }
 }

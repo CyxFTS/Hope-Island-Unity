@@ -119,7 +119,6 @@ public class Level1Boss : MonoBehaviour
             anim.SetInteger("State", 0);
             // transform.LookAt(new Vector3(0, -1, 0));
         }
-        print("set"+anim.GetInteger("State"));
     }
 
     private void CruisePosition(){
@@ -182,14 +181,14 @@ public class Level1Boss : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(10);
+            // player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(20);
+            // player.GetComponent<PlayerController>().SetDamage(20);
         }
     }
 }
