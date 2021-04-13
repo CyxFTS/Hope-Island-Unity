@@ -73,8 +73,13 @@ public class MagicCircle : MonoBehaviour
         if(taskStart){
             circle.Play();
             time = circle.duration;
+            
             Destroy(damageCircle, time);
         }
         // Debug.Log("paritcle System!");
+    }
+    void OnDestroy()
+    {
+        player.GetComponent<TestforBoss>().cancelDamageTask();
     }
 }
