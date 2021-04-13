@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerSkills : MonoBehaviour
 {
     public BasicAttack basicAttack = new BasicAttack();
+
     public Fireball fireball = new Fireball();
     public SummonArrows summonArrows = new SummonArrows();
     public Lightning lightning = new Lightning();
     public PoisonousFumes poisonousFumes = new PoisonousFumes();
+
     public Warcry warcry = new Warcry();
     public Metallicize metallicize = new Metallicize();
     public Berserk berserk = new Berserk();
@@ -16,13 +18,46 @@ public class PlayerSkills : MonoBehaviour
     public Rushdown rushdown = new Rushdown();
     public Offering offering = new Offering();
     public HealingWave healingWave = new HealingWave();
+
     public Sprint sprint = new Sprint();
     public Roll roll = new Roll();
     public Invisibility invisibility = new Invisibility();
+    
+    public Crescendo crescendo = new Crescendo();
+    public Riposte riposte = new Riposte();
+    public LockedTalent lockedTalent = new LockedTalent();
+    public CursedBlood cursedBlood = new CursedBlood();
+
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
     public GameObject[] Clothes;
     Renderer rend;
+
+    [Header("============= Damage Spell =============")]
+    public Texture fireballIcon;
+    public Texture summonArrowsIcon;
+    public Texture lightningIcon;
+    public Texture poisonousFumesIcon;
+
+    [Header("============= Power =============")]
+    public Texture warcryIcon;
+    public Texture metallicizeIcon;
+    public Texture berserkIcon;
+    public Texture feelNoPainIcon;
+    public Texture rushdownIcon;
+    public Texture offeringIcon;
+    public Texture healingWaveIcon;
+
+    [Header("============= Stamina Skill =============")]
+    public Texture sprintIcon;
+    public Texture rollIcon;
+    public Texture invisibilityIcon;
+
+    [Header("============= Ability =============")]
+    public Texture crescendoIcon;
+    public Texture riposteIcon;
+    public Texture lockedTalentIcon;
+    public Texture cursedBloodIcon;
 
     private static ProjectileShooting proj;
     void Start()
@@ -31,12 +66,12 @@ public class PlayerSkills : MonoBehaviour
         proj = controller.GetComponent<ProjectileShooting>();
         rend = Clothes[1].GetComponent<Renderer>();
         
-        rend.materials[1].shader = Shader.Find("ASESampleShaders/RimLight");
+        rend.materials[0].shader = Shader.Find("ASESampleShaders/RimLight");
     }
     void Update()
     {
         float shininess = Mathf.PingPong(Time.time, 1.0f);
-        rend.material.SetFloat("_RimPower", shininess);
+        rend.materials[0].SetFloat("_RimPower", shininess);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
@@ -47,8 +82,10 @@ public class PlayerSkills : MonoBehaviour
         }
         if (metallicize.flag)
         {
+            //Debug.Log(controller.BonusId);
             StartCoroutine(controller.StartInvincible(metallicize.duration));
             StartCoroutine(controller.SpeedMod(-metallicize.GetSpeedDownMod() / 100f, metallicize.GetSpeedDownTime()));
+            StartCoroutine(ChangeRim(Color.white, metallicize.duration));
             metallicize.flag = false;
         }
         if (berserk.flag)
@@ -82,13 +119,31 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StrengthMod(healingWave.GetStrengthUpMod() / 100f, healingWave.duration));
             healingWave.flag = false;
         }
+        if (controller.staminaSkill.description == "Crescendo")
+        {
+            //crescendo.SetLevel(controller.CrescendoCnt);
+            if (crescendo.isCrescendo())
+            {
+                crescendo.Consume();
+                controller.energySkill1.inCrescendo = true;
+                controller.energySkill2.inCrescendo = true;
+            }
+        }
+        if (controller.staminaSkill.description == "LockedTalent")
+        {
+            lockedTalent.CheckUnlock();
+        }
+        if (controller.staminaSkill.description == "CursedBlood")
+        {
+            cursedBlood.Check();
+        }
     }
     private IEnumerator ChangeRim(Color c, float duration)
     {
         
-        rend.material.SetColor("_RimColor", c);
+        rend.materials[0].SetColor("_RimColor", c);
         yield return new WaitForSeconds(duration);
-        rend.material.SetColor("_RimColor", Color.black);
+        rend.materials[0].SetColor("_RimColor", Color.black);
     }
     public enum SkillType
     {
@@ -115,6 +170,8 @@ public class PlayerSkills : MonoBehaviour
         public int type;
         public int skillLevel;
         public string description;
+        public bool inCrescendo = false;
+        public virtual float energyCost { get; set; }
         public virtual void StartSkill()
         {
 
@@ -153,8 +210,8 @@ public class PlayerSkills : MonoBehaviour
     }
     public class DamageSpell : BaseSkill
     {
-        public float energyCost;
         public int damageType;
+
         public void LevelUp()
         {
             if (skillLevel < 3)
@@ -173,10 +230,33 @@ public class PlayerSkills : MonoBehaviour
         {
             return mod[skillLevel];
         }
+        public void CheckCrescendo()
+        {
+            if (inCrescendo)
+            {
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] *= 1.5f;
+                }
+            }
+        }
+        public void RemoveCrescendo()
+        {
+            if (inCrescendo)
+            {
+                inCrescendo = false;
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] /= 1.5f;
+                }
+            }
+        }
         public override void StartSkill()
         {
+            CheckCrescendo();
             proj.currSkill = this;
             controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
+            RemoveCrescendo();
         }
 
     }
@@ -261,7 +341,6 @@ public class PlayerSkills : MonoBehaviour
     {
         public bool flag = false;
         public float duration;
-        public float energyCost;
         public void LevelUp()
         {
             if (skillLevel < 3)
@@ -495,6 +574,129 @@ public class PlayerSkills : MonoBehaviour
             return strengthUpMod;
         }
     }
-
+    public class Crescendo : BaseSkill
+    {
+        private const int maxLvl = 3;
+        private int curLvl = 0;
+        public Crescendo()
+        {
+            mod = new List<float>();
+            mod.Add(50.0f);
+            description = "Crescendo";
+        }
+        public override void StartSkill()
+        {
+            if (curLvl <= maxLvl)
+                curLvl++;
+        }
+        public void SetLevel(int l)
+        {
+            curLvl = l;
+        }
+        public void Consume()
+        {
+            curLvl = 0;
+        }
+        public bool isCrescendo()
+        {
+            return curLvl == maxLvl;
+        }
+    }
+    public class Riposte : BaseSkill
+    {
+        private const int maxStk = 3;
+        private int curStk = 0;
+        public Riposte()
+        {
+            mod = new List<float>();
+            mod.Add(60.0f);
+            description = "Riposte";
+        }
+        public override void StartSkill()
+        {
+            if (curStk < maxStk)
+                curStk++;
+            //Debug.Log(curStk);
+            controller.SetDodging(true);
+        }
+        public void SetLevel(int l)
+        {
+            curStk = l;
+        }
+        public void Consume()
+        {
+            if(curStk > 0)
+                curStk--;
+            if(curStk == 0)
+                controller.SetDodging(false);
+            //Debug.Log(curStk);
+        }
+        public bool isCrescendo()
+        {
+            return curStk == maxStk;
+        }
+    }
+    public class LockedTalent : BaseSkill
+    {
+        private int hitRemain = 10;
+        public bool isTalentRealsed = false;
+        private bool unlocked = false;
+        public LockedTalent()
+        {
+            mod = new List<float>();
+            mod.Add(0.3f);
+            description = "LockedTalent";
+        }
+        public void UnlockOnce()
+        {
+            if(hitRemain > 0)
+                hitRemain--;
+            if (hitRemain == 0)
+                isTalentRealsed = true;
+        }
+        public void CheckUnlock()
+        {
+            if(!isTalentRealsed)
+            {
+                controller.sword.Damage = 0;
+            }
+            if (isTalentRealsed && !unlocked)
+            {
+                unlocked = true;
+                controller.sword.Damage = 10;
+                controller.stats.strength.BaseValue *= 1f+mod[0];
+                controller.stats.defense.BaseValue *= 1f+mod[0];
+                controller.stats.movementSpeed.BaseValue *= 1f+mod[0];
+            }
+                
+        }
+    }
+    public class CursedBlood : BaseSkill
+    {
+        private float strengthUp = 0.3f;
+        private float defenseDown = 0.5f;
+        private float HPThreshold = 0.3f;
+        private bool isActivated = false;
+        public CursedBlood()
+        {
+            description = "CursedBlood";
+        }
+        public void Check()
+        {
+            float ratio = (float)controller.stats.HP.GetCalculatedStatValue() / controller.stats.HP.BaseValue;
+            if (ratio >= HPThreshold && !isActivated)
+            {
+                controller.stats.strength.BaseValue *= (1f + strengthUp);
+                controller.stats.defense.BaseValue *= (1f - defenseDown);
+                isActivated = true;
+            }
+            if(ratio < HPThreshold && isActivated)
+            {
+                controller.stats.strength.BaseValue /= (1f + strengthUp);
+                controller.stats.defense.BaseValue /= (1f - defenseDown);
+                isActivated = false;
+            }
+        }
+    }
 }
 
