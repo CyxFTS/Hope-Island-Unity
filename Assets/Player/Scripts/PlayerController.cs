@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject lockTarget;
 
-    private Sword sword;
+    public Sword sword;
 
     public int BonusId = 0;
 
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         StartAttack();
 
-        staminaSkill = skills.riposte;
+        staminaSkill = skills.sprint;
         StaminaSkill();
 
         if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
@@ -293,6 +293,13 @@ public class PlayerController : MonoBehaviour
         AttackedEnemies.Clear();
         //attacking = false;
     }
+    public void AttackHit()
+    {
+        if (staminaSkill.description == "LockedTalent")
+        {
+            ((PlayerSkills.LockedTalent)staminaSkill).UnlockOnce();
+        }
+    }
 
     public void setAttacking(bool a)
     {
@@ -306,7 +313,7 @@ public class PlayerController : MonoBehaviour
         if(!invincible)
             StartCoroutine(StartInvincible(0.9f));
         moving = true;
-        
+        StartCoroutine(StaminaMod(10f, 0.1f));
     }
 
     public void SetDamage(float power)
