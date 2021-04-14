@@ -176,7 +176,7 @@ public class FootmanScript : MonoBehaviour
         this.gameObject.SetActive(false);
         healthSlider.SetActive(false);
         Vector3 itemLocation = this.transform.position;
-        for (int i = 0; i < objs.Length; i++)
+        for (int i = 0; i < 1; i++)
         {
             Vector3 randomItemLocation = itemLocation;
             randomItemLocation += new Vector3(Random.Range(-2, 3), 0.2f, Random.Range(-2, 2));
