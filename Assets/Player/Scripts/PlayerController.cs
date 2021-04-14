@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         StartAttack();
 
-        staminaSkill = skills.sprint;
+        staminaSkill = skills.invisibility;
         StaminaSkill();
 
         if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
@@ -124,6 +124,32 @@ public class PlayerController : MonoBehaviour
             Roll();
         }
         Move();
+        if (staminaSkill.description == "Invisibility")
+        {
+            if (input.PlayerMain.StaminaSkill.triggered && !attacking)
+            {
+                if (!((PlayerSkills.Invisibility)staminaSkill).isActive && stats.Stamina.GetCalculatedStatValue() > 0)
+                {
+                    skills.StartTransperency();
+                    ((PlayerSkills.Invisibility)staminaSkill).isActive = true;
+                    
+                }
+                else
+                {
+                    skills.EndTransperency();
+                    ((PlayerSkills.Invisibility)staminaSkill).isActive = false;
+                }
+            }
+            if(((PlayerSkills.Invisibility)staminaSkill).isActive && stats.Stamina.GetCalculatedStatValue() <= 0)
+            {
+                skills.EndTransperency();
+                ((PlayerSkills.Invisibility)staminaSkill).isActive = false;
+            }
+            if (((PlayerSkills.Invisibility)staminaSkill).isActive)
+            {
+                StartCoroutine(StaminaMod(-0.5f, 0.1f));
+            }
+        }
     }
 
     private void Move()
@@ -165,8 +191,6 @@ public class PlayerController : MonoBehaviour
             Idle();
         }
 
-        
-
         moveDirection *= moveSpeed;
 
         controller.Move(moveDirection * Time.deltaTime);
@@ -184,6 +208,10 @@ public class PlayerController : MonoBehaviour
     }
     private void EnergySkills()
     {
+        if (staminaSkill.description == "Invisibility" && ((PlayerSkills.Invisibility)staminaSkill).isActive)
+        {
+            return;
+        }
         if (input.PlayerMain.EnergySkill1.triggered)
         {
             energySkill1.StartSkill();
