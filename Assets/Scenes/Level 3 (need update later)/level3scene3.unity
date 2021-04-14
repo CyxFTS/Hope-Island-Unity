@@ -3915,37 +3915,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 261982053}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &268605982
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 1435287494}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 268605983}
-  m_Layer: 0
-  m_Name: Teleporter Pad D (Missing Prefab)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &268605983
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 1435287494}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268605982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1435287497}
-  m_Father: {fileID: 1297496484}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &268964907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4927,8 +4896,7 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!224 &305244944 stripped
 RectTransform:
@@ -4956,7 +4924,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 305244945}
   player: {fileID: 261821705}
-  topmargin: 85
 --- !u!1001 &306445328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8184,8 +8151,7 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!224 &473067897 stripped
 RectTransform:
@@ -8213,7 +8179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 473067898}
   player: {fileID: 69332482}
-  topmargin: 85
 --- !u!1001 &475185254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10456,8 +10421,7 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!224 &588256231 stripped
 RectTransform:
@@ -10485,7 +10449,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 588256232}
   player: {fileID: 479365785}
-  topmargin: 85
 --- !u!4 &592045330 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010304392466, guid: 2ba163ec3acd5f141b024302b23b22a3,
@@ -18903,8 +18866,7 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1343251025, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59c4aa4ba20524600ac53c0d09e2a8de, type: 3}
 --- !u!224 &1112146662 stripped
 RectTransform:
@@ -18932,7 +18894,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 1112146663}
   player: {fileID: 1749270381}
-  topmargin: 85
 --- !u!1001 &1112147968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24968,24 +24929,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddd95aa4817356645979f7a136313957, type: 3}
---- !u!1 &1435287495
+--- !u!1 &1435287495 stripped
 GameObject:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 100000, guid: ddd95aa4817356645979f7a136313957,
     type: 3}
   m_PrefabInstance: {fileID: 1435287494}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1435287497}
-  - component: {fileID: 1435287496}
-  m_Layer: 0
-  m_Name: Missing Prefab (Dummy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!114 &1435287496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24999,20 +24948,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: level1scene4
---- !u!4 &1435287497
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 1435287494}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435287495}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 268605983}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1436501842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28589,32 +28524,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4437831602043912063, guid: b6a8839be0d69774ca451f2e82db2289,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437831602043912063, guid: b6a8839be0d69774ca451f2e82db2289,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4499676313218327348, guid: b6a8839be0d69774ca451f2e82db2289,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4499676313218327348, guid: b6a8839be0d69774ca451f2e82db2289,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8243569252778088006, guid: b6a8839be0d69774ca451f2e82db2289,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8243569252778088006, guid: b6a8839be0d69774ca451f2e82db2289,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
