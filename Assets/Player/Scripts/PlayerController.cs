@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
         }
 
         energySkill1 = skills.lightning;
-        energySkill2 = skills.metallicize;
+        energySkill2 = skills.warcry;
         EnergySkills();
         CheckHP();
     }
