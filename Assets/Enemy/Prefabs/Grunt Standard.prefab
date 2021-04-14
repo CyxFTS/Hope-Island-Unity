@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 8999636905393193239}
   m_Layer: 0
   m_Name: Grunt Standard
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,10 +341,18 @@ MonoBehaviour:
   anim: {fileID: 95190650388139928}
   NMA: {fileID: 5201678644815519766}
   player: {fileID: 0}
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   healthSlider: {fileID: 0}
+  objs:
+  - {fileID: 5809868037966971234, guid: 5e68453d1e0f52f438ed6d26fcae8530, type: 3}
   ChasingDistance: 15
-  chaseAngle: 180
+  attackAngle: 0
   AttackDistance: 3.2
   runSpeed: 4
   walkSpeed: 1
