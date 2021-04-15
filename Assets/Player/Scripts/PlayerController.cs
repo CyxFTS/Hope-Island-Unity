@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStats stats;// = new PlayerStats();
 
-    private float moveSpeed;//, HP, strength, defense;
+    private float moveSpeed, HP, strength, defense;
 
     private GameObject lockTarget;
 
@@ -93,7 +93,11 @@ public class PlayerController : MonoBehaviour
         energySkill1 = skills.fireball;
         energySkill2 = skills.lightning;
         staminaSkill = skills.sprint;
-        ES3.Save("myInt", 123);
+
+        HP = ES3.Load("HP", 0.0f);
+        Debug.Log(HP);
+        SetHP(HP);
+
     }
 
     // Update is called once per frame
@@ -384,6 +388,11 @@ public class PlayerController : MonoBehaviour
         stats.movementSpeed.AddStatMods(b);
         yield return new WaitForSeconds(duration);
         stats.movementSpeed.RemoveStatMods(b);
+    }
+    public void SetHP(float HP)
+    {
+        float diff = HP - stats.HP.GetCalculatedStatValue();
+        StartCoroutine(HPMod(diff, 0.1f));
     }
     public IEnumerator HPMod(float additive, float duration)
     {
