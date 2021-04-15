@@ -57,10 +57,10 @@ public class Level3Bossball : MonoBehaviour
     {
         if (!stateCanChange) return;
         distance = Vector3.Distance(this.transform.position, player.transform.position);
-        if(Input.GetKey(KeyCode.J)){
-            setDamage(totalhealth);
-            return;
-        }
+        // if(Input.GetKey(KeyCode.J)){
+        //     setDamage(totalhealth);
+        //     return;
+        // }
         Vector3 direction = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, direction);
         distancechange(angle);
@@ -192,7 +192,7 @@ public class Level3Bossball : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            // player.GetComponent<PlayerController>().SetDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(10);
         }
     }
     public void attackPlayer02()
