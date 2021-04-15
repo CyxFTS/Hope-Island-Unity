@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStats stats;// = new PlayerStats();
 
-    private float moveSpeed;//, HP, strength, defense;
+    private float moveSpeed, HP, strength, defense;
 
     private GameObject lockTarget;
 
@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour
         energySkill1 = skills.fireball;
         energySkill2 = skills.lightning;
         staminaSkill = skills.sprint;
+
+        HP = ES3.Load("HP", 0.0f);
+        Debug.Log(HP);
+        SetHP(HP);
+
     }
 
     // Update is called once per frame
@@ -104,7 +109,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         StartAttack();
 
-        staminaSkill = skills.sprint;
+        staminaSkill = skills.invisibility;
         StaminaSkill();
 
         if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
@@ -124,6 +129,32 @@ public class PlayerController : MonoBehaviour
             Roll();
         }
         Move();
+        if (staminaSkill.description == "Invisibility")
+        {
+            if (input.PlayerMain.StaminaSkill.triggered && !attacking)
+            {
+                if (!((PlayerSkills.Invisibility)staminaSkill).isActive && stats.Stamina.GetCalculatedStatValue() > 0)
+                {
+                    skills.StartTransperency();
+                    ((PlayerSkills.Invisibility)staminaSkill).isActive = true;
+                    
+                }
+                else
+                {
+                    skills.EndTransperency();
+                    ((PlayerSkills.Invisibility)staminaSkill).isActive = false;
+                }
+            }
+            if(((PlayerSkills.Invisibility)staminaSkill).isActive && stats.Stamina.GetCalculatedStatValue() <= 0)
+            {
+                skills.EndTransperency();
+                ((PlayerSkills.Invisibility)staminaSkill).isActive = false;
+            }
+            if (((PlayerSkills.Invisibility)staminaSkill).isActive)
+            {
+                StartCoroutine(StaminaMod(-0.5f, 0.1f));
+            }
+        }
     }
 
     private void Move()
@@ -165,8 +196,6 @@ public class PlayerController : MonoBehaviour
             Idle();
         }
 
-        
-
         moveDirection *= moveSpeed;
 
         controller.Move(moveDirection * Time.deltaTime);
@@ -184,6 +213,10 @@ public class PlayerController : MonoBehaviour
     }
     private void EnergySkills()
     {
+        if (staminaSkill.description == "Invisibility" && ((PlayerSkills.Invisibility)staminaSkill).isActive)
+        {
+            return;
+        }
         if (input.PlayerMain.EnergySkill1.triggered)
         {
             energySkill1.StartSkill();
@@ -355,6 +388,11 @@ public class PlayerController : MonoBehaviour
         stats.movementSpeed.AddStatMods(b);
         yield return new WaitForSeconds(duration);
         stats.movementSpeed.RemoveStatMods(b);
+    }
+    public void SetHP(float HP)
+    {
+        float diff = HP - stats.HP.GetCalculatedStatValue();
+        StartCoroutine(HPMod(diff, 0.1f));
     }
     public IEnumerator HPMod(float additive, float duration)
     {

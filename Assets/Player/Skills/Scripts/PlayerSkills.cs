@@ -30,8 +30,15 @@ public class PlayerSkills : MonoBehaviour
 
     public static bool rushDowningActiving = false;
     private static PlayerController controller;
-    public GameObject[] Clothes;
-    Renderer rend;
+    //public GameObject[] Clothes;
+    public Material Invis;
+    public Material[] BodyMat;
+    public GameObject[] Bodies;
+    Renderer cloth;
+
+    Renderer body, head, hair;
+
+    public int PlayerId = 1;
 
     [Header("============= Damage Spell =============")]
     public Texture fireballIcon;
@@ -64,20 +71,46 @@ public class PlayerSkills : MonoBehaviour
     {
         controller = GetComponent<PlayerController>();
         proj = controller.GetComponent<ProjectileShooting>();
-        rend = Clothes[1].GetComponent<Renderer>();
-        
-        rend.materials[0].shader = Shader.Find("ASESampleShaders/RimLight");
+
+        fireball.icon = fireballIcon;
+        summonArrows.icon = summonArrowsIcon;
+        lightning.icon = lightningIcon;
+        poisonousFumes.icon = poisonousFumesIcon;
+
+        warcry.icon = warcryIcon;
+        metallicize.icon = metallicizeIcon;
+        berserk.icon = berserkIcon;
+        feelNoPain.icon = feelNoPainIcon;
+        rushdown.icon = rushdownIcon;
+        offering.icon = offeringIcon;
+        healingWave.icon = healingWaveIcon;
+
+        sprint.icon = sprintIcon;
+        roll.icon = rollIcon;
+        invisibility.icon = invisibilityIcon;
+
+        crescendo.icon = crescendoIcon;
+        riposte.icon = riposteIcon;
+        lockedTalent.icon = lockedTalentIcon;
+        cursedBlood.icon = cursedBloodIcon;
     }
     void Update()
     {
+        cloth = Bodies[PlayerId * 3].GetComponent<Renderer>();
+
+        body = Bodies[PlayerId * 3].GetComponent<Renderer>();
+        hair = Bodies[PlayerId * 3 + 1].GetComponent<Renderer>();
+        head = Bodies[PlayerId * 3 + 2].GetComponent<Renderer>();
+
         float shininess = Mathf.PingPong(Time.time, 1.0f);
-        rend.materials[0].SetFloat("_RimPower", shininess);
+        cloth.materials[0].SetFloat("_RimPower", shininess);
         //StartCoroutine(controller.StrengthMod(-0.2f, 5f));
         //Debug.Log(controller.BonusId);
         if (warcry.flag)
         {
             StartCoroutine(controller.StrengthMod(warcry.GetStrengthUpMod() / 100f, warcry.duration));
             StartCoroutine(ChangeRim(Color.red, warcry.duration));
+            //StartCoroutine(SetTransperency(warcry.duration));
             warcry.flag = false;
         }
         if (metallicize.flag)
@@ -140,10 +173,67 @@ public class PlayerSkills : MonoBehaviour
     }
     private IEnumerator ChangeRim(Color c, float duration)
     {
-        
-        rend.materials[0].SetColor("_RimColor", c);
+        Shader temp = cloth.materials[0].shader;
+        cloth.materials[0].shader = Shader.Find("ASESampleShaders/RimLight");
+        cloth.materials[0].SetColor("_RimColor", c);
         yield return new WaitForSeconds(duration);
-        rend.materials[0].SetColor("_RimColor", Color.black);
+        cloth.materials[0].SetColor("_RimColor", Color.black);
+        cloth.materials[0].shader = temp;
+    }
+    Material clothTemp;
+    Material bodyTemp;
+    Material hairTemp;
+    Material headTemp;
+    private IEnumerator SetTransperency(float duration)
+    {
+        bodyTemp = BodyMat[2];
+        body.materials[1].shader = Invis.shader;
+        body.materials[1].CopyPropertiesFromMaterial(Invis);
+
+        clothTemp = cloth.material;
+        cloth.material = Invis;
+
+        hairTemp = hair.material;
+        hair.material = Invis;
+
+        headTemp = head.material;
+        head.material = Invis;
+        yield return new WaitForSeconds(duration);
+
+        body.materials[1].shader = bodyTemp.shader;
+        body.materials[1].CopyPropertiesFromMaterial(bodyTemp);
+
+        cloth.material = clothTemp;
+
+        hair.material = hairTemp;
+
+        head.material = headTemp;
+    }
+    public void StartTransperency()
+    {
+        bodyTemp = BodyMat[2];
+        body.materials[1].shader = Invis.shader;
+        body.materials[1].CopyPropertiesFromMaterial(Invis);
+
+        clothTemp = cloth.material;
+        cloth.material = Invis;
+
+        hairTemp = hair.material;
+        hair.material = Invis;
+
+        headTemp = head.material;
+        head.material = Invis;
+    }
+    public void EndTransperency()
+    {
+        body.materials[1].shader = bodyTemp.shader;
+        body.materials[1].CopyPropertiesFromMaterial(bodyTemp);
+
+        cloth.material = clothTemp;
+
+        hair.material = hairTemp;
+
+        head.material = headTemp;
     }
     public enum SkillType
     {
@@ -171,6 +261,7 @@ public class PlayerSkills : MonoBehaviour
         public int skillLevel;
         public string description;
         public bool inCrescendo = false;
+        public Texture icon;
         public virtual float energyCost { get; set; }
         public virtual void StartSkill()
         {
@@ -203,6 +294,7 @@ public class PlayerSkills : MonoBehaviour
     }
     public class Invisibility : StaminaSkill
     {
+        public bool isActive = false;
         public Invisibility()
         {
             description = "Invisibility";
