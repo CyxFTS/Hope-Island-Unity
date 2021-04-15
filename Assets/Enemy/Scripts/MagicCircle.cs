@@ -10,6 +10,8 @@ public class MagicCircle : MonoBehaviour
 
     public GameObject player;
     public bool taskStart=false;
+
+    public int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,7 @@ public class MagicCircle : MonoBehaviour
                 ParticleSystem.Particle p = enter[i];
                 p.startColor = new Color32(255, 0, 0, 255);
                 enter[i] = p;
-                player.GetComponent<TestforBoss>().setDamageTask();
+                setDamageTask();
                 // Debug.Log("SomeOne enter!");
             }
             for (int i = 0; i < numInside; i++)
@@ -47,7 +49,7 @@ public class MagicCircle : MonoBehaviour
                 ParticleSystem.Particle p = inside[i];
                 p.startColor = new Color32(0, 255, 0, 255);
                 inside[i] = p;
-                player.GetComponent<TestforBoss>().setDamageTask();
+                setDamageTask();
                 // Debug.Log("SomeOne exit!");
             }
         }else{
@@ -56,7 +58,7 @@ public class MagicCircle : MonoBehaviour
                 ParticleSystem.Particle p = exit[i];
                 p.startColor = new Color32(0, 255, 0, 255);
                 exit[i] = p;
-                player.GetComponent<TestforBoss>().cancelDamageTask();
+                cancelDamageTask();
                 // Debug.Log("SomeOne exit!");
             }
         }
@@ -80,6 +82,16 @@ public class MagicCircle : MonoBehaviour
     }
     void OnDestroy()
     {
-        player.GetComponent<TestforBoss>().cancelDamageTask();
+        cancelDamageTask();
     }
+     public void setDamageTask(){
+        InvokeRepeating("damageTask",0.1f,1f);
+    }
+
+    public void damageTask(){
+        player.GetComponent<PlayerController>().SetDamage(damage);
+    }
+    public void cancelDamageTask(){
+        CancelInvoke();
+    }
 }
