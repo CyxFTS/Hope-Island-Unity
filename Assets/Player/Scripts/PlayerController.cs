@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
         energySkill1 = skills.fireball;
         energySkill2 = skills.lightning;
         staminaSkill = skills.sprint;
+        ES3.Save("myInt", 123);
     }
 
     // Update is called once per frame
