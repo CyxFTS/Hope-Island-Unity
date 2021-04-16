@@ -162,11 +162,11 @@ public class PlayerSkills : MonoBehaviour
                 controller.energySkill2.inCrescendo = true;
             }
         }
-        if (controller.staminaSkill.description == "LockedTalent")
+        if (controller.staminaSkill.description == "Locked Talent")
         {
             lockedTalent.CheckUnlock();
         }
-        if (controller.staminaSkill.description == "CursedBlood")
+        if (controller.staminaSkill.description == "Cursed Blood")
         {
             cursedBlood.Check();
         }
@@ -378,7 +378,7 @@ public class PlayerSkills : MonoBehaviour
             damageType = (int)DamageType.Fire;
             energyCost = 50;
             skillLevel = 0;
-            description = "Fire Ball";
+            description = "Fireball";
         }
     }
     public class SummonArrows : DamageSpell
@@ -737,7 +737,7 @@ public class PlayerSkills : MonoBehaviour
         {
             mod = new List<float>();
             mod.Add(0.3f);
-            description = "LockedTalent";
+            description = "Locked Talent";
         }
         public void UnlockOnce()
         {
@@ -771,7 +771,7 @@ public class PlayerSkills : MonoBehaviour
         private bool isActivated = false;
         public CursedBlood()
         {
-            description = "CursedBlood";
+            description = "Cursed Blood";
         }
         public void Check()
         {
