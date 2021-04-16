@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -94,10 +95,7 @@ public class PlayerController : MonoBehaviour
         energySkill2 = skills.lightning;
         staminaSkill = skills.sprint;
 
-        HP = ES3.Load("HP", 0.0f);
-        Debug.Log(HP);
-        SetHP(HP);
-
+        LoadPlayerSaveData();
     }
 
     // Update is called once per frame
@@ -328,7 +326,7 @@ public class PlayerController : MonoBehaviour
     }
     public void AttackHit()
     {
-        if (staminaSkill.description == "LockedTalent")
+        if (staminaSkill.description == "Locked Talent")
         {
             ((PlayerSkills.LockedTalent)staminaSkill).UnlockOnce();
         }
@@ -472,5 +470,47 @@ public class PlayerController : MonoBehaviour
     public void SetDodging(bool d)
     {
         dodging = d;
+    }
+    private string FirstLetterToUpper(string str)
+    {
+        if (str == null)
+            return null;
+
+        if (str.Length > 1)
+            return char.ToUpper(str[0]) + str.Substring(1);
+
+        return str.ToUpper();
+    }
+    public void LoadPlayerSaveData()
+    {
+        //var pattern = @"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[a-z])(?=[0-9])";
+        var regex = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])");
+
+        var eSkill1 = energySkill1.description;
+        var eSkill2 = energySkill2.description;
+        var sSkill = staminaSkill.description;
+        ES3.Save("energySkill1.description", eSkill1);
+        ES3.Save("energySkill2.description", eSkill2);
+        ES3.Save("staminaSkill.description", sSkill);
+        HP = ES3.Load("HP", 100.0f);
+        Debug.Log(HP);
+        SetHP(HP);
+
+        foreach (var prop in skills.GetType().GetFields())
+        {
+            //Debug.LogFormat("{0}", prop.Name);
+            var name = FirstLetterToUpper(regex.Replace(prop.Name, " "));
+            //Debug.Log(name);
+            if (name == sSkill)
+            {
+                var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
+                Debug.Log(p.description);
+                p.skillLevel = 2;
+                Debug.Log(skills.warcry.skillLevel);
+                //Debug.Log(p.GetType().GetProperty("description").GetValue(p));
+            }
+        }
+        //var p = skills.GetType().GetProperty("warcry").GetValue(skills);
+        //Debug.Log(p.GetType().GetProperty("description").GetValue(p));
     }
 }
