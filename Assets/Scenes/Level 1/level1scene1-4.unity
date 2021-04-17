@@ -11124,6 +11124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974205683}
+  - component: {fileID: 974205684}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -11150,6 +11151,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &974205684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974205682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ba7bda5960c6e408ee37aea849a047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneTransition: {fileID: 264029279}
 --- !u!1001 &976548464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20905,6 +20919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: level1scene2
+  player: {fileID: 1812942964}
 --- !u!4 &1819373841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010304392466, guid: 2ba163ec3acd5f141b024302b23b22a3,
