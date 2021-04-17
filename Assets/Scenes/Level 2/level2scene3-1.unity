@@ -59078,6 +59078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: level2sceneBoss
+  player: {fileID: 369296996}
 --- !u!1001 &1569492411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84641,6 +84642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 351752058792415258}
+  - component: {fileID: 351752058792415260}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -84648,6 +84650,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &351752058792415260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351752058792415259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ba7bda5960c6e408ee37aea849a047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneTransition: {fileID: 1627716180}
 --- !u!1 &351752059060172680
 GameObject:
   m_ObjectHideFlags: 0
