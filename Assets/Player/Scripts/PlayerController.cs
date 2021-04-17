@@ -362,7 +362,7 @@ public class PlayerController : MonoBehaviour
         }
         float damage = power / stats.defense.GetCalculatedStatValue();
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
-        print(stats.HP.GetCalculatedStatValue());
+        //print(stats.HP.GetCalculatedStatValue());
     }
     public IEnumerator StartInvincible(float duration)
     {

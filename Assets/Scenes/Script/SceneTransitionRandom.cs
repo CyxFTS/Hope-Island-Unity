@@ -8,6 +8,8 @@ public class SceneTransitionRandom : MonoBehaviour
 {
     public int currentLevel;
     public Boolean next;
+    public GameObject player;
+    
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !other.isTrigger)
@@ -28,6 +30,7 @@ public class SceneTransitionRandom : MonoBehaviour
                 sceneToLoad = "level" + nextLevel + "scene1-" + randomScene;
             }
             Debug.Log(sceneToLoad);
+            player.GetComponent<PlayerController>().SavePlayerSaveData();
             SceneManager.LoadScene(sceneToLoad);
         }
     }
