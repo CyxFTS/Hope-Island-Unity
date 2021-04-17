@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject[] Players;
+
     private float walkSpeed;
     private float runSpeed;
     [SerializeField] private float rotationSpeed;
@@ -60,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
     public int CrescendoCnt = 0;
+    
     private void Awake()
     {
         input = new PlayerInput();
@@ -90,14 +94,12 @@ public class PlayerController : MonoBehaviour
         sword = GetComponentInChildren<Sword>();
         sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
-        energySkill1 = skills.fireball;
-        energySkill2 = skills.lightning;
-        staminaSkill = skills.sprint;
+        //energySkill1 = skills.lightning;
+        //energySkill2 = skills.warcry;
+        //staminaSkill = skills.invisibility;
 
-        HP = ES3.Load("HP", 0.0f);
-        Debug.Log(HP);
-        SetHP(HP);
-
+        LoadPlayerSaveData();
+        ApplyPlayerSelection();
     }
 
     // Update is called once per frame
@@ -117,7 +119,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(StaminaMod(0.2f * stats.StaminaRecharge.GetCalculatedStatValue(), 0.1f)); ;
         }
 
-        energySkill1 = skills.lightning;
+        //energySkill1 = skills.lightning;
         energySkill2 = skills.warcry;
         EnergySkills();
         CheckHP();
@@ -328,7 +330,7 @@ public class PlayerController : MonoBehaviour
     }
     public void AttackHit()
     {
-        if (staminaSkill.description == "LockedTalent")
+        if (staminaSkill.description == "Locked Talent")
         {
             ((PlayerSkills.LockedTalent)staminaSkill).UnlockOnce();
         }
@@ -360,7 +362,7 @@ public class PlayerController : MonoBehaviour
         }
         float damage = power / stats.defense.GetCalculatedStatValue();
         stats.HP.AddStatBonus(new StatBonus(-damage, BonusId++));
-        print(stats.HP.GetCalculatedStatValue());
+        //print(stats.HP.GetCalculatedStatValue());
     }
     public IEnumerator StartInvincible(float duration)
     {
@@ -472,5 +474,101 @@ public class PlayerController : MonoBehaviour
     public void SetDodging(bool d)
     {
         dodging = d;
+    }
+    private string FirstLetterToUpper(string str)
+    {
+        if (str == null)
+            return null;
+
+        if (str.Length > 1)
+            return char.ToUpper(str[0]) + str.Substring(1);
+
+        return str.ToUpper();
+    }
+    public void SavePlayerSaveData()
+    {
+        string eSkill1 = energySkill1.description;
+        string eSkill2 = energySkill2.description;
+        string sSkill = staminaSkill.description;
+        ES3.Save("energySkill1.description", eSkill1);
+        ES3.Save("energySkill2.description", eSkill2);
+        ES3.Save("staminaSkill.description", sSkill);
+        int eSkill1Lv = energySkill1.skillLevel;
+        int eSkill2Lv = energySkill2.skillLevel;
+        int sSkillLv = staminaSkill.skillLevel;
+        ES3.Save("energySkill1.skillLevel", eSkill1Lv);
+        ES3.Save("energySkill2.skillLevel", eSkill2Lv);
+        ES3.Save("staminaSkill.skillLevel", sSkillLv);
+        var id = skills.PlayerId;
+        ES3.Save("PlayerId", id);
+        ES3.Save("HP", stats.HP.GetCalculatedStatValue());
+    }
+    public void LoadPlayerSaveData()
+    {
+        var regex = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])");
+
+        HP = ES3.Load("HP", 100.0f);
+        SetHP(HP);
+
+        string defaultSkill = "Fireball";
+
+        string e1 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
+        int e1Lv = ES3.Load("energySkill1.skillLevel", 0);
+
+        string e2 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
+        int e2Lv = ES3.Load("energySkill2.skillLevel", 0);
+
+        string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Sprint");
+        int sLv = ES3.Load("staminaSkill.skillLevel", 0);
+
+        skills.PlayerId = ES3.Load("PlayerId", 1);
+
+        foreach (var prop in skills.GetType().GetFields())
+        {
+            //Debug.LogFormat("{0}", prop.Name);
+            var name = FirstLetterToUpper(regex.Replace(prop.Name, " "));
+            if (name == e1)
+            {
+                var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
+                energySkill1 = p;
+                //Debug.Log(p.description);
+                energySkill1.skillLevel = e1Lv;
+                //Debug.Log(skills.warcry.skillLevel);
+                //Debug.Log(p.GetType().GetProperty("description").GetValue(p));
+            }
+            if (name == e2)
+            {
+                var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
+                energySkill2 = p;
+                energySkill2.skillLevel = e2Lv;
+            }
+            if (name == s)
+            {
+                var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
+                staminaSkill = p;
+                staminaSkill.skillLevel = sLv;
+            }
+        }
+    }
+    public void ApplyPlayerSelection()
+    {
+        if(skills.PlayerId == 0)
+        {
+            Players[0].SetActive(true);
+            Players[1].SetActive(false);
+            Players[2].SetActive(false);
+        }
+        if (skills.PlayerId == 1)
+        {
+            Players[0].SetActive(false);
+            Players[1].SetActive(true);
+            Players[2].SetActive(false);
+        }
+        if (skills.PlayerId == 2)
+        {
+            Players[0].SetActive(false);
+            Players[1].SetActive(false);
+            Players[2].SetActive(true);
+        }
     }
 }

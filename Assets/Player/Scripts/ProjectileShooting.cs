@@ -44,7 +44,7 @@ public class ProjectileShooting : MonoBehaviour
 
     void Update()
     {
-        if (currSkill.description == "Fire Ball")//Fire
+        if (currSkill.description == "Fireball")//Fire
         {
             Prefab = 1;
         }
