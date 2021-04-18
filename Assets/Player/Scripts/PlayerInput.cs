@@ -56,7 +56,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""id"": ""e534ce3d-9846-4da7-acb4-b4da7ddb7717"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Switch Projectile (Debug)"",
@@ -137,7 +137,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f4135ac3-5fca-4a0b-a9a7-23f5a050f371"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

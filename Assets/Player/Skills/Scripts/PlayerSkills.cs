@@ -41,30 +41,30 @@ public class PlayerSkills : MonoBehaviour
     public int PlayerId = 1;
 
     [Header("============= Damage Spell =============")]
-    public Texture fireballIcon;
-    public Texture summonArrowsIcon;
-    public Texture lightningIcon;
-    public Texture poisonousFumesIcon;
+    public Sprite fireballIcon;
+    public Sprite summonArrowsIcon;
+    public Sprite lightningIcon;
+    public Sprite poisonousFumesIcon;
 
     [Header("============= Power =============")]
-    public Texture warcryIcon;
-    public Texture metallicizeIcon;
-    public Texture berserkIcon;
-    public Texture feelNoPainIcon;
-    public Texture rushdownIcon;
-    public Texture offeringIcon;
-    public Texture healingWaveIcon;
+    public Sprite warcryIcon;
+    public Sprite metallicizeIcon;
+    public Sprite berserkIcon;
+    public Sprite feelNoPainIcon;
+    public Sprite rushdownIcon;
+    public Sprite offeringIcon;
+    public Sprite healingWaveIcon;
 
     [Header("============= Stamina Skill =============")]
-    public Texture sprintIcon;
-    public Texture rollIcon;
-    public Texture invisibilityIcon;
+    public Sprite sprintIcon;
+    public Sprite rollIcon;
+    public Sprite invisibilityIcon;
 
     [Header("============= Ability =============")]
-    public Texture crescendoIcon;
-    public Texture riposteIcon;
-    public Texture lockedTalentIcon;
-    public Texture cursedBloodIcon;
+    public Sprite crescendoIcon;
+    public Sprite riposteIcon;
+    public Sprite lockedTalentIcon;
+    public Sprite cursedBloodIcon;
 
     private static ProjectileShooting proj;
     void Start()
@@ -261,7 +261,7 @@ public class PlayerSkills : MonoBehaviour
         public int skillLevel;
         public string description;
         public bool inCrescendo = false;
-        public Texture icon;
+        public Sprite icon;
         public virtual float energyCost { get; set; }
         public virtual void StartSkill()
         {
