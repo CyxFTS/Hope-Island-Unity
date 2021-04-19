@@ -90,10 +90,6 @@ public class PlayerController : MonoBehaviour
         //HP = stats.HP.GetCalculatedStatValue();
         //strength = stats.strength.GetCalculatedStatValue();
         //defense = stats.defense.GetCalculatedStatValue();
-        anim = GetComponentInChildren<Animator>();
-        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
-        sword = GetComponentInChildren<Sword>();
-        sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
         //energySkill1 = skills.lightning;
         //energySkill2 = skills.warcry;
@@ -101,6 +97,10 @@ public class PlayerController : MonoBehaviour
 
         LoadPlayerSaveData();
         ApplyPlayerSelection();
+        anim = GetComponentInChildren<Animator>();
+        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
+        sword = GetComponentInChildren<Sword>();
+        sword.Damage = 10;
         loaded = true;
     }
 
