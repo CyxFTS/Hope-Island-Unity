@@ -31,6 +31,7 @@ public class Level3Bossball : MonoBehaviour
     public int runSpeed;
     public int walkSpeed;
     public int enemyHealth;
+    public float[] probability;
 
 
     int waypoints_index;
@@ -181,9 +182,12 @@ public class Level3Bossball : MonoBehaviour
         this.gameObject.SetActive(false);
         Vector3 itemLocation = this.transform.position;
         for(int i=0;i<objs.Length;i++){
-            Vector3 randomItemLocation = itemLocation;
-            randomItemLocation += new Vector3(Random.Range(-2,3),0.2f,Random.Range(-2,2));
-            Instantiate(objs[i],randomItemLocation,objs[i].transform.rotation);
+            float prob = Random.Range(0,1);
+            if(prob<probability[i]){
+                Vector3 randomItemLocation = itemLocation;
+                randomItemLocation += new Vector3(Random.Range(-2,3),0.2f,Random.Range(-2,2));
+                Instantiate(objs[i],randomItemLocation,objs[i].transform.rotation);
+            }
         }
         generateBoss.SendMessage("reduceNum");
         
