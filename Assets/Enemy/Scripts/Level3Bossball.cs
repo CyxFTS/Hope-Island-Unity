@@ -98,6 +98,7 @@ public class Level3Bossball : MonoBehaviour
     void statechange()
     {
         NMA.isStopped = false;
+        
         if (nowstate == 0)//Cruise State
         {
             NMA.stoppingDistance = 0;
