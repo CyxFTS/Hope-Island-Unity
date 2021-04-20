@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerSkills.BaseSkill energySkill1, energySkill2, staminaSkill;
     public int CrescendoCnt = 0;
+    public bool loaded = false;
     
     private void Awake()
     {
@@ -89,10 +90,6 @@ public class PlayerController : MonoBehaviour
         //HP = stats.HP.GetCalculatedStatValue();
         //strength = stats.strength.GetCalculatedStatValue();
         //defense = stats.defense.GetCalculatedStatValue();
-        anim = GetComponentInChildren<Animator>();
-        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
-        sword = GetComponentInChildren<Sword>();
-        sword.Damage = 10;
         audioSource = GetComponent<AudioSource>();
         //energySkill1 = skills.lightning;
         //energySkill2 = skills.warcry;
@@ -100,6 +97,11 @@ public class PlayerController : MonoBehaviour
 
         LoadPlayerSaveData();
         ApplyPlayerSelection();
+        anim = GetComponentInChildren<Animator>();
+        animEvent = GetComponentInChildren<PlayerAnimateEvent>();
+        sword = GetComponentInChildren<Sword>();
+        sword.Damage = 10;
+        loaded = true;
     }
 
     // Update is called once per frame
@@ -111,7 +113,7 @@ public class PlayerController : MonoBehaviour
         sword.Damage = stats.strength.GetCalculatedStatValue();
         StartAttack();
 
-        staminaSkill = skills.invisibility;
+        //staminaSkill = skills.invisibility;
         StaminaSkill();
 
         if (stats.Stamina.GetCalculatedStatValue() < stats.Stamina.BaseValue)
@@ -120,7 +122,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //energySkill1 = skills.lightning;
-        energySkill2 = skills.warcry;
+        //energySkill2 = skills.warcry;
         EnergySkills();
         CheckHP();
     }
@@ -515,7 +517,7 @@ public class PlayerController : MonoBehaviour
         string e1 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
         int e1Lv = ES3.Load("energySkill1.skillLevel", 0);
 
-        string e2 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
+        string e2 = (string)ES3.Load("energySkill2.description", defaultValue: defaultSkill);
         int e2Lv = ES3.Load("energySkill2.skillLevel", 0);
 
         string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Sprint");
@@ -536,13 +538,13 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log(skills.warcry.skillLevel);
                 //Debug.Log(p.GetType().GetProperty("description").GetValue(p));
             }
-            if (name == e2)
+            else if (name == e2)
             {
                 var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
                 energySkill2 = p;
                 energySkill2.skillLevel = e2Lv;
             }
-            if (name == s)
+            else if (name == s)
             {
                 var p = (PlayerSkills.BaseSkill)prop.GetValue(skills);
                 staminaSkill = p;

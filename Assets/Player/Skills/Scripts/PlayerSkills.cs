@@ -41,30 +41,45 @@ public class PlayerSkills : MonoBehaviour
     public int PlayerId = 1;
 
     [Header("============= Damage Spell =============")]
-    public Texture fireballIcon;
-    public Texture summonArrowsIcon;
-    public Texture lightningIcon;
-    public Texture poisonousFumesIcon;
+    public Sprite fireballIcon;
+    public Sprite summonArrowsIcon;
+    public Sprite lightningIcon;
+    public Sprite poisonousFumesIcon;
 
     [Header("============= Power =============")]
-    public Texture warcryIcon;
-    public Texture metallicizeIcon;
-    public Texture berserkIcon;
-    public Texture feelNoPainIcon;
-    public Texture rushdownIcon;
-    public Texture offeringIcon;
-    public Texture healingWaveIcon;
+    public Sprite warcryIcon;
+    public Sprite metallicizeIcon;
+    public Sprite berserkIcon;
+    public Sprite feelNoPainIcon;
+    public Sprite rushdownIcon;
+    public Sprite offeringIcon;
+    public Sprite healingWaveIcon;
 
     [Header("============= Stamina Skill =============")]
-    public Texture sprintIcon;
-    public Texture rollIcon;
-    public Texture invisibilityIcon;
+    public Sprite sprintIcon;
+    public Sprite rollIcon;
+    public Sprite invisibilityIcon;
 
     [Header("============= Ability =============")]
-    public Texture crescendoIcon;
-    public Texture riposteIcon;
-    public Texture lockedTalentIcon;
-    public Texture cursedBloodIcon;
+    public Sprite crescendoIcon;
+    public Sprite riposteIcon;
+    public Sprite lockedTalentIcon;
+    public Sprite cursedBloodIcon;
+
+    [Header("============= Power =============")]
+    public GameObject warcryAura;
+    public GameObject metallicizeAura;
+    public GameObject berserkAura;
+    public GameObject feelNoPainAura;
+    public GameObject rushdownAura;
+    public GameObject offeringAura;
+    public GameObject healingWaveAura;
+
+    [Header("============= Ability =============")]
+    public GameObject crescendoAura;
+    public GameObject riposteAura;
+    public GameObject lockedTalentAura;
+    public GameObject cursedBloodAura;
 
     private static ProjectileShooting proj;
     void Start()
@@ -126,17 +141,20 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StrengthMod(berserk.GetStrengthUpMod() / 100f, berserk.duration));
             StartCoroutine(controller.SpeedMod(berserk.GetSpeedUpMod() / 100f, berserk.duration));
             StartCoroutine(controller.HPMod(-berserk.GetHpLostPerSec(), berserk.duration));
+            StartCoroutine(SetAura(berserkAura, berserk.duration));
             berserk.flag = false;
         }
         if (feelNoPain.flag)
         {
             StartCoroutine(controller.DefenseMod(feelNoPain.GetDefenseUpMod() / 100f, feelNoPain.duration));
+            StartCoroutine(SetAura(feelNoPainAura, feelNoPain.duration));
             feelNoPain.flag = false;
         }
         if (rushdown.flag)
         {
             //StartCoroutine(controller.SpeedMod(rushdown.GetSpeedUpMod() / 100f, rushdown.GetSpeedUpDuration()));
             StartCoroutine(rushdown.StartRushDown(rushdown.duration));
+            StartCoroutine(SetAura(rushdownAura, rushdown.duration));
             rushdown.flag = false;
         }
         if (offering.flag)
@@ -144,12 +162,14 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.EnergyRechargeMod(offering.GetRechargeMod() / 100f, offering.duration));
             StartCoroutine(controller.StrengthMod(offering.GetStrengthUpMod() / 100f, offering.duration));
             StartCoroutine(controller.HPMod(-offering.GetHpLostPerSec(), offering.duration));
+            StartCoroutine(SetAura(offeringAura, offering.duration));
             offering.flag = false;
         }
         if (healingWave.flag)
         {
             StartCoroutine(controller.HPMod(healingWave.GetHpRecoveryMod() , healingWave.duration));
             StartCoroutine(controller.StrengthMod(healingWave.GetStrengthUpMod() / 100f, healingWave.duration));
+            StartCoroutine(SetAura(healingWaveAura, healingWave.duration));
             healingWave.flag = false;
         }
         if (controller.staminaSkill.description == "Crescendo")
@@ -160,15 +180,22 @@ public class PlayerSkills : MonoBehaviour
                 crescendo.Consume();
                 controller.energySkill1.inCrescendo = true;
                 controller.energySkill2.inCrescendo = true;
+                StartAura(crescendoAura);
+            }
+            if(controller.energySkill1.inCrescendo && controller.energySkill2.inCrescendo)
+            {
+                EndAura(crescendoAura);
             }
         }
         if (controller.staminaSkill.description == "Locked Talent")
         {
             lockedTalent.CheckUnlock();
+            lockedTalentAura.GetComponent<FrontAttack>().playMeshEffect = true;
         }
         if (controller.staminaSkill.description == "Cursed Blood")
         {
             cursedBlood.Check();
+            StartAura(cursedBloodAura);
         }
     }
     private IEnumerator ChangeRim(Color c, float duration)
@@ -186,28 +213,9 @@ public class PlayerSkills : MonoBehaviour
     Material headTemp;
     private IEnumerator SetTransperency(float duration)
     {
-        bodyTemp = BodyMat[2];
-        body.materials[1].shader = Invis.shader;
-        body.materials[1].CopyPropertiesFromMaterial(Invis);
-
-        clothTemp = cloth.material;
-        cloth.material = Invis;
-
-        hairTemp = hair.material;
-        hair.material = Invis;
-
-        headTemp = head.material;
-        head.material = Invis;
+        StartTransperency();
         yield return new WaitForSeconds(duration);
-
-        body.materials[1].shader = bodyTemp.shader;
-        body.materials[1].CopyPropertiesFromMaterial(bodyTemp);
-
-        cloth.material = clothTemp;
-
-        hair.material = hairTemp;
-
-        head.material = headTemp;
+        EndTransperency();
     }
     public void StartTransperency()
     {
@@ -235,6 +243,20 @@ public class PlayerSkills : MonoBehaviour
 
         head.material = headTemp;
     }
+    public IEnumerator SetAura(GameObject Aura, float duration)
+    {
+        StartAura(Aura);
+        yield return new WaitForSeconds(duration);
+        EndAura(Aura);
+    }
+    public void StartAura(GameObject Aura)
+    {
+        Aura.SetActive(true);
+    }
+    public void EndAura(GameObject Aura)
+    {
+        Aura.SetActive(false);
+    }
     public enum SkillType
     {
         Basic,
@@ -261,7 +283,7 @@ public class PlayerSkills : MonoBehaviour
         public int skillLevel;
         public string description;
         public bool inCrescendo = false;
-        public Texture icon;
+        public Sprite icon;
         public virtual float energyCost { get; set; }
         public virtual void StartSkill()
         {
@@ -451,9 +473,32 @@ public class PlayerSkills : MonoBehaviour
         {
             return duration;
         }
+        public void CheckCrescendo()
+        {
+            if (inCrescendo)
+            {
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] *= 1.5f;
+                }
+            }
+        }
+        public void RemoveCrescendo()
+        {
+            if (inCrescendo)
+            {
+                inCrescendo = false;
+                for (int i = 0; i < mod.Count; i++)
+                {
+                    mod[i] /= 1.5f;
+                }
+            }
+        }
         public override void StartSkill()
         {
+            CheckCrescendo();
             flag = true;
+            RemoveCrescendo();
         }
     }
 
