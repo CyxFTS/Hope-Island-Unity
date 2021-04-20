@@ -197,6 +197,10 @@ public class PlayerSkills : MonoBehaviour
             cursedBlood.Check();
             StartAura(cursedBloodAura);
         }
+        else
+        {
+            EndAura(cursedBloodAura);
+        }
     }
     private IEnumerator ChangeRim(Color c, float duration)
     {
