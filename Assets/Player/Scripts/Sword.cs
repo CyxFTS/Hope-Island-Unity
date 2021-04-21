@@ -18,7 +18,7 @@ public class Sword : MonoBehaviour
     private AudioSource audioSource;
 
     public AudioClip swordHit;
-    public float energyCharge = 2f;
+    public float energyCharge = 5f;
     // Start is called before the first frame update
     void Start()
     {
