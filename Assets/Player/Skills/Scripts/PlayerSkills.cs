@@ -126,6 +126,7 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StrengthMod(warcry.GetStrengthUpMod() / 100f, warcry.duration));
             StartCoroutine(ChangeRim(Color.red, warcry.duration));
             //StartCoroutine(SetTransperency(warcry.duration));
+            CostPlayerEnergy(warcry);
             warcry.flag = false;
         }
         if (metallicize.flag)
@@ -134,6 +135,7 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StartInvincible(metallicize.duration));
             StartCoroutine(controller.SpeedMod(-metallicize.GetSpeedDownMod() / 100f, metallicize.GetSpeedDownTime()));
             StartCoroutine(ChangeRim(Color.white, metallicize.duration));
+            CostPlayerEnergy(metallicize);
             metallicize.flag = false;
         }
         if (berserk.flag)
@@ -142,12 +144,14 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.SpeedMod(berserk.GetSpeedUpMod() / 100f, berserk.duration));
             StartCoroutine(controller.HPMod(-berserk.GetHpLostPerSec(), berserk.duration));
             StartCoroutine(SetAura(berserkAura, berserk.duration));
+            CostPlayerEnergy(berserk);
             berserk.flag = false;
         }
         if (feelNoPain.flag)
         {
             StartCoroutine(controller.DefenseMod(feelNoPain.GetDefenseUpMod() / 100f, feelNoPain.duration));
             StartCoroutine(SetAura(feelNoPainAura, feelNoPain.duration));
+            CostPlayerEnergy(feelNoPain);
             feelNoPain.flag = false;
         }
         if (rushdown.flag)
@@ -155,6 +159,7 @@ public class PlayerSkills : MonoBehaviour
             //StartCoroutine(controller.SpeedMod(rushdown.GetSpeedUpMod() / 100f, rushdown.GetSpeedUpDuration()));
             StartCoroutine(rushdown.StartRushDown(rushdown.duration));
             StartCoroutine(SetAura(rushdownAura, rushdown.duration));
+            CostPlayerEnergy(rushdown);
             rushdown.flag = false;
         }
         if (offering.flag)
@@ -163,13 +168,15 @@ public class PlayerSkills : MonoBehaviour
             StartCoroutine(controller.StrengthMod(offering.GetStrengthUpMod() / 100f, offering.duration));
             StartCoroutine(controller.HPMod(-offering.GetHpLostPerSec(), offering.duration));
             StartCoroutine(SetAura(offeringAura, offering.duration));
+            CostPlayerEnergy(offering);
             offering.flag = false;
         }
         if (healingWave.flag)
         {
-            StartCoroutine(controller.HPMod(healingWave.GetHpRecoveryMod() , healingWave.duration));
+            StartCoroutine(controller.HPMod(healingWave.GetHpRecoveryMod() , 0.1f));
             StartCoroutine(controller.StrengthMod(healingWave.GetStrengthUpMod() / 100f, healingWave.duration));
             StartCoroutine(SetAura(healingWaveAura, healingWave.duration));
+            CostPlayerEnergy(healingWave);
             healingWave.flag = false;
         }
         if (controller.staminaSkill.description == "Crescendo")
@@ -182,7 +189,7 @@ public class PlayerSkills : MonoBehaviour
                 controller.energySkill2.inCrescendo = true;
                 StartAura(crescendoAura);
             }
-            if(controller.energySkill1.inCrescendo && controller.energySkill2.inCrescendo)
+            if(!controller.energySkill1.inCrescendo || !controller.energySkill2.inCrescendo)
             {
                 EndAura(crescendoAura);
             }
@@ -260,6 +267,15 @@ public class PlayerSkills : MonoBehaviour
     public void EndAura(GameObject Aura)
     {
         Aura.SetActive(false);
+    }
+    bool CostPlayerEnergy(BaseSkill skill)
+    {
+        if (controller.stats.Energy.GetCalculatedStatValue() >= skill.energyCost)
+        {
+            StartCoroutine(controller.EnergyMod(-skill.energyCost, 0.1f));
+            return true;
+        }
+        return false;
     }
     public enum SkillType
     {
@@ -373,7 +389,10 @@ public class PlayerSkills : MonoBehaviour
         {
             CheckCrescendo();
             proj.currSkill = this;
-            controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
+            if(controller.input.PlayerMain.EnergySkill1.triggered)
+                controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
+            if (controller.input.PlayerMain.EnergySkill2.triggered)
+                controller.SetStartShooting(controller.input.PlayerMain.EnergySkill2.triggered);
             RemoveCrescendo();
         }
 
@@ -428,7 +447,7 @@ public class PlayerSkills : MonoBehaviour
             mod.Add(60f); mod.Add(65f); mod.Add(70f);
             type = (int)SkillType.Basic;
             damageType = (int)DamageType.Electro;
-            energyCost = 0;
+            energyCost = 30;
             skillLevel = 0;
             description = "Lightning";
         }
@@ -701,7 +720,7 @@ public class PlayerSkills : MonoBehaviour
             mod = new List<float>();
             mod.Add(30f); mod.Add(35f); mod.Add(40f);
             type = (int)SkillType.Buff;
-            energyCost = 120;
+            energyCost = 100;
             skillLevel = 0;
             duration = 10f;
             description = "Healing Wave";
@@ -717,7 +736,7 @@ public class PlayerSkills : MonoBehaviour
     }
     public class Crescendo : BaseSkill
     {
-        private const int maxLvl = 3;
+        private const int maxLvl = 2;
         private int curLvl = 0;
         public Crescendo()
         {

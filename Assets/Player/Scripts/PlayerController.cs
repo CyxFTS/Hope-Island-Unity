@@ -517,10 +517,10 @@ public class PlayerController : MonoBehaviour
         string e1 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
         int e1Lv = ES3.Load("energySkill1.skillLevel", 0);
 
-        string e2 = (string)ES3.Load("energySkill2.description", defaultValue: defaultSkill);
+        string e2 = (string)ES3.Load("energySkill2.description", defaultValue: "Lightning");
         int e2Lv = ES3.Load("energySkill2.skillLevel", 0);
 
-        string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Sprint");
+        string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Invisibility");
         int sLv = ES3.Load("staminaSkill.skillLevel", 0);
 
         skills.PlayerId = ES3.Load("PlayerId", 1);
