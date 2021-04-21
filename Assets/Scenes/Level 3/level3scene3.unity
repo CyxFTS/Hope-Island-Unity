@@ -12532,13 +12532,17 @@ PrefabInstance:
       objectReference: {fileID: 617240418734116071}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: objs.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: objs.Array.data[0]
       value: 
       objectReference: {fileID: 1280056767771472, guid: e53cd9b7f6ac44f3ebe9af3f0f302b4f,
         type: 3}
+    - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
+      propertyPath: objs.Array.data[1]
+      value: 
+      objectReference: {fileID: 617240418734116071}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: waypoints.Array.size
       value: 2
@@ -31760,6 +31764,12 @@ PrefabInstance:
       objectReference: {fileID: 1023819532}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 327f9ed039b8e8441b254c748b5abcc4, type: 3}
+--- !u!1 &974349231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1474163171669292, guid: bfae7327e4df15044b904044e848594b,
+    type: 3}
+  m_PrefabInstance: {fileID: 986956758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &974502380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68521,7 +68531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240417770437906}
-  player: {fileID: 1757187216}
+  player: {fileID: 1042843549}
   topmargin: 85
 --- !u!114 &158053098547974538
 MonoBehaviour:
@@ -68536,7 +68546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240418767170212}
-  player: {fileID: 1087039412}
+  player: {fileID: 1757187216}
   topmargin: 85
 --- !u!114 &158053098581030857
 MonoBehaviour:
@@ -68551,7 +68561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240418734116071}
-  player: {fileID: 1336208259}
+  player: {fileID: 1087039412}
   topmargin: 85
 --- !u!114 &158053098839884914
 MonoBehaviour:
@@ -68566,7 +68576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240418458484572}
-  player: {fileID: 1042843549}
+  player: {fileID: 1362831648}
   topmargin: 85
 --- !u!114 &158053098866121029
 MonoBehaviour:
@@ -68581,7 +68591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240418449089131}
-  player: {fileID: 1362831648}
+  player: {fileID: 974349231}
   topmargin: 85
 --- !u!114 &158053099610372583
 MonoBehaviour:
@@ -68596,7 +68606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 617240417713750729}
-  player: {fileID: 1280891700}
+  player: {fileID: 1336208259}
   topmargin: 85
 --- !u!1 &305416266880811388
 GameObject:
@@ -83006,7 +83016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: enemyHealth
-      value: 75
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: healthSlider
@@ -83219,7 +83229,7 @@ PrefabInstance:
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
       propertyPath: enemyHealth
-      value: 60
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
@@ -83483,7 +83493,7 @@ PrefabInstance:
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
       propertyPath: enemyHealth
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
@@ -83623,7 +83633,7 @@ PrefabInstance:
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
       propertyPath: enemyHealth
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
@@ -83712,7 +83722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: enemyHealth
-      value: 75
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 312186895, guid: bfae7327e4df15044b904044e848594b, type: 3}
       propertyPath: healthSlider
@@ -84426,7 +84436,7 @@ PrefabInstance:
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
       propertyPath: enemyHealth
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8963301623634383749, guid: 327f9ed039b8e8441b254c748b5abcc4,
         type: 3}
@@ -89125,7 +89135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063548090798979}
-  player: {fileID: 0}
+  player: {fileID: 1984519414}
   topmargin: 85
 --- !u!114 &6907842054001770486
 MonoBehaviour:
@@ -89140,7 +89150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063548303918296}
-  player: {fileID: 1984519414}
+  player: {fileID: 1214572609}
   topmargin: 85
 --- !u!114 &6907842054587646801
 MonoBehaviour:
@@ -89155,7 +89165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063546635384959}
-  player: {fileID: 1214572609}
+  player: {fileID: 1359783431}
   topmargin: 85
 --- !u!114 &6907842054746039298
 MonoBehaviour:
@@ -89185,7 +89195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063547514309128}
-  player: {fileID: 366934708}
+  player: {fileID: 1280891700}
   topmargin: 85
 --- !u!114 &6907842054848852681
 MonoBehaviour:
@@ -89200,7 +89210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063547473545703}
-  player: {fileID: 761409341}
+  player: {fileID: 366934708}
   topmargin: 85
 --- !u!114 &6907842055063443992
 MonoBehaviour:
@@ -89215,7 +89225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6160063547250630966}
-  player: {fileID: 1359783431}
+  player: {fileID: 761409341}
   topmargin: 85
 --- !u!114 &6907842055318893526
 MonoBehaviour:
