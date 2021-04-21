@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         sword.Damage = stats.strength.GetCalculatedStatValue();
+        sword.energyCharge = 5f * stats.EnergyRecharge.GetCalculatedStatValue();
         StartAttack();
 
         //staminaSkill = skills.invisibility;
@@ -199,9 +200,9 @@ public class PlayerController : MonoBehaviour
             //Idle
             Idle();
         }
-
+        
         moveDirection *= moveSpeed;
-
+        moveDirection *= (stats.movementSpeed.GetCalculatedStatValue() / 100f);
         controller.Move(moveDirection * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
