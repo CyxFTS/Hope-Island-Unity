@@ -11,19 +11,19 @@ public class CharacterSelection : MonoBehaviour
     
     public void SelectCharacterOne()
     {
-        player.GetComponent<PlayerSkills>().PlayerId = 1;
+        player.GetComponent<PlayerSkills>().PlayerId = 2;
         LoadNextScene();
     }
     
     public void SelectCharacterTwo()
     {
-        player.GetComponent<PlayerSkills>().PlayerId = 2;
+        player.GetComponent<PlayerSkills>().PlayerId = 0;
         LoadNextScene();
     }
     
     public void SelectCharacterThree()
     {
-        player.GetComponent<PlayerSkills>().PlayerId = 3;
+        player.GetComponent<PlayerSkills>().PlayerId = 1;
         LoadNextScene();
     }
 
