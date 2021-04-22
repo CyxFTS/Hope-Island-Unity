@@ -8,35 +8,31 @@ using Random = System.Random;
 public class CharacterSelection : MonoBehaviour
 {
     public GameObject player;
-
+    public GameObject characterSelection;
+    public GameObject skillSelection;
+    
     public void SelectCharacterOne() // Vincent
     {
         player.GetComponent<PlayerSkills>().PlayerId = 2;
         GetSkills();
-        LoadNextScene();
+        characterSelection.SetActive(false);
+        skillSelection.SetActive(true);
     }
     
     public void SelectCharacterTwo() // Charlotte
     {
         player.GetComponent<PlayerSkills>().PlayerId = 0;
         GetSkills();
-        LoadNextScene();
+        characterSelection.SetActive(false);
+        skillSelection.SetActive(true);
     }
     
     public void SelectCharacterThree() // Marc
     {
         player.GetComponent<PlayerSkills>().PlayerId = 1;
         GetSkills();
-        LoadNextScene();
-    }
-
-    private void LoadNextScene()
-    {
-        var random = new System.Random();
-        var randomScene = random.Next(1, 5);
-        var sceneToLoad = "level1scene1-" + randomScene;
-        player.GetComponent<PlayerController>().SavePlayerSaveData();
-        SceneManager.LoadScene(sceneToLoad);
+        characterSelection.SetActive(false);
+        skillSelection.SetActive(true);
     }
 
     private void GetSkills()
