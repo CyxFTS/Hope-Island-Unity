@@ -519,6 +519,8 @@ public class PlayerSkills : MonoBehaviour
         }
         public override void StartSkill()
         {
+            if (controller.stats.Energy.GetCalculatedStatValue() < energyCost)
+                return;
             CheckCrescendo();
             flag = true;
             RemoveCrescendo();
