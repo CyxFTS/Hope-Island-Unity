@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 5993926418212918276}
   m_Layer: 0
   m_Name: 'Level3Boss(remoteball) '
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -496,9 +496,13 @@ MonoBehaviour:
   NMA: {fileID: 3651839303420009529}
   player: {fileID: 0}
   waypoints: []
-  objs: []
+  objs:
+  - {fileID: 1999239547283070, guid: d027d4bce170c4abf8619a7d7980440e, type: 3}
+  - {fileID: 1280056767771472, guid: e53cd9b7f6ac44f3ebe9af3f0f302b4f, type: 3}
+  - {fileID: 1021588353636906, guid: f75e1608d9f1e4f06a5027de3c813b5d, type: 3}
   healthSlider: {fileID: 0}
   remoteObjct: {fileID: 0}
+  generateBoss: {fileID: 0}
   ChasingDistance: 15
   chaseAngle: 303
   AttackDistance: 0
@@ -506,6 +510,10 @@ MonoBehaviour:
   runSpeed: 3
   walkSpeed: 1
   enemyHealth: 50
+  probability:
+  - 0.8
+  - 0.5
+  - 0.3
 --- !u!1 &7120662052924763017
 GameObject:
   m_ObjectHideFlags: 0

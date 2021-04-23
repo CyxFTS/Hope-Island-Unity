@@ -16,6 +16,11 @@ public class PlayerSlider : MonoBehaviour
     public GameObject player;
     private PlayerController controller;
     bool loadSkillIcon = true;
+    public Sprite Vincent;
+    public Sprite Marc;
+    public Sprite Char;
+
+    public GameObject PlayerIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +40,18 @@ public class PlayerSlider : MonoBehaviour
             energyButton2.GetComponent<Image>().sprite = controller.energySkill2.icon;
             staminaButton.GetComponent<Image>().sprite = controller.staminaSkill.icon;
             loadSkillIcon = false;
+            if (player.GetComponentInChildren<PlayerSkills>().PlayerId == 0)
+            {
+                PlayerIcon.GetComponent<Image>().sprite = Char;
+            }
+            if (player.GetComponentInChildren<PlayerSkills>().PlayerId == 1)
+            {
+                PlayerIcon.GetComponent<Image>().sprite = Marc;
+            }
+            if (player.GetComponentInChildren<PlayerSkills>().PlayerId == 2)
+            {
+                PlayerIcon.GetComponent<Image>().sprite = Vincent;
+            }
         }
         healthSlider.GetComponent<Slider>().value = (float)controller.stats.HP.GetCalculatedStatValue() / controller.stats.HP.BaseValue;
         energySlider.GetComponent<Slider>().value = (float)controller.stats.Energy.GetCalculatedStatValue() / controller.stats.Energy.BaseValue;
