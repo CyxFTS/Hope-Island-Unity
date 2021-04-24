@@ -629,7 +629,7 @@ public class PlayerSkills : MonoBehaviour
             energyCost = 50;
             skillLevel = 0;
             duration = 10f;
-            description = "FeelNoPain";
+            description = "Feel No Pain";
         }
         public float GetDefenseUpMod()
         {

@@ -46,7 +46,7 @@ public class SkillSelection : MonoBehaviour
         if (_newSkill.description == "Fireball" || _newSkill.description == "Summon Arrows" ||
             _newSkill.description == "Lightning" || _newSkill.description == "Poisonous Fumes" ||
             _newSkill.description == "Warcry" || _newSkill.description == "Metallicize" ||
-            _newSkill.description == "Berserk" || _newSkill.description == "FeelNoPain" ||
+            _newSkill.description == "Berserk" || _newSkill.description == "Feel No Pain" ||
             _newSkill.description == "Rushdown" || _newSkill.description == "Offering" ||
             _newSkill.description == "Healing Wave") // switch energy skill
         {
@@ -93,7 +93,9 @@ public class SkillSelection : MonoBehaviour
                 {
                     newSkill = GetCharlotteStaminaSkill();
                     while (newSkill.description == player.GetComponent<PlayerController>().staminaSkill.description)
+                    {
                         newSkill = GetCharlotteStaminaSkill();
+                    }
                 }
 
                 break;
@@ -111,7 +113,9 @@ public class SkillSelection : MonoBehaviour
                 {
                     newSkill = GetMarcStaminaSkill();
                     while (newSkill.description == player.GetComponent<PlayerController>().staminaSkill.description)
+                    {
                         newSkill = GetMarcStaminaSkill();
+                    }
                 }
                 break;
             case 2:
@@ -128,7 +132,9 @@ public class SkillSelection : MonoBehaviour
                 {
                     newSkill = GetVincentStaminaSkill();
                     while (newSkill.description == player.GetComponent<PlayerController>().staminaSkill.description)
+                    {
                         newSkill = GetVincentStaminaSkill();
+                    }
                 }
                 break;
         }
@@ -172,7 +178,7 @@ public class SkillSelection : MonoBehaviour
     {
         PlayerSkills.BaseSkill skill = player.GetComponent<PlayerSkills>().fireball;
         var random = new System.Random();
-        var skillID = random.Next(0, 7);
+        var skillID = random.Next(0, 3);
         switch (skillID)
         {
             case 0:

@@ -2428,6 +2428,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 735259e1379a0c34e96e1144938f1955, type: 3}
+--- !u!1 &184892601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8821545615489873825, guid: 735259e1379a0c34e96e1144938f1955,
+    type: 3}
+  m_PrefabInstance: {fileID: 184892600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &184892602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8821545615489873824, guid: 735259e1379a0c34e96e1144938f1955,
@@ -3606,6 +3612,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: level1scene1-1
   player: {fileID: 1284376090}
+  upgradeSkill: 0
+  skillSelector: {fileID: 0}
   selectCharacter: 1
   characterSelector: {fileID: 1458862383}
 --- !u!1001 &327562379
@@ -14194,7 +14202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ba7bda5960c6e408ee37aea849a047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneTransition: {fileID: 307694901}
+  sceneTransition: {fileID: 184892601}
 --- !u!4 &1225090793
 Transform:
   m_ObjectHideFlags: 0

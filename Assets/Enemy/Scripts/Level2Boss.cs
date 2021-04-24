@@ -92,7 +92,7 @@ public class Level2Boss : MonoBehaviour
     void statechange()
     {
         NMA.isStopped = false;
-        print("change the state!!!!! "+ anim.GetInteger("State"));
+        //print("change the state!!!!! "+ anim.GetInteger("State"));
         if (nowstate == 0)//Cruise State
         {
             NMA.stoppingDistance = 0;
@@ -144,7 +144,7 @@ public class Level2Boss : MonoBehaviour
         enemyHealth -= damage;
         healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
         anim.SetInteger("State", 5);
-        Debug.Log(damage);
+        //Debug.Log(damage);
     }
     
     public void finishDamage()

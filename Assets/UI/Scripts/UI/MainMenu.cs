@@ -6,14 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-
-    public Button[] buttons;
-
     public void PlayMainGameLevelZero()
     {
         SceneManager.LoadScene("level0scene1");
     }
 
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("newStart");
+    }
+    
     public void QuitGame()
     {
         Application.Quit();
