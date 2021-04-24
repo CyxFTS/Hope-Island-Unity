@@ -46,7 +46,7 @@ public class SkillSelection : MonoBehaviour
         if (_newSkill.description == "Fireball" || _newSkill.description == "Summon Arrows" ||
             _newSkill.description == "Lightning" || _newSkill.description == "Poisonous Fumes" ||
             _newSkill.description == "Warcry" || _newSkill.description == "Metallicize" ||
-            _newSkill.description == "Berserk" || _newSkill.description == "FeelNoPain" ||
+            _newSkill.description == "Berserk" || _newSkill.description == "Feel No Pain" ||
             _newSkill.description == "Rushdown" || _newSkill.description == "Offering" ||
             _newSkill.description == "Healing Wave") // switch energy skill
         {
