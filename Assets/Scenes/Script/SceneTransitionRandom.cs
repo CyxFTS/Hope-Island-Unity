@@ -24,6 +24,11 @@ public class SceneTransitionRandom : MonoBehaviour
                 randomScene = random.Next(1, 3);
                 sceneToLoad = "level" + nextLevel + "scene3-" + randomScene;
             }
+            else if (nextLevel == 3)
+            {
+                randomScene = random.Next(1, 3);
+                sceneToLoad = "level" + nextLevel + "scene2-" + randomScene;
+            }
             else
             {
                 randomScene = random.Next(1, 5);
