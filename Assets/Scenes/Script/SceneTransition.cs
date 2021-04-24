@@ -8,7 +8,9 @@ public class SceneTransition : MonoBehaviour
 {
     public string sceneToLoad;
     public GameObject player;
-    public Boolean selectCharacter;
+    public bool upgradeSkill;
+    public GameObject skillSelector;
+    public bool selectCharacter;
     public GameObject characterSelector;
 
     public void OnTriggerEnter(Collider other)
@@ -18,6 +20,10 @@ public class SceneTransition : MonoBehaviour
             if (selectCharacter)
             {
                 characterSelector.SetActive(true);
+            }
+            else if (upgradeSkill)
+            {
+                skillSelector.SetActive(true);
             }
             else
             {
