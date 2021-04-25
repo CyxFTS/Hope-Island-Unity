@@ -78,7 +78,7 @@ public class Projectile : MonoBehaviour
             if (other.GetComponent<Level2Boss>())
                 other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
             if (other.GetComponent<Level3Boss>())
-                other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2;
+                other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
 
             yield return new WaitForSeconds(interv);
         }
