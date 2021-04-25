@@ -46,7 +46,12 @@ public class Projectile : MonoBehaviour
             AttackedEnemies.Add(other.GetInstanceID());
             if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
             {
-                other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                if (other.GetComponent<Level1Boss>())
+                    other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                if (other.GetComponent<Level2Boss>())
+                    other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                if (other.GetComponent<Level3Boss>())
+                    other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
                 Col(other);
             }
             else if (currSkill.type == (int)PlayerSkills.SkillType.Dot)
@@ -66,7 +71,15 @@ public class Projectile : MonoBehaviour
         int t = (int)(duration / interv);
         while(t-- > 0)
         {
-            other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+            if (other.tag == "Enemy")
+                other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+            if (other.GetComponent<Level1Boss>())
+                other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+            if (other.GetComponent<Level2Boss>())
+                other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+            if (other.GetComponent<Level3Boss>())
+                other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2;
+
             yield return new WaitForSeconds(interv);
         }
         int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
