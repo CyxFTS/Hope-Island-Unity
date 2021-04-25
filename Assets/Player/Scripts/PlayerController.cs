@@ -406,7 +406,8 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while(t < duration)
         {
-            stats.HP.AddStatBonus(b);
+            if(stats.HP.GetCalculatedStatValue() < stats.HP.BaseValue)
+                stats.HP.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
         }
