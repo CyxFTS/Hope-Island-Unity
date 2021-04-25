@@ -617,6 +617,8 @@ GameObject:
   - component: {fileID: 421355585}
   - component: {fileID: 421355587}
   - component: {fileID: 421355586}
+  - component: {fileID: 421355589}
+  - component: {fileID: 421355588}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -682,6 +684,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421355584}
   m_CullTransparentMesh: 0
+--- !u!114 &421355588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421355584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514cea4b855e94e77a70c59ae9a47097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panels:
+  - {fileID: 8629282126538151108}
+  - {fileID: 8629282126718973815}
+  - {fileID: 1211646314}
+  dialogs:
+  - {fileID: 573865149}
+  - {fileID: 1875853818}
+--- !u!114 &421355589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421355584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 421355588}
+          m_MethodName: ClickEvent3
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &573865149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +1951,8 @@ GameObject:
   - component: {fileID: 1587726420}
   - component: {fileID: 1587726422}
   - component: {fileID: 1587726421}
+  - component: {fileID: 1587726424}
+  - component: {fileID: 1587726423}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1970,6 +2021,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587726419}
   m_CullTransparentMesh: 0
+--- !u!114 &1587726423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587726419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1587726424}
+          m_MethodName: ClickEvent2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1587726424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587726419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514cea4b855e94e77a70c59ae9a47097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panels:
+  - {fileID: 8629282126538151108}
+  - {fileID: 8629282126718973815}
+  - {fileID: 1211646314}
+  dialogs:
+  - {fileID: 8629282125948960357}
+  - {fileID: 8629282126919132544}
+  - {fileID: 8629282127372787781}
+  - {fileID: 8629282126840493956}
+  - {fileID: 8629282126897350124}
 --- !u!1 &1704642453
 GameObject:
   m_ObjectHideFlags: 0
@@ -4735,6 +4836,8 @@ GameObject:
   - component: {fileID: 8629282126194485625}
   - component: {fileID: 8629282126194485626}
   - component: {fileID: 8629282126194485627}
+  - component: {fileID: 8629282126194485576}
+  - component: {fileID: 8629282126194485575}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -4742,6 +4845,58 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8629282126194485575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8629282126194485574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8629282126194485576}
+          m_MethodName: ClickEvent1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &8629282126194485576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8629282126194485574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514cea4b855e94e77a70c59ae9a47097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panels:
+  - {fileID: 8629282126538151108}
+  - {fileID: 8629282126718973815}
+  - {fileID: 1211646314}
+  dialogs:
+  - {fileID: 1529226316}
+  - {fileID: 8629282125658178424}
+  - {fileID: 8629282125861751498}
+  - {fileID: 8629282125356326599}
+  - {fileID: 8629282125940582002}
+  - {fileID: 8629282126075990298}
+  - {fileID: 8629282126864787803}
 --- !u!224 &8629282126194485625
 RectTransform:
   m_ObjectHideFlags: 0
