@@ -34,6 +34,8 @@ public class GenerateBoss : MonoBehaviour
             boss.GetComponent<Level3Boss>().player = this.player;
             boss.GetComponent<Level3Boss>().waypoints = this.waypoints;
             boss.GetComponent<Level3Boss>().objs = this.objs;
+            boss.GetComponent<Level3Boss>().healthSlider = this.healthSlider;
+            healthSlider.SetActive(true);
             healthSlider.GetComponent<SliderScripts>().player = boss;
             
         }

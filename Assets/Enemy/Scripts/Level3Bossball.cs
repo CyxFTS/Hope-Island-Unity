@@ -145,7 +145,6 @@ public class Level3Bossball : MonoBehaviour
     }
     public void setDamage(int damage)
     {
-        print("set Damage in boss2");
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
@@ -177,7 +176,6 @@ public class Level3Bossball : MonoBehaviour
     public void dead()
     {
         isPlaying = false;
-        print("dead!!!!");
         particle.Stop();
         this.gameObject.SetActive(false);
         Vector3 itemLocation = this.transform.position;
