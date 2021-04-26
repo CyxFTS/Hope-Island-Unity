@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
             AttackedEnemies.Add(other.GetInstanceID());
             if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
             {
-                other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
                 Col(other);
             }
             else if (currSkill.type == (int)PlayerSkills.SkillType.Dot)
@@ -47,11 +47,11 @@ public class Projectile : MonoBehaviour
             if (currSkill.type == (int)PlayerSkills.SkillType.Basic)
             {
                 if (other.GetComponent<Level1Boss>())
-                    other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                    other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 3);
                 if (other.GetComponent<Level2Boss>())
-                    other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                    other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 3);
                 if (other.GetComponent<Level3Boss>())
-                    other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 10);
+                    other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 3);
                 Col(other);
             }
             else if (currSkill.type == (int)PlayerSkills.SkillType.Dot)
@@ -72,13 +72,13 @@ public class Projectile : MonoBehaviour
         while(t-- > 0)
         {
             if (other.tag == "Enemy")
-                other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+                other.GetComponent<FootmanScript>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 1);
             if (other.GetComponent<Level1Boss>())
-                other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+                other.GetComponent<Level1Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 1);
             if (other.GetComponent<Level2Boss>())
-                other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+                other.GetComponent<Level2Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 1);
             if (other.GetComponent<Level3Boss>())
-                other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 2);
+                other.GetComponent<Level3Boss>().setDamage((int)currSkill.mod[currSkill.skillLevel] / 1);
 
             yield return new WaitForSeconds(interv);
         }
