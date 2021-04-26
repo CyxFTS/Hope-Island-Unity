@@ -17085,12 +17085,12 @@ PrefabInstance:
     - target: {fileID: 3280264337834792327, guid: a0bc85622502f8247b2a1db5abe93a4f,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3280264337834792327, guid: a0bc85622502f8247b2a1db5abe93a4f,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3280264337978917398, guid: a0bc85622502f8247b2a1db5abe93a4f,
         type: 3}
@@ -17146,6 +17146,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3280264338363989087, guid: a0bc85622502f8247b2a1db5abe93a4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3280264338563617836, guid: a0bc85622502f8247b2a1db5abe93a4f,
         type: 3}
@@ -34086,9 +34091,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3575110253089502108, guid: 92c6210a590db384ea092421af90d74f,
         type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575110253089502108, guid: 92c6210a590db384ea092421af90d74f,
+        type: 3}
       propertyPath: TriggerModule.collisionShape0
       value: 
-      objectReference: {fileID: 1824656186}
+      objectReference: {fileID: 1824656196}
+    - target: {fileID: 3575110253089502108, guid: 92c6210a590db384ea092421af90d74f,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3575110253089502111, guid: 92c6210a590db384ea092421af90d74f,
         type: 3}
       propertyPath: m_RootOrder
@@ -34153,7 +34168,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1824656185}
+      objectReference: {fileID: 1824656187}
     - target: {fileID: 3575110253089502179, guid: 92c6210a590db384ea092421af90d74f,
         type: 3}
       propertyPath: m_Name
@@ -53096,15 +53111,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1824656184}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1824656186 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7081494332920118425, guid: f2b2b140ea7cacd459dc8433fe07cbc8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1824656184}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1824656187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1693954201167352391, guid: f2b2b140ea7cacd459dc8433fe07cbc8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1824656184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1824656196 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1693954201167352387, guid: f2b2b140ea7cacd459dc8433fe07cbc8,
     type: 3}
   m_PrefabInstance: {fileID: 1824656184}
   m_PrefabAsset: {fileID: 0}
@@ -64597,8 +64612,8 @@ GameObject:
   m_Name: SM_Bld_Castle_Floor_Stone_Round_L_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1513251277951611
 GameObject:
@@ -64616,8 +64631,8 @@ GameObject:
   m_Name: SM_Bld_Castle_Floor_Stone_Round_L_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1513252111003755
 GameObject:
@@ -64635,8 +64650,8 @@ GameObject:
   m_Name: SM_Bld_Castle_Floor_Stone_Round_L_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1513252121633671
 GameObject:
@@ -64654,8 +64669,8 @@ GameObject:
   m_Name: SM_Bld_Castle_Floor_Stone_Round_L_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1547794668299940
 GameObject:

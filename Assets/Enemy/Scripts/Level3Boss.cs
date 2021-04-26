@@ -145,7 +145,7 @@ public class Level3Boss : MonoBehaviour
     }
     public void setDamage(int damage)
     {
-        print("set Damage in boss2");
+        // print("set Damage in boss2");
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;

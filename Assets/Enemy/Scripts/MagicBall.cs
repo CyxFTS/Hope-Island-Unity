@@ -40,9 +40,9 @@ public class MagicBall : MonoBehaviour
         // Debug.Log("hello in trigger!"+other);
         
         GameObject gobj = other.gameObject;
-        Debug.Log(other.name+" "+other.gameObject+" tag:"+gobj.tag);
+        // Debug.Log(other.name+" "+other.gameObject+" tag:"+gobj.tag);
         if(gobj.tag.Equals("Player")){
-            Debug.Log("set damage in the ontrigger!"+damage);
+            // Debug.Log("set damage in the ontrigger!");
             gobj.GetComponent<PlayerController>().SetDamage(damage);
         }
         // if(other.name.Equals("<name>")){
