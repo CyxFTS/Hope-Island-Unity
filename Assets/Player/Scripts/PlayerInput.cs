@@ -147,6 +147,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c43bf855-39bb-45e7-9310-e97802ce19d0"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1d2c6a37-0c84-44a5-adf4-d5978c6f91b9"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
