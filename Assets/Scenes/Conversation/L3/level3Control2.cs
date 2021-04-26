@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class level0Control : MonoBehaviour
+public class level3Control2 : MonoBehaviour
 {
-    [SerializeField] private GameObject[] panels;
     [SerializeField] private GameObject[] dialogs;
+    [SerializeField] private GameObject[] images;
     private string[] playerName = { "Char", "Marc", "Vincent" };
     private string currentPlayerName = "";
     private int curIndex = 0;
@@ -14,29 +15,22 @@ public class level0Control : MonoBehaviour
         currentPlayerName = playerName[idx];
     }
 
-    public void ClickEvent1()
-    {
-        curIndex++;
-        if (curIndex < 8)
-        {
-            dialogs[curIndex - 1].SetActive(false);
-            dialogs[curIndex].SetActive(true);
-        } else
-        {
-            panels[0].SetActive(false);
-            panels[1].SetActive(true);
-        }
-    }
-    public void ClickEvent2()
+    public void ClickEventPart3()
     {
         curIndex++;
         if (curIndex < 5)
         {
             dialogs[curIndex - 1].SetActive(false);
             dialogs[curIndex].SetActive(true);
+        } else if (curIndex == 5)
+        {
+            images[0].SetActive(false);
+            images[1].SetActive(true);
+        } else if (curIndex < 7)
+        {
+            dialogs[curIndex - 1].SetActive(false);
+            dialogs[curIndex].SetActive(true);
         }
     }
 
-
-    
 }
