@@ -188,7 +188,7 @@ public class SkillSelection : MonoBehaviour
                 skill = player.GetComponent<PlayerSkills>().roll;
                 break;
             case 2:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().invisibility;
+                skill = player.GetComponent<PlayerSkills>().invisibility;
                 break;
         }
 
@@ -230,10 +230,10 @@ public class SkillSelection : MonoBehaviour
         switch (skillID)
         {
             case 0:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().sprint;
+                skill = player.GetComponent<PlayerSkills>().sprint;
                 break;
             case 1:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().roll;
+                skill = player.GetComponent<PlayerSkills>().roll;
                 break;
         }
 
@@ -275,25 +275,25 @@ public class SkillSelection : MonoBehaviour
         switch (skillID)
         {
             case 0:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().sprint;
+                skill = player.GetComponent<PlayerSkills>().sprint;
                 break;
             case 1:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().roll;
+                skill = player.GetComponent<PlayerSkills>().roll;
                 break;
             case 2:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().invisibility;
+                skill = player.GetComponent<PlayerSkills>().invisibility;
                 break;
             case 3:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().crescendo;
+                skill = player.GetComponent<PlayerSkills>().crescendo;
                 break;
             case 4:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().riposte;
+                skill = player.GetComponent<PlayerSkills>().riposte;
                 break;
             case 5:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().lockedTalent;
+                skill = player.GetComponent<PlayerSkills>().lockedTalent;
                 break;
             case 6:
-                player.GetComponent<PlayerController>().staminaSkill = player.GetComponent<PlayerSkills>().cursedBlood;
+                skill = player.GetComponent<PlayerSkills>().cursedBlood;
                 break;
         }
 
