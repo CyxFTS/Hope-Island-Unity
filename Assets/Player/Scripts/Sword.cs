@@ -56,6 +56,8 @@ public class Sword : MonoBehaviour
                 other.GetComponent<Level2Boss>().setDamage((int)Damage);
             if (other.GetComponent<Level3Boss>())
                 other.GetComponent<Level3Boss>().setDamage((int)Damage);
+            if (other.GetComponent<Level3Bossball>())
+                other.GetComponent<Level3Bossball>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
             _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
         }

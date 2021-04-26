@@ -18,6 +18,7 @@ public class MagicCircle : MonoBehaviour
         
         circle = damageCircle.GetComponent<ParticleSystem>();
         circle.Stop();
+        taskStart = false;
         // var main = circle.main;
         // main.duration = time;
         
@@ -35,12 +36,13 @@ public class MagicCircle : MonoBehaviour
         int numExit = circle.GetTriggerParticles(ParticleSystemTriggerEventType.Exit, exit);
         int numInside = circle.GetTriggerParticles(ParticleSystemTriggerEventType.Inside,inside);
 
-        if(taskStart){
+        if(!taskStart){
             for (int i = 0; i < numEnter; i++)
             {
                 ParticleSystem.Particle p = enter[i];
                 p.startColor = new Color32(255, 0, 0, 255);
                 enter[i] = p;
+                taskStart = true;
                 setDamageTask();
                 // Debug.Log("SomeOne enter!");
             }
@@ -49,8 +51,9 @@ public class MagicCircle : MonoBehaviour
                 ParticleSystem.Particle p = inside[i];
                 p.startColor = new Color32(0, 255, 0, 255);
                 inside[i] = p;
+                taskStart = true;
                 setDamageTask();
-                // Debug.Log("SomeOne exit!");
+                // Debug.Log("SomeOne in!");
             }
         }else{
             for (int i = 0; i < numExit; i++)
@@ -58,6 +61,7 @@ public class MagicCircle : MonoBehaviour
                 ParticleSystem.Particle p = exit[i];
                 p.startColor = new Color32(0, 255, 0, 255);
                 exit[i] = p;
+                taskStart = false;
                 cancelDamageTask();
                 // Debug.Log("SomeOne exit!");
             }
@@ -85,7 +89,7 @@ public class MagicCircle : MonoBehaviour
         cancelDamageTask();
     }
      public void setDamageTask(){
-        InvokeRepeating("damageTask",0.1f,1f);
+        InvokeRepeating("damageTask",0.5f,0.5f);
     }
 
     public void damageTask(){
