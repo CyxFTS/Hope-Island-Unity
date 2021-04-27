@@ -40,6 +40,17 @@ public class Sword : MonoBehaviour
             StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(energyCharge, 0.1f));
             GetComponentInParent<PlayerController>().AttackHit();
             other.GetComponent<FootmanScript>().setDamage((int)Damage);
+
+            if (other.GetComponent<Level1Boss>())
+                other.GetComponent<Level1Boss>().setDamage((int)Damage);
+            else if (other.GetComponent<Level2Boss>())
+                other.GetComponent<Level2Boss>().setDamage((int)Damage);
+            else if (other.GetComponent<Level3Boss>())
+                other.GetComponent<Level3Boss>().setDamage((int)Damage);
+            else if (other.GetComponent<Level3Bossball>())
+                other.GetComponent<Level3Bossball>().setDamage((int)Damage);
+            else
+                other.GetComponent<FootmanScript>().setDamage((int)Damage);
             AttackSense.Instance.HitPause(lightPause);
             _camera.GetComponent<CameraController>().CameraShake(shakeTime, lightStrength);
         }

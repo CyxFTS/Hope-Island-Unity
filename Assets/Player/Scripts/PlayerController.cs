@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
@@ -416,15 +416,7 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while(t < duration)
         {
-            if(stats.HP.GetCalculatedStatValue() < stats.HP.BaseValue)
-                stats.HP.AddStatBonus(b);
-            else
-            {
-                float diff = stats.HP.BaseValue - stats.HP.GetCalculatedStatValue();
-                b = new StatBonus(diff, BonusId++);
-
-                stats.HP.AddStatBonus(b);
-            }
+            stats.HP.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
         }
@@ -435,15 +427,6 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
-            if (stats.Energy.GetCalculatedStatValue() < stats.Energy.BaseValue)
-                stats.Energy.AddStatBonus(b);
-            else
-            {
-                float diff = stats.HP.BaseValue - stats.Energy.GetCalculatedStatValue();
-                b = new StatBonus(diff, BonusId++);
-
-                stats.HP.AddStatBonus(b);
-            }
             stats.Energy.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
