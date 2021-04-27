@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManagerOne : MonoBehaviour
 {
     public GameObject sceneTransition;
+    public GameObject player;
+    public bool setHp = false;
     private GameObject[] _enemies;
     private GameObject[] _bosses;
     
     private void Start()
     {
         sceneTransition.SetActive(false);
+        if (setHp) player.GetComponent<PlayerController>().SetHP(100);
     }
 
     private void Update()
