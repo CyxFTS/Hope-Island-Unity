@@ -6,6 +6,7 @@ public class GameManagerOne : MonoBehaviour
 {
     public GameObject sceneTransition;
     private GameObject[] _enemies;
+    private GameObject[] _bosses;
     
     private void Start()
     {
@@ -15,7 +16,8 @@ public class GameManagerOne : MonoBehaviour
     private void Update()
     {
         _enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (_enemies.Length == 0)
+        _bosses = GameObject.FindGameObjectsWithTag("Boss");
+        if (_enemies.Length + _bosses.Length == 0)
         {
             sceneTransition.SetActive(true);
         }
