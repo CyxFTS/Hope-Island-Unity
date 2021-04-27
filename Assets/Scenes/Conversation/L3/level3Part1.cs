@@ -16,7 +16,7 @@ public class level3Part1 : MonoBehaviour
         int idx = ES3.Load("PlayerId", 1);
         currentPlayerName = playerName[idx];
         if(playername!=null){
-            for(int i=0;i<playerName.Length;i++){
+            for(int i=0;i<playername.Length;i++){
                 playername[i].text = currentPlayerName;
             }
         }
