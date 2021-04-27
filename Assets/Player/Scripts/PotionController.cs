@@ -42,7 +42,7 @@ public class PotionController : MonoBehaviour
                 if(other.GetComponent<PlayerController>().stats.HP.GetCalculatedStatValue() + 10 > other.GetComponent<PlayerController>().stats.HP.BaseValue)
                 {
                     var diff = Mathf.Abs(other.GetComponent<PlayerController>().stats.HP.GetCalculatedStatValue() - other.GetComponent<PlayerController>().stats.HP.BaseValue);
-                    StartCoroutine(other.GetComponent<PlayerController>().HPMod(1f, diff));
+                    StartCoroutine(other.GetComponent<PlayerController>().HPMod(-diff, 0.5f));
                 }
                 else
                     StartCoroutine(other.GetComponent<PlayerController>().HPMod(1f, 10f));
@@ -53,9 +53,9 @@ public class PotionController : MonoBehaviour
                 if (other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue() + 20 > other.GetComponent<PlayerController>().stats.Energy.BaseValue)
                 {
                     var diff = other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue() - other.GetComponent<PlayerController>().stats.Energy.BaseValue;
-                    Debug.Log(other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue());
-                    StartCoroutine(other.GetComponent<PlayerController>().EnergyMod(Mathf.Sign(diff) * 1f, diff));
-                    Debug.Log(other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue());
+                    //Debug.Log(other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue());
+                    StartCoroutine(other.GetComponent<PlayerController>().EnergyMod(-diff, 0.5f));
+                    //Debug.Log(other.GetComponent<PlayerController>().stats.Energy.GetCalculatedStatValue());
 
                 }
                 else
@@ -67,7 +67,7 @@ public class PotionController : MonoBehaviour
                 if (other.GetComponent<PlayerController>().stats.Stamina.GetCalculatedStatValue() + 20 > other.GetComponent<PlayerController>().stats.Stamina.BaseValue)
                 {
                     var diff = Mathf.Abs(other.GetComponent<PlayerController>().stats.Stamina.GetCalculatedStatValue() - other.GetComponent<PlayerController>().stats.Stamina.BaseValue);
-                    StartCoroutine(other.GetComponent<PlayerController>().StaminaMod(1f, diff));
+                    StartCoroutine(other.GetComponent<PlayerController>().StaminaMod(-diff, 0.5f));
                 }
                 else
                     StartCoroutine(other.GetComponent<PlayerController>().StaminaMod(1f, 20f));

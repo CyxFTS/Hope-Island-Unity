@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.35f);
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();

@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayMainGameLevelZero()
     {
-        SceneManager.LoadScene("level0scene1");
+        SceneManager.LoadScene("Level0Part1");
     }
 
     public void BackToMainMenu()

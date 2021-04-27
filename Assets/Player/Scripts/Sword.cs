@@ -39,7 +39,7 @@ public class Sword : MonoBehaviour
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());
             StartCoroutine(GetComponentInParent<PlayerController>().EnergyMod(energyCharge, 0.1f));
             GetComponentInParent<PlayerController>().AttackHit();
-            other.GetComponent<FootmanScript>().setDamage((int)Damage);
+            //other.GetComponent<FootmanScript>().setDamage((int)Damage);
 
             if (other.GetComponent<Level1Boss>())
                 other.GetComponent<Level1Boss>().setDamage((int)Damage);
