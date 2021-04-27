@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class level0Control : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class level0Control : MonoBehaviour
         {
             dialogs[curIndex - 1].SetActive(false);
             dialogs[curIndex].SetActive(true);
+        }else{
+            SceneManager.LoadScene("level0scene1");
         }
     }
 

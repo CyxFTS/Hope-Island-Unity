@@ -1,34 +1,28 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
-public class level3Control : MonoBehaviour
+public class level2Part2 : MonoBehaviour
 {
-    [SerializeField] private GameObject[] dialogs;
     private string[] playerName = { "Char", "Marc", "Vincent" };
     private string currentPlayerName = "";
-    private int curIndex = 0;
     public TMP_Text[] playername;
 
     void Start()
     {
         int idx = ES3.Load("PlayerId", 1);
         currentPlayerName = playerName[idx];
-         if(playername!=null){
+        if(playername!=null){
             for(int i=0;i<playerName.Length;i++){
                 playername[i].text = currentPlayerName;
             }
         }
     }
-
-    public void ClickEventPart2()
+     public void ClickEvent1()
     {
-        curIndex++;
-        if (curIndex < 6)
-        {
-            dialogs[curIndex - 1].SetActive(false);
-            dialogs[curIndex].SetActive(true);
-        }
+       
+        SceneManager.LoadScene("level2scene3-1");
     }
-
 }

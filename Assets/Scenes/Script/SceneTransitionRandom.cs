@@ -37,6 +37,7 @@ public class SceneTransitionRandom : MonoBehaviour
             Debug.Log(sceneToLoad);
             player.GetComponent<PlayerController>().SavePlayerSaveData();
             SceneManager.LoadScene(sceneToLoad);
+            // Victory
         }
     }
 }

@@ -291,8 +291,8 @@ GameObject:
   - component: {fileID: 1125282183}
   - component: {fileID: 1125282185}
   - component: {fileID: 1125282184}
-  - component: {fileID: 1125282187}
   - component: {fileID: 1125282186}
+  - component: {fileID: 1125282187}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -394,10 +394,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1125282182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f80c53c0cdea45028e676d355324285, type: 3}
+  m_Script: {fileID: 11500000, guid: 65bb29af4a4b8104e8fd8cc92549e0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogs: []
+  playername:
+  - {fileID: 1941333850}
 --- !u!1 &1230130677
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +705,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1366921979
@@ -968,7 +969,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 20.037888}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1941333851
