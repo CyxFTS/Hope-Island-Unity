@@ -302,10 +302,25 @@ public class SkillSelection : MonoBehaviour
     
     private void LoadNextScene()
     {
-            var nextLevel = currentLevel + 1;
-            var random = new System.Random();
-            var randomScene = random.Next(1, 5);
-            var sceneToLoad = "level" + nextLevel + "scene1-" + randomScene;
+        // var random = new System.Random();
+            // var randomScene = random.Next(1, 5);
+            // var sceneToLoad = "level" + nextLevel + "scene1-" + randomScene;
+            String sceneToLoad = "";
+            switch (currentLevel)
+            {
+                case 0:
+                    sceneToLoad = "level0Part2";
+                    break;
+                case 1:
+                    sceneToLoad = "Part3";
+                    break;
+                case 2:
+                    sceneToLoad = "level2Part3";
+                    break;
+                case 3:
+                    sceneToLoad = "level3Part3";
+                    break;
+            }
             player.GetComponent<PlayerController>().SavePlayerSaveData();
             SceneManager.LoadScene(sceneToLoad);
     }
