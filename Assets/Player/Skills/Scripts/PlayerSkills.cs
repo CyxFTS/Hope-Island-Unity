@@ -194,11 +194,11 @@ public class PlayerSkills : MonoBehaviour
                 EndAura(crescendoAura);
             }
         }
-        if (controller.staminaSkill.description == "Locked Talent")
-        {
-            lockedTalent.CheckUnlock();
-            lockedTalentAura.GetComponent<FrontAttack>().playMeshEffect = true;
-        }
+        //if (controller.staminaSkill.description == "Locked Talent")
+        //{
+        //    lockedTalent.CheckUnlock();
+        //    lockedTalentAura.GetComponent<FrontAttack>().playMeshEffect = true;
+        //}
         if (controller.staminaSkill.description == "Cursed Blood")
         {
             cursedBlood.Check();
@@ -389,9 +389,9 @@ public class PlayerSkills : MonoBehaviour
         {
             CheckCrescendo();
             proj.currSkill = this;
-            if(controller.input.PlayerMain.EnergySkill1.triggered)
+            if(controller.input.PlayerMain.EnergySkill1.triggered && controller.stats.Energy.GetCalculatedStatValue() - energyCost >= 0)
                 controller.SetStartShooting(controller.input.PlayerMain.EnergySkill1.triggered);
-            if (controller.input.PlayerMain.EnergySkill2.triggered)
+            if (controller.input.PlayerMain.EnergySkill2.triggered && controller.stats.Energy.GetCalculatedStatValue() - energyCost >= 0)
                 controller.SetStartShooting(controller.input.PlayerMain.EnergySkill2.triggered);
             RemoveCrescendo();
         }
@@ -680,7 +680,7 @@ public class PlayerSkills : MonoBehaviour
     /// <summary>
     /// Offering: lose HP, increase energy and stamina recharge & strength
     ///     3% HP/s, 20%/25%/30%, 20%, 5s
-    ///     energy cost: 100
+    ///     energy cost: 50
     /// </summary>
     public class Offering : BuffSkill
     {
@@ -691,7 +691,7 @@ public class PlayerSkills : MonoBehaviour
             mod = new List<float>();
             mod.Add(20f); mod.Add(25f); mod.Add(30f);
             type = (int)SkillType.Buff;
-            energyCost = 100;
+            energyCost = 50;
             skillLevel = 0;
             duration = 5f;
             description = "Offering";
@@ -712,7 +712,7 @@ public class PlayerSkills : MonoBehaviour
     /// <summary>
     /// Healing Wave: Restores HP & strength up
     ///     30%/35%/40%, 10%, 10s
-    ///     energy cost: 120
+    ///     energy cost: 100
     /// </summary>
     public class HealingWave : BuffSkill
     {
@@ -802,7 +802,7 @@ public class PlayerSkills : MonoBehaviour
     {
         private int hitRemain = 10;
         public bool isTalentRealsed = false;
-        private bool unlocked = false;
+        public bool unlocked = false;
         public LockedTalent()
         {
             mod = new List<float>();
@@ -824,13 +824,11 @@ public class PlayerSkills : MonoBehaviour
             }
             if (isTalentRealsed && !unlocked)
             {
-                unlocked = true;
-                controller.sword.Damage = 10;
+                controller.sword.Damage = controller.stats.strength.GetCalculatedStatValue(); 
                 controller.stats.strength.BaseValue *= 1f+mod[0];
                 controller.stats.defense.BaseValue *= 1f+mod[0];
                 controller.stats.movementSpeed.BaseValue *= 1f+mod[0];
             }
-                
         }
     }
     public class CursedBlood : BaseSkill

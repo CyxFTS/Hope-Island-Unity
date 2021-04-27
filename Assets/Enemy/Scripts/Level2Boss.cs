@@ -192,14 +192,14 @@ public class Level2Boss : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(10);
+            player.GetComponent<PlayerController>().SetDamage(20);
         }
     }
     public void attackPlayer02()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < AttackDistance + 1)
         {
-            player.GetComponent<PlayerController>().SetDamage(20);
+            player.GetComponent<PlayerController>().SetDamage(40);
         }
     }
     public void setDamageTask(){

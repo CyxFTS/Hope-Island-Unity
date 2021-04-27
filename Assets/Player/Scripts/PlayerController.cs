@@ -112,6 +112,16 @@ public class PlayerController : MonoBehaviour
 
         sword.Damage = stats.strength.GetCalculatedStatValue();
         sword.energyCharge = 5f * stats.EnergyRecharge.GetCalculatedStatValue();
+        if (staminaSkill.description == "Locked Talent")
+        {
+            ((PlayerSkills.LockedTalent)staminaSkill).CheckUnlock();
+            if (((PlayerSkills.LockedTalent)staminaSkill).isTalentRealsed && ((PlayerSkills.LockedTalent)staminaSkill).unlocked == false)
+            {
+                ((PlayerSkills.LockedTalent)staminaSkill).unlocked = true;
+                skills.lockedTalentAura.GetComponent<FrontAttack>().playMeshEffect = true;
+            }
+                
+        }
         StartAttack();
 
         //staminaSkill = skills.invisibility;
@@ -325,7 +335,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.3f);
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack Layer"), 0);
         sword.GetComponent<Collider>().isTrigger = false;
         AttackedEnemies.Clear();
@@ -408,6 +418,13 @@ public class PlayerController : MonoBehaviour
         {
             if(stats.HP.GetCalculatedStatValue() < stats.HP.BaseValue)
                 stats.HP.AddStatBonus(b);
+            else
+            {
+                float diff = additive - stats.HP.GetCalculatedStatValue();
+                b = new StatBonus(diff, BonusId++);
+
+                stats.HP.AddStatBonus(b);
+            }
             t += 1;
             yield return new WaitForSeconds(1f);
         }
@@ -418,6 +435,15 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
+            if (stats.Energy.GetCalculatedStatValue() < stats.Energy.BaseValue)
+                stats.Energy.AddStatBonus(b);
+            else
+            {
+                float diff = additive - stats.Energy.GetCalculatedStatValue();
+                b = new StatBonus(diff, BonusId++);
+
+                stats.HP.AddStatBonus(b);
+            }
             stats.Energy.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
