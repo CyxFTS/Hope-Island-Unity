@@ -2425,6 +2425,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneTransition
       objectReference: {fileID: 0}
+    - target: {fileID: 8821545615489873825, guid: 735259e1379a0c34e96e1144938f1955,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8821545615489873827, guid: 735259e1379a0c34e96e1144938f1955,
         type: 3}
       propertyPath: m_Enabled
@@ -14207,6 +14212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneTransition: {fileID: 184892601}
+  player: {fileID: 1284376090}
+  setHp: 1
 --- !u!4 &1225090793
 Transform:
   m_ObjectHideFlags: 0
