@@ -420,7 +420,7 @@ public class PlayerController : MonoBehaviour
                 stats.HP.AddStatBonus(b);
             else
             {
-                float diff = additive - stats.HP.GetCalculatedStatValue();
+                float diff = stats.HP.BaseValue - stats.HP.GetCalculatedStatValue();
                 b = new StatBonus(diff, BonusId++);
 
                 stats.HP.AddStatBonus(b);
@@ -439,7 +439,7 @@ public class PlayerController : MonoBehaviour
                 stats.Energy.AddStatBonus(b);
             else
             {
-                float diff = additive - stats.Energy.GetCalculatedStatValue();
+                float diff = stats.HP.BaseValue - stats.Energy.GetCalculatedStatValue();
                 b = new StatBonus(diff, BonusId++);
 
                 stats.HP.AddStatBonus(b);
