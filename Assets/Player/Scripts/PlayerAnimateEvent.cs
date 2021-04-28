@@ -64,6 +64,11 @@ public class PlayerAnimateEvent : MonoBehaviour
             anim.SetTrigger("Combo");
         }
     }
+    public void ClearEnemies()
+    {
+        controller.sword.GetComponent<Collider>().isTrigger = false;
+        controller.AttackedEnemies.Clear();
+    }
 
     private ParticleSystem[] particleSystems = new ParticleSystem[0];
     void Counter(int count)

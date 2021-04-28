@@ -156,8 +156,8 @@ public class PlayerSkills : MonoBehaviour
         }
         if (rushdown.flag)
         {
-            //StartCoroutine(controller.SpeedMod(rushdown.GetSpeedUpMod() / 100f, rushdown.GetSpeedUpDuration()));
-            StartCoroutine(rushdown.StartRushDown(rushdown.duration));
+            StartCoroutine(controller.SpeedMod(rushdown.GetSpeedUpMod() / 100f, rushdown.GetSpeedUpDuration()));
+//            StartCoroutine(rushdown.StartRushDown(rushdown.duration));
             StartCoroutine(SetAura(rushdownAura, rushdown.duration));
             CostPlayerEnergy(rushdown);
             rushdown.flag = false;
@@ -648,7 +648,7 @@ public class PlayerSkills : MonoBehaviour
         public Rushdown()
         {
             mod = new List<float>();
-            mod.Add(8f); mod.Add(8f); mod.Add(8f);
+            mod.Add(30f); mod.Add(30f); mod.Add(30f);
             type = (int)SkillType.Buff;
             energyCost = 50;
             skillLevel = 0;
@@ -667,6 +667,7 @@ public class PlayerSkills : MonoBehaviour
         }
         public override void StartSkill()
         {
+            base.StartSkill();
             flag = true;
             flagSpeed = true;
         }

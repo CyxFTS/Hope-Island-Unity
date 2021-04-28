@@ -34,6 +34,7 @@ public class Sword : MonoBehaviour
     {
         if (other.tag == "Enemy" && !GetComponentInParent<PlayerController>().AttackedEnemies.Contains(other.GetInstanceID()))
         {
+            print(other.GetInstanceID());
             audioSource.clip = swordHit;
             audioSource.Play();
             GetComponentInParent<PlayerController>().AttackedEnemies.Add(other.GetInstanceID());

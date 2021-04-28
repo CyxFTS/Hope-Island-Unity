@@ -37,6 +37,7 @@ public class Level2Boss : MonoBehaviour
     private int totalhealth;
     private ParticleSystem particle;
     private bool isPlaying = false;
+    private bool damaged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -138,18 +139,24 @@ public class Level2Boss : MonoBehaviour
     }
     public void setDamage(int damage)
     {
-        print("set Damage in boss2");
+        //print("set Damage in boss2");
         stateCanChange = false;
         NMA.isStopped = true;
         enemyHealth -= damage;
         healthSlider.GetComponent<Slider>().value = (float)enemyHealth / totalhealth;
-        anim.SetInteger("State", 5);
+        if (damaged)
+        {
+            anim.SetInteger("State", 5);
+            damaged = false;
+        }
+        else
+            damaged = true;
         //Debug.Log(damage);
     }
     
     public void finishDamage()
     {
-        print("damage in boss2!!!");
+        //print("damage in boss2!!!");
         if (enemyHealth <= 0)
         {
             NMA.isStopped = true;

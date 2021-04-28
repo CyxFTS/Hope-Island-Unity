@@ -12,6 +12,7 @@ public class Audio : MonoBehaviour
         MainAudio = GetComponent<AudioSource>();
         MainAudio.loop = true;
         MainAudio.clip = audioClip;
+        MainAudio.volume = 0.2f;
         if (MainAudio.clip!=null)
         {
             MainAudio.Play();

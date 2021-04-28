@@ -9,6 +9,6 @@ public class DeathPromptPanel : MonoBehaviour
     public Button m_Restart;
     public void PlayMainMenu()
     {
-        SceneManager.LoadScene("level0scene1");
+        SceneManager.LoadScene("dead");
     }
 }

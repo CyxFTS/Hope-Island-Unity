@@ -5,6 +5,7 @@ public class level0Control : MonoBehaviour
 {
     [SerializeField] private GameObject[] panels;
     [SerializeField] private GameObject[] dialogs;
+    [SerializeField] private GameObject video;
     private string[] playerName = { "Char", "Marc", "Vincent" };
     private string currentPlayerName = "";
     private int curIndex = 0;
@@ -22,11 +23,15 @@ public class level0Control : MonoBehaviour
         {
             dialogs[curIndex - 1].SetActive(false);
             dialogs[curIndex].SetActive(true);
-        } else
-        {
+        } 
+        else if(curIndex == 8) {
             panels[0].SetActive(false);
-            panels[1].SetActive(true);
+            video.GetComponent<UnityEngine.Video.VideoPlayer>().Play();
         }
+        //else {
+            
+        //    panels[1].SetActive(true);
+        //}
     }
     public void ClickEvent2()
     {
@@ -39,7 +44,10 @@ public class level0Control : MonoBehaviour
             SceneManager.LoadScene("level0scene1");
         }
     }
+    public void ClickEvent3()
+    {
+        panels[0].SetActive(true);
+    }
 
 
-    
 }

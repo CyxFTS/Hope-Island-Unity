@@ -14,11 +14,11 @@ public class GameManagerOne : MonoBehaviour
     private void Start()
     {
         sceneTransition.SetActive(false);
-        if (setHp) player.GetComponent<PlayerController>().SetHP(100);
     }
 
     private void Update()
     {
+        if (setHp) { player.GetComponent<PlayerController>().SetHP(100); setHp = false; }
         _enemies = GameObject.FindGameObjectsWithTag("Enemy");
         _bosses = GameObject.FindGameObjectsWithTag("Boss");
         if (_enemies.Length + _bosses.Length == 0)

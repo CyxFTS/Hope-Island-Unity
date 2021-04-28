@@ -16,7 +16,7 @@ public class level2Part2 : MonoBehaviour
         currentPlayerName = playerName[idx];
         if(playername!=null){
             for(int i=0;i<playername.Length;i++){
-                playername[i].text = currentPlayerName;
+                playername[i].text = playername[i].text.Replace("<player>", currentPlayerName);
             }
         }
     }

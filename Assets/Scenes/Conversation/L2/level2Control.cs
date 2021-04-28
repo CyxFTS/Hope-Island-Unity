@@ -16,7 +16,7 @@ public class level2Control : MonoBehaviour
         currentPlayerName = playerName[idx];
         if(playername!=null){
             for(int i=0;i<playername.Length;i++){
-                playername[i].text = currentPlayerName;
+                playername[i].text = playername[i].text.Replace("<player>", currentPlayerName);// = currentPlayerName;
             }
         }
     }
@@ -44,7 +44,11 @@ public class level2Control : MonoBehaviour
             SceneManager.LoadScene("level3Part1");
         }
     }
-
+    public void ClickEventDeath()
+    {
+        SceneManager.LoadScene("level0scene1");
+        
+    }
 
 
 }

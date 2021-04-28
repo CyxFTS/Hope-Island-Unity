@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
         //energySkill2 = skills.warcry;
         EnergySkills();
         CheckHP();
+        //Debug.Log(stats.HP.GetCalculatedStatValue());
     }
     private void StaminaSkill()
     {
@@ -330,7 +331,7 @@ public class PlayerController : MonoBehaviour
                     firstAttack = false;
                 }
             }
-            StartCoroutine(Attack());
+            //StartCoroutine(Attack());
         }
     }
     private IEnumerator Attack()
@@ -416,6 +417,12 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while(t < duration)
         {
+            if (stats.HP.GetCalculatedStatValue() + additive > stats.HP.BaseValue)
+            {
+                b = new StatBonus(stats.HP.BaseValue - stats.HP.GetCalculatedStatValue(), BonusId++);
+                stats.HP.AddStatBonus(b);
+                break;
+            }
             stats.HP.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
@@ -427,6 +434,12 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
+            if (stats.Energy.GetCalculatedStatValue() + additive > stats.Energy.BaseValue)
+            {
+                b = new StatBonus(stats.Energy.BaseValue - stats.Energy.GetCalculatedStatValue(), BonusId++);
+                stats.Energy.AddStatBonus(b);
+                break;
+            }
             stats.Energy.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
@@ -452,6 +465,12 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
+            if (stats.Stamina.GetCalculatedStatValue() + additive > stats.Stamina.BaseValue)
+            {
+                b = new StatBonus(stats.Stamina.BaseValue - stats.Stamina.GetCalculatedStatValue(), BonusId++);
+                stats.Stamina.AddStatBonus(b);
+                break;
+            }
             stats.Stamina.AddStatBonus(b);
             t += 1;
             yield return new WaitForSeconds(1f);
@@ -523,7 +542,7 @@ public class PlayerController : MonoBehaviour
         HP = ES3.Load("HP", 100.0f);
         SetHP(HP);
 
-        string defaultSkill = "Fireball";
+        string defaultSkill = "Healing Wave";
 
         string e1 = (string)ES3.Load("energySkill1.description", defaultValue: defaultSkill);
         int e1Lv = ES3.Load("energySkill1.skillLevel", 0);
@@ -531,10 +550,10 @@ public class PlayerController : MonoBehaviour
         string e2 = (string)ES3.Load("energySkill2.description", defaultValue: "Lightning");
         int e2Lv = ES3.Load("energySkill2.skillLevel", 0);
 
-        string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Invisibility");
+        string s = (string)ES3.Load("staminaSkill.description", defaultValue: "Locked Talent");
         int sLv = ES3.Load("staminaSkill.skillLevel", 0);
 
-        skills.PlayerId = ES3.Load("PlayerId", 1);
+        skills.PlayerId = ES3.Load("PlayerId", 2);
 
         foreach (var prop in skills.GetType().GetFields())
         {
